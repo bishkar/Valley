@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Custom Apps
     'user',
     'api',
+    # 'authorization',
 
     # Third Party Apps
     'rest_framework',
