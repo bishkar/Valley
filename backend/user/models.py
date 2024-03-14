@@ -30,6 +30,7 @@ class User(AbstractUser):
     def get_or_create_social_user(provider, email, name, password):
         get_user_by_email = User.objects.filter(email=email)
         if get_user_by_email.exists():
+            get_user_by_email = get_user_by_email.first()
             if get_user_by_email.provider == provider:
                 return get_user_by_email
             else:

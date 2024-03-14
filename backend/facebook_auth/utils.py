@@ -11,7 +11,7 @@ class Facebook:
                                                      app_id=settings.FACEBOOK_APP_ID,
                                                      app_secret=settings.FACEBOOK_SECRET_KEY)
 
-            graph = GraphAPI(token['access_token'])
+            graph.access_token = token['access_token']
             profile = graph.request('/me?fields=name, email')
             return profile | {'auth_token': auth_token}
         except GraphAPIError:
