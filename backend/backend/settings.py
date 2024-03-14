@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import environs
+
+env = environs.Env()
+env.read_env()
+
+FACEBOOK_APP_ID = env.str("FACEBOOK_APP_ID")
+FACEBOOK_SECRET_KEY = env.str("FACEBOOK_SECRET_KEY")
+FACEBOOK_CALLBACK_URL = env.str("FACEBOOK_CALLBACK_URL")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
