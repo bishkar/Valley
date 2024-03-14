@@ -4,7 +4,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 swagger_auth_token_response = {
         200: openapi.Schema(
-            title="Auth Token",
+            title="TokenRefresh",
             type=openapi.TYPE_OBJECT,
             properties={
                 'access': openapi.Schema(type=openapi.TYPE_STRING,
