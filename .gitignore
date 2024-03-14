@@ -3,3 +3,4 @@ backend/.venv/
 backend/.pytest_cache/
 /migrations/
 __pycache__/
+db.sqlite3
