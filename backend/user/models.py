@@ -3,6 +3,9 @@ from django.db import models
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
+import random
+import string
+
 PROVIDER_CHOICES = (
     ('facebook', 'facebook'),
     ('email', 'email')
@@ -44,3 +47,28 @@ class User(AbstractUser):
         user.set_password(password)
         user.save()
         return user
+    
+    def set_otp(self):
+        otp = ''.join(random.choices(string.digits, k=6))
+        self.otp = otp
+        self.save()
+        return otp
+    
+    def reset_otp(self):
+        self.otp = None
+        self.save()
+        return True
+    
+    @staticmethod
+    def send_otp(email, otp):
+        from django.core.mail import send_mail
+        send_mail(
+            'Your OTP',
+            f'Your OTP is {otp}',
+            'jilav68998@dovesilo.com', 
+            [email], 
+            fail_silently=False,
+        )
+
+
+    
