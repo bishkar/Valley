@@ -1,0 +1,20 @@
+.posts__title{
+  font-family: "Inria Serif", serif;
+  font-size: 36px;
+  line-height: 43.16px;
+  font-weight: 400;
+}
+
+.post__container{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+  width: 1050px;
+}
+
+.loadMoreBtn{
+  padding: 50px;
+  background: none;
+  text-transform: uppercase;
+}

@@ -1,0 +1,48 @@
+.post__cart{
+  width: 380px;
+  margin: 0 35px 36px;
+  background-color: #202020;
+  text-align: center;
+  box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.35);
+  border-radius: 5px;
+
+  & img{
+    width: -webkit-fill-available;
+  }
+}
+
+.post__body{
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 170px;
+}
+
+
+.button__container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 40px;
+  text-transform: uppercase;
+}
+
+.btn__favourite {
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 0;
+
+}
+
+.btn__favourite:hover {
+  color: #c9ab03;
+}
+
+
+.active__favourite {
+  color: #e5ff00;
+}

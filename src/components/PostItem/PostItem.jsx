@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { selectFavorites } from "../../redux/favourites.slice/favourites.slice";
-
+import { Link } from "react-router-dom";
+import "./PostItem.scss";
+import photo from "../../img/img1.jpeg";
 export default function PostItem({
   post,
   onRemoveFromFavorites,
@@ -22,11 +24,14 @@ export default function PostItem({
 
   return (
     <div className="post__cart">
-      {/* <img src={image} alt={name} /> */}
+      <img src={photo} alt="try" />
       <div className="post__body">
         <h4>{title}</h4>
-        <p>{body}</p>
+        {/* <p>{body}</p> */}
         <div className="button__container">
+          <Link className="post__more" to={`/post/${id}`}>
+            Read more
+          </Link>
           <button
             className={`btn__favourite ${
               isFavorited ? "active__favourite" : ""
