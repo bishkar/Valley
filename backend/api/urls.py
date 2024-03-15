@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from facebook_auth.views import FacebookApiView
 from user.views import *
-from api.views import secure_view
+from api.views import *
 
 
 schema_view = get_schema_view(
@@ -24,9 +24,9 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("register/", RegisterTokenObtainPairView.as_view(), name="register_view"),
+    path("register/", RegisterView.as_view(), name="register_view"),
     path("token/facebook/", include('facebook_auth.urls')),
-    path("test/", secure_view),
+    path("test/", SecuredView.as_view(), name="secure_view"),
 
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
