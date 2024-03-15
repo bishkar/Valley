@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 
+from user.utils import *
 from user.models import User
 
 
@@ -22,9 +23,13 @@ class RestorePasswordView(APIView):
         user = User.objects.filter(email=email)
         if user.exists():
             user = user.first()
-            otp = user.set_otp()
 
-            User.send_otp(email, otp)
+            otp = generate_otp()
+            
+            user.otp = otp
+            user.save()
 
-            return Response({'otp': otp})
+            send_otp_mail(email, otp)
+
+            return Response({'otp': "OKe"})
         return Response({'message': 'User not found'}, status=404)

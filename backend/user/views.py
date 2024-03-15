@@ -7,6 +7,7 @@ from api.schemas import *
 from user.models import User
 from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from user.utils import *
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
