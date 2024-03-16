@@ -8,7 +8,16 @@ from django.contrib.auth.password_validation import validate_password
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        field = "__all__"
+        fields = ['first_name', 'last_name', 'email', 'password', 'vendor']
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True, write_only=True)
+    otp = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['otp', 'email']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -34,7 +43,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password', 'password2', 'tokens')
+        fields = ('first_name', 'last_name', 'email', 'password', 'password2')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:

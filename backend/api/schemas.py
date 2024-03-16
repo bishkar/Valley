@@ -14,3 +14,13 @@ swagger_auth_token_response = {
         )
     }
 
+
+swagger_password_restore_request = {
+    200: openapi.Schema(
+        title="PasswordResetRequest",
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'email': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
+        }
+    )
+}

@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from facebook_auth.views import FacebookApiView
-from user.views import RegisterView, EmailTokenObtainPairView
+from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
 from api.views import secure_view
 
 
@@ -27,6 +27,11 @@ urlpatterns = [
     path("register/", RegisterView.as_view(), name="register_view"),
     path("token/facebook/", include('facebook_auth.urls')),
     path("test/", secure_view),
+
+    # reset password
+    path("reset-password/request/<str:email>/", PasswordResetRequestView.as_view(), name="password_reset_request"),
+    path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
+
 
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
