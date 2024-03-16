@@ -25,8 +25,11 @@ urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("register/", RegisterView.as_view(), name="register_view"),
+
+    # path("restore/", RestorePasswordView.as_view(), name="restore_view"),
+
     path("token/facebook/", include('facebook_auth.urls')),
-    path("test/", secure_view),
+    # path("test/", SecuredView.as_view(), name="secure_view"),
 
     # reset password
     path("reset-password/request/<str:email>/", PasswordResetRequestView.as_view(), name="password_reset_request"),

@@ -24,3 +24,22 @@ swagger_password_restore_request = {
         }
     )
 }
+
+swagger_register_token_response = {
+        201 : openapi.Schema(
+            title="RegisterObtainPair",
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'access': openapi.Schema(type=openapi.TYPE_STRING,
+                                         max_length=255),
+                'refresh': openapi.Schema(type=openapi.TYPE_STRING, max_length=255),
+                'first_name' : openapi.Schema(type=openapi.TYPE_STRING,
+                                         max_length=150),
+                'last_name' : openapi.Schema(type=openapi.TYPE_STRING,
+                                         max_length=150),
+                'email' : openapi.Schema(type=openapi.TYPE_STRING,
+                                         max_length=255),
+            }
+        ),
+}
+

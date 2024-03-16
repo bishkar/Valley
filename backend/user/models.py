@@ -3,6 +3,9 @@ from django.db import models
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
+import random
+import string
+
 PROVIDER_CHOICES = (
     ('facebook', 'facebook'),
     ('email', 'email')
@@ -47,4 +50,4 @@ class User(AbstractUser):
         user = User.objects.create(email=email, first_name=first_name, last_name=second_name, provider=provider)
         user.set_password(password)
         user.save()
-        return user
+        return user 
