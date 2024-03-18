@@ -14,10 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
 class UserUpdatePasswordSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, write_only=True)
     otp = serializers.CharField(required=True, write_only=True)
+    password = serializers.CharField(required=True, write_only=True)
 
     class Meta:
         model = User
-        fields = ['otp', 'email']
+        fields = ['otp', 'password', 'email']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

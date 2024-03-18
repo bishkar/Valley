@@ -85,10 +85,8 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
             user.otp_expiry = timezone.now() + timezone.timedelta(minutes=10)
 
             user.save()
-            # send otp to user email
-
             send_otp_mail(email, otp)
-            # send message about otp was sent
+
             return Response({'message': 'OTP sent to your email'}, status=status.HTTP_200_OK)
 
         return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -120,10 +118,12 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))
 
-        if user.otp == request.data.get('otp'):
+        if user.otp == request.data.get('otp') and user.otp_expiry > timezone.now():
+            user.otp = None
             user.set_password(request.data.get('password'))
             user.save()
             # return super().update(request, *args, **kwargs)
+            return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
-from api.views import secure_view
+# from api.views import secure_view
 
 
 schema_view = get_schema_view(
@@ -37,5 +37,7 @@ urlpatterns = [
 
 
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # swagger json
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
 
 ]
