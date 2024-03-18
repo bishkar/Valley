@@ -14,9 +14,9 @@ class FacebookAuthSerializers(serializers.Serializer):
         if profile:
             name = profile.get('name')
             email = profile.get('email')
-
+            secret_token = profile.get('auth_token')
             try:
-                user = User.get_or_create_social_user('facebook', email, name, auth_token)
+                user = User.get_or_create_social_user('facebook', email, name, secret_token)
                 return user.tokens()
 
             except AuthenticationFailed as e:

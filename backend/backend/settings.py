@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import environs
+
+env = environs.Env()
+env.read_env()
+
+FACEBOOK_APP_ID = env.str("FACEBOOK_APP_ID")
+FACEBOOK_SECRET_KEY = env.str("FACEBOOK_SECRET_KEY")
+FACEBOOK_CALLBACK_URL = env.str("FACEBOOK_CALLBACK_URL")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +56,10 @@ INSTALLED_APPS = [
     'drf_yasg',
 ]
 
+
+SWAGGER_SETTINGS: dict[str, any] = {
+    'OPERATIONS_SORTER': 'method',
+}
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
@@ -136,3 +148,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = env.str("EMAIL_BACKEND")
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_PORT = env.str("EMAIL_PORT")
+EMAIL_USE_TLS = env.str("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER") 
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD") 
