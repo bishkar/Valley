@@ -57,9 +57,9 @@ INSTALLED_APPS = [
 ]
 
 
-SWAGGER_SETTINGS: dict[str, any] = {
-    'OPERATIONS_SORTER': 'method',
-}
+# SWAGGER_SETTINGS: dict[str, any] = {
+#     'OPERATIONS_SORTER': 'method',
+# }
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
