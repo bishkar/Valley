@@ -9,7 +9,6 @@ from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from api.schemas import swagger_auth_token_response, swagger_password_restore_request, swagger_register_token_response
 from user.models import User
 from user.schemas import swagger_reset_password_confirm_response
@@ -29,7 +28,8 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
     @swagger_auto_schema(responses=swagger_register_token_response,
-                         operation_description="Use this endpoint to register and authenticate via email", request_body=RegisterSerializer)
+                         operation_description="Use this endpoint to register and authenticate via email",
+                         operation_summary="Sign up new user using email", request_body=RegisterSerializer)
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
     
@@ -48,11 +48,14 @@ class RegisterView(generics.CreateAPIView):
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     @swagger_auto_schema(responses=swagger_auth_token_response,
-                         operation_description="Use this endpoint to authenticate via email")
+                         operation_description="Use this endpoint to authenticate via email",
+                         operation_summary="Authenticate using email (sign in/sign up)",
+                         request_body=MyTokenObtainPairSerializer)
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
 
+# region Reset-password
 # region Documentation
 @method_decorator(
     name="get",
@@ -64,9 +67,17 @@ class EmailTokenObtainPairView(TokenObtainPairView):
                 properties={
                     'status': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
                 }
-            )
+            ),
+            404: openapi.Schema(
+                title="PasswordResetError",
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255, description="User not found")
+                },
+            ),
         },
         operation_description="Use this endpoint to request a password reset",
+        operation_summary="Request a password reset",
     ),
 )
 # endregion fo
@@ -101,11 +112,19 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
                 title="PasswordResetConfirm",
                 type=openapi.TYPE_OBJECT,
                 properties={
-                    'status': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
                 }
-            )
+            ),
+            406: openapi.Schema(
+                title="PasswordResetError",
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255, description="Invalid OTP")
+                },
+            ),
         },
         operation_description="Use this endpoint to confirm a password reset",
+        operation_summary="Confirm a password reset using OTP",
     ),
 )
 # endregion
@@ -125,10 +144,11 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
             # return super().update(request, *args, **kwargs)
             return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
         else:
-            return Response({'message': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Invalid OTP'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
     # region Documentation
-    @swagger_auto_schema(auto_schema=None)
+    @swagger_auto_schema(deprecated=True)
     # endregion
     def patch(self, request, *args, **kwargs):
         pass
+# endregion

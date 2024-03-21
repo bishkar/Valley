@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'user',
     'api',
     'facebook_auth',
+    'article',
     # 'authorization',
 
     # Third Party Apps

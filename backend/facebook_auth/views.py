@@ -13,7 +13,8 @@ class FacebookApiView(GenericAPIView):
     serializer_class = FacebookAuthSerializers
 
     @swagger_auto_schema(responses=swagger_auth_token_response,
-                         operation_description="Use this endpoint to authenticate via Facebook")
+                         operation_description="Use this endpoint to authenticate via Facebook",
+                         operation_summary="Authenticate using Facebook (sign in/sign up)",)
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from rest_framework.exceptions import AuthenticationFailed
@@ -12,6 +13,16 @@ PROVIDER_CHOICES = (
 )
 
 
+class UserManager(BaseUserManager):
+    def create_superuser(self, email, password):
+        user = self.create(email=email)
+        user.set_password(password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return user
+
+
 class User(AbstractUser):
     otp = models.CharField(max_length=1500, null=True, blank=True)
     otp_expiry = models.DateTimeField(null=True, blank=True)
@@ -24,6 +35,7 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+    objects = UserManager()
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
