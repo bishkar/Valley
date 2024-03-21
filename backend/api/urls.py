@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import UserTokenRefreshView
 from article.views import ArticleViewSet
+from favourite.views import FavouriteViewSet
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
 # from api.views import secure_view
@@ -35,6 +36,9 @@ urlpatterns = [
     # reset password
     path("reset-password/request/<str:email>/", PasswordResetRequestView.as_view(), name="password_reset_request"),
     path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
+
+    # favourite
+    path("favourites/", FavouriteViewSet.as_view(), name="favourites"),
 
     # # swagger json
     # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
