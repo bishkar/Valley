@@ -12,10 +12,12 @@ class Article(models.Model):
     link_to_product = models.URLField()
     slug = models.SlugField(unique=True, blank=True)
 
-    visible = models.BooleanField(default=False)
+    visible = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    author = models.ForeignKey('user.User', on_delete=models.CASCADE)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
