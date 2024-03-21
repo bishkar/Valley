@@ -1,6 +1,7 @@
 from django.conf import settings
 from facebook import GraphAPI, GraphAPIError
 
+
 class Facebook:
     @staticmethod
     def validate(auth_token):

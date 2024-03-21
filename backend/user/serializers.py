@@ -8,7 +8,17 @@ from django.contrib.auth.password_validation import validate_password
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        field = "__all__"
+        fields = ['first_name', 'last_name', 'email', 'password', 'vendor']
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True, write_only=True)
+    otp = serializers.CharField(required=True, write_only=True)
+    password = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['otp', 'password', 'email']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -25,7 +35,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
-        write_only=True, required=True, validators=[validate_password])
+         write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
     email = serializers.EmailField(
         required=True,
@@ -43,6 +53,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return attrs
 
+
     def create(self, validated_data):
         user = User.objects.create(
             first_name=validated_data['first_name'],
@@ -51,6 +62,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         user.set_password(validated_data['password'])
+        data = user.tokens()
+        validated_data['access'] = data['access']
+
         user.save()
 
         return user
