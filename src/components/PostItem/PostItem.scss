@@ -1,12 +1,14 @@
 .post__cart{
-  width: 380px;
+  width: 450px;
   margin: 0 35px 36px;
-  background-color: #202020;
+  background-color: #BF80FB33;
   text-align: center;
   box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.35);
-  border-radius: 5px;
+  border-radius: 40px;
+  position: relative;
 
   & img{
+    border-radius: 40px 40px 0 0;
     width: -webkit-fill-available;
   }
 }
@@ -16,26 +18,33 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 170px;
+  height: 90px;
+
+  & h4{
+    margin: 0;
+    text-transform: capitalize;
+  }
 }
 
 
 .button__container{
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 0 10px 40px;
+  padding: 0 10px 10px;
   text-transform: uppercase;
 }
 
 .btn__favourite {
   border: none;
   background: none;
-  font-size: 24px;
+  font-size: 50px;
   cursor: pointer;
   color: #ffffff;
   padding: 0;
-
+  position: absolute;
+  top: 15px;
+  right: 35px;
 }
 
 .btn__favourite:hover {
@@ -44,5 +53,5 @@
 
 
 .active__favourite {
-  color: #e5ff00;
+  color: #ff0000;
 }

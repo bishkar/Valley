@@ -11,10 +11,24 @@
   margin: 0 auto;
   justify-content: center;
   width: 1050px;
+  border-top: 1px solid #000;
+  padding-top: 30px;
+  position: relative;
 }
 
 .loadMoreBtn{
-  padding: 50px;
+  padding: 100px;
   background: none;
   text-transform: uppercase;
+  font-size: 22px;
+  color: #000;
+}
+
+.vl{
+  border-left: 1px solid black;
+  height: -webkit-fill-available;
+  position: absolute;
+  left: 50.25%;
+  margin-left: -3px;
+  top: 0;
 }

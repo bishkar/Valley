@@ -30,7 +30,9 @@ export default function Posts() {
   return (
     <>
       <h1 className="posts__title">Post</h1>
+
       <div className="post__container">
+        <div className="vl"></div>
         {posts?.slice(0, next)?.map((post, index) => (
           <PostItem
             key={index}
@@ -39,13 +41,12 @@ export default function Posts() {
             onRemoveFromFavorites={() => dispatch(removeFromFavorites(post))}
           />
         ))}
-
-        {next < posts?.length && (
-          <button className="loadMoreBtn" onClick={handleMorePosts}>
-            Load more...
-          </button>
-        )}
       </div>
+      {next < posts?.length && (
+        <button className="loadMoreBtn" onClick={handleMorePosts}>
+          Load more...
+        </button>
+      )}
     </>
   );
 }

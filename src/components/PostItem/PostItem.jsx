@@ -9,7 +9,7 @@ export default function PostItem({
   onRemoveFromFavorites,
   onAddToFavorites,
 }) {
-  const { id, title, body } = post;
+  const { id, title } = post;
   const favorites = useSelector(selectFavorites);
 
   const handleAddToFavorites = () => {
@@ -27,7 +27,6 @@ export default function PostItem({
       <img src={photo} alt="try" />
       <div className="post__body">
         <h4>{title}</h4>
-        {/* <p>{body}</p> */}
         <div className="button__container">
           <Link className="post__more" to={`/post/${id}`}>
             Read more
@@ -38,7 +37,7 @@ export default function PostItem({
             }`}
             onClick={handleAddToFavorites}
           >
-            &#9733;
+            &#x2661;
           </button>
         </div>
       </div>
