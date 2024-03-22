@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from favourite.models import Favourite 
+from .models import Favourite
 
 
 class FavouriteSerializer(serializers.ModelSerializer):
@@ -9,6 +8,5 @@ class FavouriteSerializer(serializers.ModelSerializer):
         fields = ['article', 'user', 'created_at']
         read_only_fields = ['created_at', 'user']
         extra_kwargs = {
-            'article': {'required': True},
+            'article': {'required': True, 'help_text': 'Article ID'},
         }
- 
