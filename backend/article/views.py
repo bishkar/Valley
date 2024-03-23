@@ -8,6 +8,10 @@ from article.models import Article
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer
 
+from django_ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
+
+RATELIMIT = '1/s'
 
 # region Documentations
 @method_decorator(name='list', decorator=swagger_auto_schema(
@@ -44,8 +48,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
 
+    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='PUT', block=True))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)

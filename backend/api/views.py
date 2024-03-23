@@ -8,16 +8,13 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from user.utils import *
 from user.models import User
 
+from django_ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
 
-class SecuredView(APIView):
-    @permission_classes([IsAuthenticated])
-    @swagger_auto_schema(operation_description="Use this endpoint to test if the user is authenticated")
-    def get(self, request):
-        content = {'message': 'OKe'}
-        return Response(content)
-
+RATELIMIT = '1/s'
 
 class UserTokenRefreshView(TokenRefreshView):
+    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
     @swagger_auto_schema(operation_description="Use this endpoint to refresh the token",
                          operation_summary="Get a new Access Token using the Refresh Token")
     def post(self, request):
@@ -25,6 +22,7 @@ class UserTokenRefreshView(TokenRefreshView):
 
 
 class RestorePasswordView(APIView):
+    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
     @swagger_auto_schema(operation_description="Use this endpoint to restore password",
                          operation_summary="Restore password",)
     def post(self, request):
