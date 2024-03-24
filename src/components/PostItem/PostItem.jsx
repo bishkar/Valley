@@ -25,12 +25,12 @@ export default function PostItem({
 
   return (
     <div className="post__cart">
-      <Link className="post__more" to={`/post/${id}`}>
-        <img src={photo} alt="try" />
-        <div className="post__body">
-          <h4>{title}</h4>
-        </div>
-      </Link>
+      {/* <Link className="post__more" to={`/post/${id}`}> */}
+      <img src={photo} alt="try" />
+      <div className="post__body">
+        <h4>{title}</h4>
+      </div>
+      {/* </Link> */}
       <button
         className={`heart__img ${isFavorited ? "active__favourite" : ""}`}
         onClick={handleAddToFavorites}

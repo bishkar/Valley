@@ -1,0 +1,7 @@
+.category-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 120px;
+    border-bottom: 1px solid #000000;
+}

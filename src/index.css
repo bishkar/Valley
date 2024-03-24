@@ -4,6 +4,9 @@
   font-family: "Inria Serif", serif;
   line-height: 1.5;
   font-weight: 400;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 
   color-scheme: light dark;
   color: #000000;
@@ -28,7 +31,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -49,4 +52,12 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+}
+
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
