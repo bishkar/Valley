@@ -4,6 +4,7 @@ import { selectFavorites } from "../../redux/favourites.slice/favourites.slice";
 import { Link } from "react-router-dom";
 import "./PostItem.scss";
 import photo from "../../img/img1.jpeg";
+
 export default function PostItem({
   post,
   onRemoveFromFavorites,
@@ -23,24 +24,18 @@ export default function PostItem({
   const isFavorited = favorites.some((favProduct) => favProduct.id === id);
 
   return (
-    <Link className="post__more" to={`/post/${id}`}>
-      <div className="post__cart">
+    <div className="post__cart">
+      <Link className="post__more" to={`/post/${id}`}>
         <img src={photo} alt="try" />
         <div className="post__body">
           <h4>{title}</h4>
-          <div className="button__container">
-            <button
-              className={`btn__favourite ${
-                isFavorited ? "active__favourite" : ""
-              }`}
-              onClick={handleAddToFavorites}
-            >
-              &#x2661;
-            </button>
-          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+      <button
+        className={`heart__img ${isFavorited ? "active__favourite" : ""}`}
+        onClick={handleAddToFavorites}
+      />
+    </div>
   );
 }
 

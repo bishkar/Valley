@@ -13,9 +13,9 @@ function App() {
           <NavLink to="/" style={{ marginRight: "10px" }}>
             Home
           </NavLink>
-          <NavLink to="/search" style={{ marginRight: "10px" }}>
+          {/* <NavLink to="/search" style={{ marginRight: "10px" }}>
             Search
-          </NavLink>
+          </NavLink> */}
         </header>
       </div>
 

@@ -26,6 +26,17 @@
   }
 }
 
+.heart__img{
+  display: block;
+  width: 51px;
+  height: 50px;
+  background: none;
+  background-image: url("../../img/fav-btn.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 15px;
+  right: 35px;
+}
 
 .button__container{
   display: flex;
@@ -35,23 +46,18 @@
   text-transform: uppercase;
 }
 
-.btn__favourite {
-  border: none;
-  background: none;
-  font-size: 50px;
-  cursor: pointer;
-  color: #ffffff;
-  padding: 0;
-  position: absolute;
-  top: 15px;
-  right: 35px;
-}
-
-.btn__favourite:hover {
-  color: #c9ab03;
-}
-
+// .btn__favourite {
+//   border: none;
+//   background: none;
+//   font-size: 50px;
+//   cursor: pointer;
+//   color: #ffffff;
+//   padding: 0;
+//   position: absolute;
+//   top: 15px;
+//   right: 35px;
+// }
 
 .active__favourite {
-  color: #ff0000;
+  background-image: url("../../img/Vector.svg");
 }
