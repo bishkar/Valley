@@ -10,13 +10,10 @@ from favourite.schemas import swagger_favourite_response_get, \
                               swagger_favourite_response_post, swagger_favourite_response_delete
 from drf_yasg.utils import swagger_auto_schema
 
-from django_ratelimit.decorators import ratelimit
-from django.utils.decorators import method_decorator
-
-RATELIMIT = '1/s'
 
 class FavouriteViewSet(APIView):
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
+    throttle_scope = 'favourite'
+
     @swagger_auto_schema(responses=swagger_favourite_response_get, 
                          operation_summary='Get all favourites',
                          operation_description='Get all favourites for the current user')
@@ -27,7 +24,6 @@ class FavouriteViewSet(APIView):
         return Response(serializer.data)
 
 
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
     @swagger_auto_schema(responses=swagger_favourite_response_post,
                          operation_summary='Create a favourite',
                          operation_description='Create a favourite for the current user', 
@@ -49,7 +45,6 @@ class FavouriteViewSet(APIView):
         return Response(serializer.data)
 
 
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='DELETE', block=True))
     @swagger_auto_schema(responses=swagger_favourite_response_delete,
                          operation_summary='Delete a favourite', 
                          operation_description='Delete a favourite for the current user', 

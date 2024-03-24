@@ -67,7 +67,20 @@ REST_FRAMEWORK = {
     # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'refresh_token': '5/h',
+        'article': '5/m',
+        'facebook_auth': '5/m',
+        'favourite': '100/m',
+        'email_auth': '5/m',
+        'email_token_auth': '5/m',
+        'password_reset_request': '20/d',
+        'password_reset_confirm': '10/d',
+    }
 }
 
 MIDDLEWARE = [

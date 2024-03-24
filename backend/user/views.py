@@ -17,10 +17,6 @@ from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, Us
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.utils import send_otp_mail, generate_otp
 
-from django_ratelimit.decorators import ratelimit
-from django.utils.decorators import method_decorator
-
-RATELIMIT = '1/s'
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -30,8 +26,8 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+    throttle_scope = 'email_auth'   
 
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
     @swagger_auto_schema(responses=swagger_register_token_response,
                          operation_description="Use this endpoint to register and authenticate via email",
                          operation_summary="Sign up new user using email", request_body=RegisterSerializer)
@@ -52,7 +48,8 @@ class RegisterView(generics.CreateAPIView):
 
 
 class EmailTokenObtainPairView(TokenObtainPairView):
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='POST', block=True))
+    throttle_scope = 'email_token_auth'
+
     @swagger_auto_schema(responses=swagger_auth_token_response,
                          operation_description="Use this endpoint to authenticate via email",
                          operation_summary="Authenticate using email (sign in/sign up)",
@@ -90,8 +87,8 @@ class EmailTokenObtainPairView(TokenObtainPairView):
 class PasswordResetRequestView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserUpdatePasswordSerializer
+    throttle_scope = 'password_reset_request'
 
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='GET', block=True))
     def retrieve(self, request, *args, **kwargs):
         email = self.kwargs.get('email')
         user = User.objects.get(email=email)
@@ -140,8 +137,8 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
     serializer_class = UserUpdatePasswordSerializer
     permission_classes = (AllowAny,)
     lookup_field = 'email'
+    throttle_scope = 'password_reset_confirm'
 
-    @method_decorator(ratelimit(key='ip', rate=RATELIMIT, method='PUT', block=True))
     def update(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))
 
