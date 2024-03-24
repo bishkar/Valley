@@ -23,25 +23,24 @@ export default function PostItem({
   const isFavorited = favorites.some((favProduct) => favProduct.id === id);
 
   return (
-    <div className="post__cart">
-      <img src={photo} alt="try" />
-      <div className="post__body">
-        <h4>{title}</h4>
-        <div className="button__container">
-          <Link className="post__more" to={`/post/${id}`}>
-            Read more
-          </Link>
-          <button
-            className={`btn__favourite ${
-              isFavorited ? "active__favourite" : ""
-            }`}
-            onClick={handleAddToFavorites}
-          >
-            &#x2661;
-          </button>
+    <Link className="post__more" to={`/post/${id}`}>
+      <div className="post__cart">
+        <img src={photo} alt="try" />
+        <div className="post__body">
+          <h4>{title}</h4>
+          <div className="button__container">
+            <button
+              className={`btn__favourite ${
+                isFavorited ? "active__favourite" : ""
+              }`}
+              onClick={handleAddToFavorites}
+            >
+              &#x2661;
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

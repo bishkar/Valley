@@ -29,7 +29,7 @@ export default function Posts() {
   }
   return (
     <>
-      <h1 className="posts__title">Post</h1>
+      <h1 className="posts__title">Posts</h1>
 
       <div className="post__container">
         <div className="vl"></div>
@@ -44,7 +44,7 @@ export default function Posts() {
       </div>
       {next < posts?.length && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
-          Load more...
+          more...
         </button>
       )}
     </>
