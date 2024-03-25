@@ -1,3 +1,7 @@
+ul {
+    list-style-type: none;
+}
+
 .navbar {
     display: flex;
     flex-direction: row;
@@ -49,9 +53,9 @@
     cursor: pointer;
 }
 
-.nav-link:hover {
+/* .nav-link:hover {
     background: rgb(191, 128, 251, 0.2);
-}
+} */
 
 .nav-input {
     width: 100%;

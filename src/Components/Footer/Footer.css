@@ -1,0 +1,19 @@
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.footer-divider {
+    width: 100%;
+    height: 75px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.logo img {
+    width: 130px;
+    height: 150px;
+}

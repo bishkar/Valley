@@ -36,13 +36,13 @@ const Navbar = () => {
           </div>
           <ul className="nav-list nav-under">
             <li>
-              <a className="nav-link">HOW TO</a>
+              <a className="nav-link">SUNSCREEN</a>
             </li>
             <li>
-              <a className="nav-link">ACCESSORIES</a>
+              <a className="nav-link">VITAMINS</a>
             </li>
             <li>
-              <a className="nav-link">SALES</a>
+              <a className="nav-link">PERFUME</a>
             </li>
           </ul>
         </div>
