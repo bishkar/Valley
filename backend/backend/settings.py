@@ -11,10 +11,17 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import environs
+
+env = environs.Env()
+env.read_env()
+
+FACEBOOK_APP_ID = env.str("FACEBOOK_APP_ID")
+FACEBOOK_SECRET_KEY = env.str("FACEBOOK_SECRET_KEY")
+FACEBOOK_CALLBACK_URL = env.str("FACEBOOK_CALLBACK_URL")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -23,10 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-y-npw7(ya$!0l&v0+^f9qwjygi#^4z$)zi0fu#v&pafx_f86&^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1"]
-
 
 # Application definition
 
@@ -41,7 +47,9 @@ INSTALLED_APPS = [
     # Custom Apps
     'user',
     'api',
-    # 'authorization',
+    'facebook_auth',
+    'favourite',
+    'article',
 
     # Third Party Apps
     'rest_framework',
@@ -49,10 +57,30 @@ INSTALLED_APPS = [
     'drf_yasg',
 ]
 
+
+# SWAGGER_SETTINGS: dict[str, any] = {
+#     'OPERATIONS_SORTER': 'method',
+# }
 REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'refresh_token': '5/h',
+        'article': '5/m',
+        'facebook_auth': '5/m',
+        'favourite': '100/m',
+        'email_auth': '5/m',
+        'email_token_auth': '5/m',
+        'password_reset_request': '20/d',
+        'password_reset_confirm': '10/d',
+    }
 }
 
 MIDDLEWARE = [
@@ -86,7 +114,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -96,7 +123,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -116,7 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -128,7 +153,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -138,3 +162,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = env.str("EMAIL_BACKEND")
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_PORT = env.str("EMAIL_PORT")
+EMAIL_USE_TLS = env.str("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER") 
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD") 
