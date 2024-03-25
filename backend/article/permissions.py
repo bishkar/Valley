@@ -3,6 +3,7 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 class IsAccountAdminOrReadOnly(BasePermission):
     def has_permission(self, request, view):
+        self.view.throttle_scope = 'anon'
         return bool(
             request.method in SAFE_METHODS or
             request.user and
