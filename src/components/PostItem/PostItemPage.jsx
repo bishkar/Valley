@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
-export function PostItemPage() {
+const PostItemPage = () => {
   const { postId } = useParams();
   const { data, error, loading } = useFetch(
     `https://jsonplaceholder.typicode.com/posts/${postId}`
@@ -22,3 +22,5 @@ export function PostItemPage() {
     </div>
   );
 }
+
+export default PostItemPage;

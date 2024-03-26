@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import { PostItemPage } from "./components/PostItem/PostItemPage";
+import PostItemPage from "./components/PostItem/PostItemPage";
 import ResultPost from "./pages/ResultPost";
 import SearchPage from "./pages/SearchPage";
 import Mainpage from "./pages/Mainpage";
