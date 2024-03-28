@@ -19,6 +19,8 @@ class Article(models.Model):
 
     author = models.ForeignKey('user.User', on_delete=models.CASCADE)
 
+    on_top = models.BooleanField(default=False)
+
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):

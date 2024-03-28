@@ -26,6 +26,7 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+    throttle_scope = 'email_auth'   
 
     @swagger_auto_schema(responses=swagger_register_token_response,
                          operation_description="Use this endpoint to register and authenticate via email",
@@ -47,6 +48,8 @@ class RegisterView(generics.CreateAPIView):
 
 
 class EmailTokenObtainPairView(TokenObtainPairView):
+    throttle_scope = 'email_token_auth'
+
     @swagger_auto_schema(responses=swagger_auth_token_response,
                          operation_description="Use this endpoint to authenticate via email",
                          operation_summary="Authenticate using email (sign in/sign up)",
@@ -84,6 +87,7 @@ class EmailTokenObtainPairView(TokenObtainPairView):
 class PasswordResetRequestView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserUpdatePasswordSerializer
+    throttle_scope = 'password_reset_request'
 
     def retrieve(self, request, *args, **kwargs):
         email = self.kwargs.get('email')
@@ -133,6 +137,7 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
     serializer_class = UserUpdatePasswordSerializer
     permission_classes = (AllowAny,)
     lookup_field = 'email'
+    throttle_scope = 'password_reset_confirm'
 
     def update(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))

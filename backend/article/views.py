@@ -44,6 +44,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
 
+    throttle_scope = 'article'
+
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
