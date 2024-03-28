@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import UserTokenRefreshView
-from article.views import ArticleViewSet
+from article.views import ArticleViewSet, SliderViewSet
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
 # from api.views import secure_view
@@ -24,6 +24,7 @@ schema_view = get_schema_view(
 
 router = SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
+router.register('slider', SliderViewSet, basename='slider')
 
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from article.models import Article
+from article.models import Article, Slider
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -9,6 +9,18 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = ['original_title', 'translated_title', 'original_content', 'translated_content',
                   'link_to_product', 'slug', 'created_at']
         read_only_fields = ['slug', 'created_at']
+
+
+class SliderSerializer(serializers.ModelSerializer):
+    article_primary_key = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Slider
+        fields = ['big_image', 'created_at', 'article_primary_key']
+
+        @staticmethod
+        def article_primary_key(obj):
+            return obj.article.pk
 
 
 class ErrorResponseSerializer(serializers.Serializer):
