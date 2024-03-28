@@ -10,7 +10,7 @@ from article.views import ArticleViewSet
 from favourite.views import FavouriteViewSet
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
-# from api.views import secure_view
+from translation.views import TranslateView
 
 
 schema_view = get_schema_view(
@@ -40,9 +40,8 @@ urlpatterns = [
     # favourite
     path("favourites/", FavouriteViewSet.as_view(), name="favourites"),
 
-    # # swagger json
-    # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    # translate text from it to en
+    path("translate/", TranslateView.as_view(), name="translate"),
 
 ]
 

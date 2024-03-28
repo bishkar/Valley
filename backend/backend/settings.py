@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'facebook_auth',
     'favourite',
     'article',
+    'translation',
 
     # Third Party Apps
     'rest_framework',

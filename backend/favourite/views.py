@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from favourite.models import Favourite
 from rest_framework.views import APIView
@@ -13,6 +14,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 class FavouriteViewSet(APIView):
     throttle_scope = 'favourite'
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(responses=swagger_favourite_response_get, 
                          operation_summary='Get all favourites',
