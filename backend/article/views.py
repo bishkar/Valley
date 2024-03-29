@@ -1,10 +1,12 @@
+from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.generics import CreateAPIView
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.mixins import DestroyModelMixin
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser
@@ -50,7 +52,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.filter(visible=True).order_by('created_at')
     serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
-
+    search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
+    filter_backends = [SearchFilter]
     throttle_scope = 'article'
 
     def perform_create(self, serializer):
@@ -100,3 +103,10 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
 
         return Response({'image': image.image.url,
                          'pk': image.pk}, status=status.HTTP_201_CREATED)
+
+
+# class ArticleSearchView(ListAPIView):
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleSerializer
+#     search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
+#     filter_backends = [SearchFilter]

@@ -43,6 +43,7 @@ urlpatterns = [
 
     # article image
     path("articles/image/upload", UploadArticleImageView.as_view(), name="upload_article_image"),
+    # path("articles/search/", ArticleSearchView.as_view(), name="search_article"),
     # # swagger json
     # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
