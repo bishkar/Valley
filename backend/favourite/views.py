@@ -52,12 +52,12 @@ class FavouriteViewSet(APIView):
                          operation_description='Delete a favourite for the current user', 
                          request_body=FavouriteSerializer)
     def delete(self, request):
-        article_id = request.data.get('id')
+        article_id = request.data.get('article')
         user_id = request.user.id
 
-        if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
+        if not Favourite.objects.filter(article_id=article_id, user=user_id).exists():
             return Response({'error': 'Favourite not found'}, status=404)
 
-        favourite = Favourite.objects.get(article_id=article_id, user=user_id)
+        favourite = Favourite.objects.get(article_id=article_id, user_id=user_id)
         favourite.delete()
         return Response({'message': 'Favourite deleted'}, status=200)

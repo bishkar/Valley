@@ -11,7 +11,7 @@ from favourite.views import FavouriteViewSet
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
 from translation.views import TranslateView
-
+from grading.views import GradeView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -25,6 +25,7 @@ schema_view = get_schema_view(
 
 router = SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
+router.register(r'grades', GradeView, basename='grades')
 
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),

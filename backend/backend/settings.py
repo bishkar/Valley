@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'favourite',
     'article',
     'translation',
+    'grading',
 
     # Third Party Apps
     'rest_framework',
