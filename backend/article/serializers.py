@@ -17,19 +17,17 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 class UploadArticleImageSerializer(serializers.ModelSerializer):
     image = serializers.ImageField()
+    pk = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ArticleImage
-        fields = ['image']
+        fields = ['image', 'pk']
 
 
 class SliderSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Slider
-        fields = ['big_image', 'created_at', 'article']
-        write_only_fields = ['big_image', 'article']
-        read_only_fields = ['big_image_url']
+        fields = "__all__"
 
 
 class ErrorResponseSerializer(serializers.Serializer):

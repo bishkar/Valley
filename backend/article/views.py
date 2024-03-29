@@ -72,8 +72,8 @@ class SliderViewSet(viewsets.ModelViewSet):
     serializer_class = SliderSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    # def perform_create(self, serializer):
+    #     serializer.save()
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
@@ -86,7 +86,6 @@ class SliderViewSet(viewsets.ModelViewSet):
     responses={201: UploadArticleImageSerializer(), (400, 401, 403): ErrorResponseSerializer()},
     operation_summary="Upload an image for an article",
 ))
-@parser_classes((FormParser,))
 # endregion
 class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
     serializer_class = UploadArticleImageSerializer
@@ -99,4 +98,5 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         image = serializer.save()
 
-        return Response({'image': image.image.url}, status=status.HTTP_201_CREATED)
+        return Response({'image': image.image.url,
+                         'pk': image.pk}, status=status.HTTP_201_CREATED)
