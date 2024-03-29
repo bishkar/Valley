@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'user',
     'api',
     'facebook_auth',
+    'favourite',
     'article',
-    # 'authorization',
 
     # Third Party Apps
     'rest_framework',
