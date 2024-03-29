@@ -6,7 +6,7 @@ from article.models import Article, Slider
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['original_title', 'translated_title', 'original_content', 'translated_content',
+        fields = ['pk', 'original_title', 'translated_title', 'original_content', 'translated_content',
                   'link_to_product', 'slug', 'created_at']
         read_only_fields = ['slug', 'created_at']
 
