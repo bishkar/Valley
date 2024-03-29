@@ -19,9 +19,18 @@ class Article(models.Model):
 
     author = models.ForeignKey('user.User', on_delete=models.CASCADE)
 
+    on_top = models.BooleanField(default=False)
+
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         if not self.slug:
             self.slug = slugify(self.original_title)
         super().save(force_insert, force_update, using, update_fields)
+
+
+class Slider(models.Model):
+    article = models.OneToOneField(Article, on_delete=models.CASCADE)
+    big_image = models.ImageField()
+
+    created_at = models.DateTimeField(auto_now_add=True)

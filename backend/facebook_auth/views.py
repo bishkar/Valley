@@ -11,6 +11,7 @@ from facebook_auth.serializers import FacebookAuthSerializers
 
 class FacebookApiView(GenericAPIView):
     serializer_class = FacebookAuthSerializers
+    throttle_scope = 'facebook_auth'
 
     @swagger_auto_schema(responses=swagger_auth_token_response,
                          operation_description="Use this endpoint to authenticate via Facebook",

@@ -4,9 +4,9 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from article.models import Article
+from article.models import Article, Slider
 from article.permissions import IsAccountAdminOrReadOnly
-from article.serializers import ArticleSerializer, ErrorResponseSerializer
+from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer
 
 
 # region Documentations
@@ -40,8 +40,28 @@ from article.serializers import ArticleSerializer, ErrorResponseSerializer
 ))
 # endregion
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.filter(visible=True)
+    queryset = Article.objects.filter(visible=True).order_by('created_at')
     serializer_class = ArticleSerializer
+    permission_classes = [IsAccountAdminOrReadOnly]
+
+    throttle_scope = 'article'
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.visible = False
+        instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SliderViewSet(viewsets.ModelViewSet):
+    queryset = Slider.objects.order_by('created_at')
+    serializer_class = SliderSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
 
     def perform_create(self, serializer):
