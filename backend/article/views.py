@@ -1,12 +1,19 @@
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.generics import CreateAPIView
+from rest_framework.mixins import DestroyModelMixin
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from article.models import Article, Slider
 from article.permissions import IsAccountAdminOrReadOnly
-from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer
+from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
+    UploadArticleImageSerializer
 
 
 # region Documentations
@@ -59,6 +66,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@parser_classes((MultiPartParser,))
 class SliderViewSet(viewsets.ModelViewSet):
     queryset = Slider.objects.order_by('created_at')
     serializer_class = SliderSerializer
@@ -69,3 +77,26 @@ class SliderViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+
+
+
+# region Documentations
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    operation_description="Upload an image for an article",
+    responses={201: UploadArticleImageSerializer(), (400, 401, 403): ErrorResponseSerializer()},
+    operation_summary="Upload an image for an article",
+))
+@parser_classes((FormParser,))
+# endregion
+class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
+    serializer_class = UploadArticleImageSerializer
+    permission_classes = [IsAdminUser]
+
+    throttle_scope = 'article'
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        image = serializer.save()
+
+        return Response({'image': image.image.url}, status=status.HTTP_201_CREATED)
