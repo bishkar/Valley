@@ -6,4 +6,4 @@ from article.models import Article
 class Grade(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    grade = models.IntegerField(default=0)
+    grade = models.BooleanField(default=False)

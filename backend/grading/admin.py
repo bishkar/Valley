@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+# add grade model to admin panel
+from .models import Grade
+
+admin.site.register(Grade)
