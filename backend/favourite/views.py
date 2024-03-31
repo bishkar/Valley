@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from favourite.models import Favourite
 from rest_framework.views import APIView
@@ -13,6 +14,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 class FavouriteViewSet(APIView):
     throttle_scope = 'favourite'
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(responses=swagger_favourite_response_get, 
                          operation_summary='Get all favourites',
@@ -50,12 +52,12 @@ class FavouriteViewSet(APIView):
                          operation_description='Delete a favourite for the current user', 
                          request_body=FavouriteSerializer)
     def delete(self, request):
-        article_id = request.data.get('id')
+        article_id = request.data.get('article')
         user_id = request.user.id
 
-        if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
+        if not Favourite.objects.filter(article_id=article_id, user=user_id).exists():
             return Response({'error': 'Favourite not found'}, status=404)
 
-        favourite = Favourite.objects.get(article_id=article_id, user=user_id)
+        favourite = Favourite.objects.get(article_id=article_id, user_id=user_id)
         favourite.delete()
         return Response({'message': 'Favourite deleted'}, status=200)
