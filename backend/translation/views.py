@@ -5,14 +5,15 @@ from rest_framework.permissions import IsAdminUser
 
 from .serializers import TranslateSerializer
 
+translator = Translator(to_lang='en', from_lang='it')
+
 
 class TranslateView(CreateAPIView):
     serializer_class = TranslateSerializer
     permission_classes = [IsAdminUser]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         text = request.data.get('text', '')
-        translator = Translator(to_lang='en', from_lang='it')
         translation = translator.translate(text)
 
         return Response({'translation': translation})
