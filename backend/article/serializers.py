@@ -1,26 +1,33 @@
 from rest_framework import serializers
 
-from article.models import Article, Slider
+from article.models import Article, Slider, ArticleImage
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ['pk', 'original_title', 'translated_title', 'original_content', 'translated_content',
-                  'link_to_product', 'slug', 'created_at']
-        read_only_fields = ['slug', 'created_at']
+                  'link_to_product', 'created_at', 'image_urls', 'images']
+        extra_kwargs = {
+            'images': {'write_only': True}
+        }
+        write_only_fields = ['images']
+        read_only_fields = ['created_at', 'pk', 'image_urls']
+
+
+class UploadArticleImageSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField()
+    pk = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = ArticleImage
+        fields = ['image', 'pk']
 
 
 class SliderSerializer(serializers.ModelSerializer):
-    article_primary_key = serializers.SerializerMethodField()
-
     class Meta:
         model = Slider
-        fields = ['big_image', 'created_at', 'article_primary_key']
-
-        @staticmethod
-        def article_primary_key(obj):
-            return obj.article.pk
+        fields = "__all__"
 
 
 class ErrorResponseSerializer(serializers.Serializer):
