@@ -5,7 +5,7 @@ import arrowForward from "../../../assets/Icons/Arrows/ArrowForward.svg";
 import arrowBackward from "../../../assets/Icons/Arrows/ArrowBack.svg";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
-import "../MainSlider/MainSlider.css";
+import "./MainSlider.css";
 
 export default function Mainslider() {
   const images = [imageOne, imageTwo, imageThree];

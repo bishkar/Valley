@@ -1,9 +1,11 @@
-import LoginForm from "./../components/Auth/AuthForms.jsx";
+import LoginForm from "../components/Auth/Loginform.jsx";
+import RegisterForm from "../components/Auth/Registerform.jsx";
 
 const LoginPage = () => {
   return (
     <div>
       <LoginForm />
+      <RegisterForm />
     </div>
   );
 };

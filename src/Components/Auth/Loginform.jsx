@@ -1,15 +1,26 @@
-import React from "react";
 import './Auth.css';
 
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/auth.slice/login.slice';
+import ReactFacebookLogin from 'react-facebook-login';
+import { loginUserFacebook } from '../../redux/auth.slice/facebook.slice';
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password);
+
+        const data = {
+            email,
+            password
+        }
+
+        dispatch(loginUser(data));
     }
 
     return (
@@ -23,6 +34,19 @@ const LoginForm = () => {
                 <div className="checkbox-container">
                     <input type="checkbox" id="remember" name="remember" className="checkbox"/>
                     <label htmlFor="remember">Stay signed in</label>
+                </div>
+
+                <div className="social-media-container">
+                    <ReactFacebookLogin
+                        appId="394073726712169"
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        responseType='token'
+                        callback={(response) => console.log(response)}
+                        cssClass="facebook-button"
+                        icon="fa-facebook"
+                        // dispatch(loginUserFacebook({ token: response.accessToken }))
+                    />
                 </div>
 
                 <button type="submit" className="form-button">Continue</button>
