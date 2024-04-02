@@ -9,7 +9,9 @@ from api.views import UserTokenRefreshView
 from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView
 from favourite.views import FavouriteViewSet
 from facebook_auth.views import FacebookApiView
-from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView
+from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
+    CheckOTPView
+
 # from api.views import secure_view
 
 
@@ -36,6 +38,7 @@ urlpatterns = [
 
     # reset password
     path("reset-password/request/<str:email>/", PasswordResetRequestView.as_view(), name="password_reset_request"),
+    path("reset-password/verify/otp/<str:email>/<str:otp>/", CheckOTPView.as_view(), name="password_verify_otp"),
     path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
 
     # favourite

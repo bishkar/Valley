@@ -13,10 +13,10 @@ from api.schemas import swagger_auth_token_response, swagger_password_restore_re
 from user.models import User
 from user.schemas import swagger_reset_password_confirm_response
 from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer, \
-    UserUpdatePasswordSerializer
+    UserUpdatePasswordSerializer, UserVerifySerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.utils import send_otp_mail, generate_otp
-
+import uuid
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -133,7 +133,6 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
 )
 # endregion
 class PasswordResetConfirmView(generics.UpdateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserUpdatePasswordSerializer
     permission_classes = (AllowAny,)
     lookup_field = 'email'
@@ -142,18 +141,41 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))
 
-        if user.otp == request.data.get('otp') and user.otp_expiry > timezone.now():
-            user.otp = None
+        if user.restore_token == request.data.get('restore_token') and user.otp_expiry > timezone.now():
+            user.restore_token = None
+
             user.set_password(request.data.get('password'))
             user.save()
-            # return super().update(request, *args, **kwargs)
-            return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
+
+            return Response({'status': 'Success', 'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
         else:
-            return Response({'message': 'Invalid OTP'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({'status': 'Failed', 'message': 'Invalid restore_token'},
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
 
     # region Documentation
     @swagger_auto_schema(deprecated=True)
     # endregion
     def patch(self, request, *args, **kwargs):
         pass
-# endregion
+
+
+
+class CheckOTPView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserVerifySerializer
+    permission_classes = (AllowAny,)
+    # search_fields = ['otp', 'email']
+
+    def retrieve(self, request, *args, **kwargs):
+        user = User.objects.get(email=kwargs.get('email'))
+
+        if user.otp == kwargs.get('otp') and user.otp_expiry > timezone.now():
+            user.otp = None
+            user.restore_token = uuid.uuid4()
+            user.otp_expiry = timezone.now() + timezone.timedelta(minutes=30)
+
+            return Response({'status': 'success', "restore_token": user.restore_token}, status=status.HTTP_200_OK)
+        else:
+            return Response({'status': 'Failed', 'message': "OTP is not valid or expired"},
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
+

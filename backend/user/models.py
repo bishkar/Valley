@@ -31,6 +31,7 @@ class User(AbstractUser):
     provider = models.CharField(max_length=10, choices=PROVIDER_CHOICES, default='email')
     username = None
 
+    restore_token = models.CharField(max_length=1000, null=True, blank=True)
     vendor = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"

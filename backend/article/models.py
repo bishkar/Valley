@@ -13,9 +13,22 @@ class ArticleImage(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        self.slug = slugify(self.name)
+        super().save(force_insert, force_update, using, update_fields)
+
+
 class Article(models.Model):
     original_title = models.CharField(max_length=100)
     translated_title = models.CharField(max_length=100)
+
+    tags = models.ManyToManyField('Tag')
 
     images = models.ManyToManyField('ArticleImage')
 
