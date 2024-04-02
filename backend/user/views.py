@@ -18,6 +18,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from user.utils import send_otp_mail, generate_otp
 import uuid
 
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
@@ -59,31 +60,7 @@ class EmailTokenObtainPairView(TokenObtainPairView):
 
 
 # region Reset-password
-# region Documentation
-@method_decorator(
-    name="get",
-    decorator=swagger_auto_schema(
-        responses={
-            200: openapi.Schema(
-                title="PasswordResetConfirm",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'status': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
-                }
-            ),
-            404: openapi.Schema(
-                title="PasswordResetError",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255, description="User not found")
-                },
-            ),
-        },
-        operation_description="Use this endpoint to request a password reset",
-        operation_summary="Request a password reset",
-    ),
-)
-# endregion fo
+
 class PasswordResetRequestView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserUpdatePasswordSerializer
@@ -107,31 +84,6 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
         return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
-# region Documentation
-@method_decorator(
-    name="put",
-    decorator=swagger_auto_schema(
-        responses={
-            200: openapi.Schema(
-                title="PasswordResetConfirm",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
-                }
-            ),
-            406: openapi.Schema(
-                title="PasswordResetError",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255, description="Invalid OTP")
-                },
-            ),
-        },
-        operation_description="Use this endpoint to confirm a password reset",
-        operation_summary="Confirm a password reset using OTP",
-    ),
-)
-# endregion
 class PasswordResetConfirmView(generics.UpdateAPIView):
     serializer_class = UserUpdatePasswordSerializer
     permission_classes = (AllowAny,)
@@ -157,7 +109,6 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
     # endregion
     def patch(self, request, *args, **kwargs):
         pass
-
 
 
 class CheckOTPView(generics.RetrieveAPIView):
