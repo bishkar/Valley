@@ -55,14 +55,29 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    'drf_yasg',
+    # 'drf_yasg',
+    'drf_spectacular_sidecar',
+    'drf_spectacular'
 ]
 
 
 # SWAGGER_SETTINGS: dict[str, any] = {
 #     'OPERATIONS_SORTER': 'method',
 # }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'SCHEMA_PATH_PREFIX': '/api/v[0-9]',
+}
+
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),

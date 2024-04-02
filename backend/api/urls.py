@@ -1,4 +1,5 @@
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -15,15 +16,15 @@ from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequ
 # from api.views import secure_view
 
 
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Valley Backend APIs",
-        default_version='v1.0.0',
-        terms_of_service="https://www.google.com/policies/terms/"
-    ),
-    public=True,
-    permission_classes=[permissions.AllowAny, ],
-)
+# schema_view = get_schema_view(
+#     openapi.Info(
+#         title="Valley Backend APIs",
+#         default_version='v1.0.0',
+#         terms_of_service="https://www.google.com/policies/terms/"
+#     ),
+#     public=True,
+#     permission_classes=[permissions.AllowAny, ],
+# )
 
 router = SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
@@ -57,6 +58,10 @@ urlpatterns += router.urls
 
 # debug
 urlpatterns += [
-    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui')
 ]
+# urlpatterns += [
+#     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+#     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+# ]

@@ -17,8 +17,7 @@ class UserVerifySerializer(serializers.ModelSerializer):
     restore_token = serializers.CharField(read_only=True)
     status = serializers.CharField(read_only=True)
 
-    class Meta:.
-    
+    class Meta:
         model = User
         fields = ['otp', 'email', 'restore_token', 'status']
         read_only_fields = ['restore_token', 'status']
