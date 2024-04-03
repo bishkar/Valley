@@ -31,10 +31,8 @@ const LoginForm = () => {
                 <input className="form-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <label className="form-label" htmlFor="password">Password:</label>
                 <input className="form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <div className="checkbox-container">
-                    <input type="checkbox" id="remember" name="remember" className="checkbox"/>
-                    <label htmlFor="remember">Stay signed in</label>
-                </div>
+
+                <button type="submit" className="form-button">Continue</button>
 
                 <div className="social-media-container">
                     <ReactFacebookLogin
@@ -42,14 +40,11 @@ const LoginForm = () => {
                         autoLoad={false}
                         fields="name,email,picture"
                         responseType='token'
-                        callback={(response) => console.log(response)}
+                        callback={(response) => dispatch(loginUserFacebook({ token: response.accessToken }))}
                         cssClass="facebook-button"
                         icon="fa-facebook"
-                        // dispatch(loginUserFacebook({ token: response.accessToken }))
                     />
                 </div>
-
-                <button type="submit" className="form-button">Continue</button>
             </form>
         </div>
     );

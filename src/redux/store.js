@@ -7,6 +7,7 @@ import resgistraionSliceReducer from './auth.slice/register.slice';
 import authSliceReducer from './auth.slice/login.slice';
 import tokenSlice from './auth.slice/token.slice';
 import authFacebookSlice from './auth.slice/facebook.slice';
+import restorePasswordSlice from './auth.slice/restorePassword.slice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     auth: authSliceReducer,
     tokens: tokenSlice,
     authFacebook: authFacebookSlice,
+    restorePassword: restorePasswordSlice,
     [imagesApi.reducerPath]: imagesApi.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(imagesApi.middleware),
