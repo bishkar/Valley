@@ -46,6 +46,8 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
+    category = models.CharField(max_length=100, default="None")
+
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
