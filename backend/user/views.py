@@ -129,4 +129,3 @@ class CheckOTPView(generics.RetrieveAPIView):
         else:
             return Response({'status': 'Failed', 'message': "OTP is not valid or expired"},
                             status=status.HTTP_406_NOT_ACCEPTABLE)
-

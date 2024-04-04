@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from article.models import Article, Slider, ArticleImage
+from article.models import Article, Slider, ArticleImage, Tag
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -38,3 +38,9 @@ class ErrorResponseSerializer(serializers.Serializer):
     class Meta:
         fields = ['detail', 'code', 'messages']
         read_only_fields = ['detail', 'code', 'messages']
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = "__all__"

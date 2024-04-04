@@ -7,7 +7,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import UserTokenRefreshView
-from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView
+from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet
 from favourite.views import FavouriteViewSet
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
@@ -29,6 +29,8 @@ from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequ
 router = SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
 router.register('slider', SliderViewSet, basename='slider')
+router.register('tags', TagViewSet, basename='tags')
+router.register('user/favourites', FavouriteViewSet, basename='favourites')
 
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -43,7 +45,7 @@ urlpatterns = [
     path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
 
     # favourite
-    path("favourites/", FavouriteViewSet.as_view(), name="favourites"),
+    # path("user/favourites/", FavouriteViewSet.as_view(), name="favourites"),
 
     # article image
     path("articles/image/upload", UploadArticleImageView.as_view(), name="upload_article_image"),
