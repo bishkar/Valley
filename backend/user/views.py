@@ -141,9 +141,10 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))
-        restore_token = request.data.get('restore_token')
-        if (user.restore_token and user.
-                user.restore_token == restore_token and user.otp_expiry > timezone.now()):
+        print(user.email)
+        restore_token = self.kwargs.get('restore_token')
+        print(restore_token)
+        if (user.restore_token and user.restore_token == restore_token and user.otp_expiry > timezone.now()):
             user.restore_token = None
 
             user.set_password(request.data.get('password'))
@@ -170,7 +171,7 @@ class CheckOTPView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         user = User.objects.get(email=kwargs.get('email'))
-
+        print(kwargs.get('otp'))
         if user.otp == kwargs.get('otp') and user.otp_expiry > timezone.now():
             user.otp = None
             user.restore_token = uuid.uuid4()

@@ -38,7 +38,7 @@ urlpatterns = [
 
     # reset password
     path("reset-password/request/<str:email>/", PasswordResetRequestView.as_view(), name="password_reset_request"),
-    path("reset-password/verify/otp/<str:email>/<str:restore_token>/", CheckOTPView.as_view(), name="password_verify_otp"),
+    path("reset-password/verify/otp/<str:email>/<str:otp>/", CheckOTPView.as_view(), name="password_verify_otp"),
     path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
 
     # favourite

@@ -17,7 +17,7 @@ class UserVerifySerializer(serializers.ModelSerializer):
     restore_token = serializers.CharField(read_only=True)
     status = serializers.CharField(read_only=True)
 
-    class Meta:.
+    class Meta:
     
         model = User
         fields = ['otp', 'email', 'restore_token', 'status']
@@ -31,12 +31,12 @@ class UserVerifySerializer(serializers.ModelSerializer):
 
 class UserUpdatePasswordSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, write_only=True)
-    otp = serializers.CharField(required=True, write_only=True)
+    restore_token = serializers.CharField(required=True, write_only=True)
     password = serializers.CharField(required=True, write_only=True)
 
     class Meta:
         model = User
-        fields = ['otp', 'password', 'email']
+        fields = ['restore_token', 'password', 'email']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
