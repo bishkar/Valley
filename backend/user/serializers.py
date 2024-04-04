@@ -11,6 +11,24 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'email', 'password', 'vendor']
 
 
+class UserVerifySerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(write_only=True)
+    otp = serializers.CharField(write_only=True)
+    restore_token = serializers.CharField(read_only=True)
+    status = serializers.CharField(read_only=True)
+
+    class Meta:
+    
+        model = User
+        fields = ['otp', 'email', 'restore_token', 'status']
+        read_only_fields = ['restore_token', 'status']
+        write_only_fields = ['otp', 'email']
+        extra_kwargs = {
+            'otp': {'write_only': True},
+            'email': {'write_only': True},
+        }
+
+
 class UserUpdatePasswordSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, write_only=True)
     otp = serializers.CharField(required=True, write_only=True)

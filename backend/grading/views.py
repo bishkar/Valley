@@ -5,9 +5,8 @@ from rest_framework import viewsets
 from rest_framework import status
 from django.http import HttpResponse
 
-from .serializers import GradeSerializer
 from .models import Grade
-
+from .serializers import GradeSerializer
 
 class GradeView(viewsets.ModelViewSet):
     queryset = Grade.objects.all()

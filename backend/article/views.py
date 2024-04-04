@@ -1,12 +1,21 @@
+from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.mixins import DestroyModelMixin
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
-from article.models import Article
+from article.models import Article, Slider
 from article.permissions import IsAccountAdminOrReadOnly
-from article.serializers import ArticleSerializer, ErrorResponseSerializer
+from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
+    UploadArticleImageSerializer
 
 
 # region Documentations
@@ -40,10 +49,11 @@ from article.serializers import ArticleSerializer, ErrorResponseSerializer
 ))
 # endregion
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.filter(visible=True)
+    queryset = Article.objects.filter(visible=True).order_by('created_at')
     serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
-
+    search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
+    filter_backends = [SearchFilter]
     throttle_scope = 'article'
 
     def perform_create(self, serializer):
@@ -51,3 +61,52 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.visible = False
+        instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@parser_classes((MultiPartParser,))
+class SliderViewSet(viewsets.ModelViewSet):
+    queryset = Slider.objects.order_by('created_at')
+    serializer_class = SliderSerializer
+    permission_classes = [IsAccountAdminOrReadOnly]
+
+    # def perform_create(self, serializer):
+    #     serializer.save()
+
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+
+
+# region Documentations
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    operation_description="Upload an image for an article",
+    responses={201: UploadArticleImageSerializer(), (400, 401, 403): ErrorResponseSerializer()},
+    operation_summary="Upload an image for an article",
+))
+# endregion
+class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
+    serializer_class = UploadArticleImageSerializer
+    permission_classes = [IsAdminUser]
+
+    throttle_scope = 'article'
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        image = serializer.save()
+
+        return Response({'image': image.image.url,
+                         'pk': image.pk}, status=status.HTTP_201_CREATED)
+
+
+# class ArticleSearchView(ListAPIView):
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleSerializer
+#     search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
+#     filter_backends = [SearchFilter]
