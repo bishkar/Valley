@@ -1,6 +1,43 @@
-.post__cart{
-  width: 450px;
-  margin: 0 35px 36px;
+.favourite__container{
+  display: flex;
+  flex-direction: column;
+  width: 1400px;
+  justify-content: center;
+  margin: 0 auto;
+  min-height: 60vh;
+  align-items: center;
+}
+
+.fav__input {
+  border: 2px solid #f947ff;
+  width: 15em;
+  height: 2.5em;
+  padding-left: 0.8em;
+  outline: none;
+  overflow: hidden;
+  background-color: #F3F3F3;
+  border-radius: 10px;
+  transition: all 0.5s;
+  margin-bottom: 50px;
+  font-family: "Inria Serif", serif;
+}
+
+.fav__input:hover,
+.fav__input:focus {
+  border: 2px solid #4A9DEC;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: rgb(191, 128, 251, 0.2);
+}
+
+.favourite__cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.favourite__card{
+  width: 350px;
+  margin: 0 28px 36px;
   background-color: #BF80FB33;
   text-align: center;
   box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.35);
@@ -10,37 +47,23 @@
   & img{
     border-radius: 40px 40px 0 0;
     width: -webkit-fill-available;
-    height: 280px;
+    height: 220px;
   }
 }
 
-.post__body{
+.favourite__body{
   padding: 0 30px;
   display: flex;
   flex-direction: column;
-  height: 90px;
+  height: 60px;
 
   & h4{
     margin: 0;
     text-transform: capitalize;
     font-size: 25px;
+
   }
 }
-
-.postItem__tagList{
-  display: flex;
-  width: auto;
-  margin: 0 auto;
-  justify-content: center;
-  gap: 9px;
-  margin-bottom: 20px;
-  & p{
-    color: #FF1088;
-    font-size: 15px;
-    margin: 0;
-  }
-}
-
 
 .heart__img{
   display: block;
@@ -77,50 +100,4 @@
 
 .active__favourite {
   background-image: url("../../img/Vector.svg");
-}
-
-
-// Item Page
-.itemPage__container{
-  width: 1300px;
-  margin: 0 auto;
-}
-
-
-.itemPage__title{
-  color: #FF1088;
-  font-size: 52px;
-  margin: 15px 0 0;
-  line-height: normal;
-}
-
-.itemPage__tagList{
-  display: flex;
-  width: auto;
-  margin: 0 auto;
-  justify-content: center;
-  gap: 9px;
-  margin-bottom: 20px;
-  & p{
-    color: #FF1088;
-    font-size: 20px;
-    margin: 0;
-  }
-}
-
-
-.link__to__product{
-  border-top: 1px solid #000000;
-  border-bottom: 1px solid #000000;
-  padding: 30px 0;
-  width: 100%;
-
-  & p{
-    color: #FF1088;
-    font-size: 20px;
-  }
-}
-
-.itemPage__content{
-  font-size: 18px;
 }

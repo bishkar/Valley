@@ -6,13 +6,18 @@
   text-transform: uppercase;
 }
 
+.posts__body{
+  border-top: 1px solid #000;
+  width: 1260px;
+  margin: 0 auto;
+}
+
 .post__container{
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-  justify-content: center;
-  width: 1260px;
-  border-top: 1px solid #000;
+  justify-content: flex-start;
+  width: 1040px;
   padding-top: 30px;
   position: relative;
 }

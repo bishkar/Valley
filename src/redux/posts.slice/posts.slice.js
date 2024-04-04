@@ -7,7 +7,9 @@ const initialState = {
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  const data = await fetch('https://jsonplaceholder.typicode.com/posts').then(res => res.json());
+  const data = await fetch("http://127.0.0.1:8000/api/v1/articles/",)
+    .then((res) => res.json())
+
   return data;
 });
 
