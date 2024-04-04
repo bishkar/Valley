@@ -17,6 +17,7 @@ from article.models import Article, Slider, Category
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
     UploadArticleImageSerializer, CategorySerializer
+from .filters import ArticleFilter
 
 
 # region Documentations
@@ -52,9 +53,8 @@ from article.serializers import ArticleSerializer, ErrorResponseSerializer, Slid
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.filter(visible=True).order_by('created_at')
     serializer_class = ArticleSerializer
-    permission_classes = [IsAccountAdminOrReadOnly]
-    search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
-    filter_backends = [SearchFilter]
+    permission_classes = [IsAccountAdminOrReadOnly]  
+    filterset_class = ArticleFilter
     throttle_scope = 'article'
 
     def perform_create(self, serializer):

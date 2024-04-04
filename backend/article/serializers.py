@@ -46,7 +46,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['pk', 'category']
         read_only_fields = ['pk']
 
-        
+
         
 
 
