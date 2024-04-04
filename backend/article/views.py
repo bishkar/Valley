@@ -11,11 +11,12 @@ from rest_framework.mixins import DestroyModelMixin
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from rest_framework import serializers
 
-from article.models import Article, Slider
+from article.models import Article, Slider, Category
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer
+    UploadArticleImageSerializer, CategorySerializer
 
 
 # region Documentations
@@ -105,8 +106,13 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
                          'pk': image.pk}, status=status.HTTP_201_CREATED)
 
 
-# class ArticleSearchView(ListAPIView):
-#     queryset = Article.objects.all()
-#     serializer_class = ArticleSerializer
-#     search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
-#     filter_backends = [SearchFilter]
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    permission_classes = [IsAccountAdminOrReadOnly]
+    
+    def perform_create(self, serializer):
+        if Category.objects.filter(category=serializer.validated_data['category']).exists():
+            raise serializers.ValidationError({'detail': 'Category already exists'})
+
+        serializer.save()

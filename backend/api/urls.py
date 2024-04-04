@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import UserTokenRefreshView
-from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView
+from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, CategoryViewSet
 from favourite.views import FavouriteViewSet
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
@@ -27,7 +27,9 @@ schema_view = get_schema_view(
 
 router = SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
-router.register('slider', SliderViewSet, basename='slider')
+router.register(r'slider', SliderViewSet, basename='slider')
+router.register(r'category', CategoryViewSet, basename='category')
+
 
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -46,6 +48,7 @@ urlpatterns = [
 
     # article image
     path("articles/image/upload", UploadArticleImageView.as_view(), name="upload_article_image"),
+
     # path("articles/search/", ArticleSearchView.as_view(), name="search_article"),
     # # swagger json
     # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

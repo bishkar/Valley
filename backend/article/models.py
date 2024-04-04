@@ -46,7 +46,7 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
-    category = models.CharField(max_length=100, default="None")
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -67,3 +67,7 @@ class Slider(models.Model):
     @property
     def big_image_url(self):
         return self.big_image.url
+    
+    
+class Category(models.Model):
+    category = models.CharField(max_length=100)

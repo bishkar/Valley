@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
-from article.models import Article, Slider, ArticleImage
+from article.models import Article, Slider, ArticleImage, Category
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ['pk', 'original_title', 'translated_title', 'original_content', 'translated_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images']
+                  'link_to_product', 'created_at', 'image_urls', 'images', 'category']
         extra_kwargs = {
             'images': {'write_only': True}
         }
@@ -38,3 +38,15 @@ class ErrorResponseSerializer(serializers.Serializer):
     class Meta:
         fields = ['detail', 'code', 'messages']
         read_only_fields = ['detail', 'code', 'messages']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['pk', 'category']
+        read_only_fields = ['pk']
+
+        
+        
+
+

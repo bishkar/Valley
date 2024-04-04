@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from .models import Grade
 from .serializers import GradeSerializer
 
+
 class GradeView(viewsets.ModelViewSet):
     queryset = Grade.objects.all()
     serializer_class = GradeSerializer
