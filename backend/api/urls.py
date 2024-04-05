@@ -3,12 +3,11 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+from rest_framework_nested import routers
 from api.views import UserTokenRefreshView
 from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet
-from favourite.views import FavouriteViewSet
+from favourite.views import FavouriteViewSet # UserFavouriteTag
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
     CheckOTPView
@@ -26,11 +25,14 @@ from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequ
 #     permission_classes=[permissions.AllowAny, ],
 # )
 
-router = SimpleRouter()
+router = routers.SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
 router.register('slider', SliderViewSet, basename='slider')
 router.register('tags', TagViewSet, basename='tags')
+
 router.register('favourites', FavouriteViewSet, basename='favourites')
+# domains_router = routers.NestedSimpleRouter(router, r'favourites', lookup='favourites')
+# domains_router.register(r'user', UserFavouriteTag, basename='domain-nameservers')
 
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),

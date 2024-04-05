@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, generics
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound, NotAcceptable
 from rest_framework.permissions import IsAuthenticated
@@ -70,7 +70,7 @@ class FavouriteViewSet(mixins.CreateModelMixin,
 
         article = Article.objects.get(id=article_id)
         if Favourite.objects.filter(user=user, article=article).exists():
-            return NotAcceptable({'error': 'Article already favourited'}, status=400)
+            return NotAcceptable({'error': 'Article already favourited'})
 
         favourite = Favourite.objects.create(user=user, article=article)
         serializer = FavouriteSerializer(favourite)
@@ -91,9 +91,18 @@ class FavouriteViewSet(mixins.CreateModelMixin,
         favourite = Favourite.objects.get(article_id=article_id, user=user_id)
         favourite.delete()
 
-    @action(detail=False, methods=['get'], url_path='user/(?P<tag_name>.+)')
+    @action(detail=False, methods=['GET'], url_path='tag/(?P<tag_name>.+)')
     def get_favourites_by_tag(self, request, tag_name):
         user = request.user
-        favourites = Favourite.objects.filter(user=user, article__tags=tag_name)
+        favourites = Favourite.objects.filter(user=user, article__tags__name=tag_name)
         serializer = FavouriteSerializer(favourites, many=True)
         return Response(serializer.data)
+
+
+# class UserFavouriteTag(generics.RetrieveAPIView):
+#     def get(self, request, *args, **kwargs):
+#         user = request.user
+#         tag_name = kwargs['tag_name']
+#         favourites = Favourite.objects.filter(user=user, article__tags__name=tag_name)
+#         serializer = FavouriteSerializer(favourites, many=True)
+#         return Response(serializer.data)
