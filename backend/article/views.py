@@ -84,9 +84,37 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 
 @parser_classes((MultiPartParser,))
+@extend_schema_view(
+    retrieve=extend_schema(
+        description="Retrieve a single slider",
+        responses={200: SliderSerializer(), (400, 401, 403): ErrorResponseSerializer()},
+        summary="Retrieve a single slider",
+    ),
+    list=extend_schema(
+        description="Get all sliders",
+        responses={200: SliderSerializer(many=True), (400, 401, 403): ErrorResponseSerializer()},
+        summary="Get all sliders",
+    ),
+    create=extend_schema(
+        description="Create a new slider (only for admin users)",
+        responses={200: SliderSerializer(), (400, 401, 403): ErrorResponseSerializer()},
+        summary="Create a new slider",
+    ),
+    update=extend_schema(
+        description="Update a slider (only for admin users)",
+        responses={200: SliderSerializer(), (400, 401, 403): ErrorResponseSerializer()},
+        summary="Update a slider",
+    ),
+    destroy=extend_schema(
+        description="Delete a slider (only for admin users)",
+        responses={204: None, (400, 401, 403): ErrorResponseSerializer()},
+        summary="Delete a slider",
+    ),
+)
 class SliderViewSet(viewsets.ModelViewSet):
     queryset = Slider.objects.order_by('created_at')
     serializer_class = SliderSerializer
+    http_method_names = ['get', 'post', 'put', 'delete']
     permission_classes = [IsAccountAdminOrReadOnly]
 
     # def perform_create(self, serializer):
@@ -96,13 +124,19 @@ class SliderViewSet(viewsets.ModelViewSet):
         return super().retrieve(request, *args, **kwargs)
 
 
-
 # region Documentations
-@method_decorator(name='post', decorator=swagger_auto_schema(
-    operation_description="Upload an image for an article",
-    responses={201: UploadArticleImageSerializer(), (400, 401, 403): ErrorResponseSerializer()},
-    operation_summary="Upload an image for an article",
-))
+@extend_schema_view(
+    post=extend_schema(
+        description="Upload an image for an article",
+        responses={201: UploadArticleImageSerializer(), (400, 401, 403): ErrorResponseSerializer()},
+        summary="Upload an image for an article",
+    ),
+    destroy=extend_schema(
+        description="Delete an image for an article (only for admin users)",
+        responses={204: None, (400, 401, 403): ErrorResponseSerializer()},
+        summary="Delete an image for an article",
+    ),
+)
 # endregion
 class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
     serializer_class = UploadArticleImageSerializer

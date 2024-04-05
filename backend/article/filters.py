@@ -1,5 +1,4 @@
 import django_filters
-
 from article.models import Article
 
 

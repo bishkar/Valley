@@ -1,9 +1,12 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from article.models import Article, Slider, ArticleImage, Tag
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    image_urls = serializers.SerializerMethodField('get_image_urls')
+
     class Meta:
         model = Article
         fields = ['pk', 'original_title', 'translated_title', 'original_content', 'translated_content',
@@ -13,6 +16,11 @@ class ArticleSerializer(serializers.ModelSerializer):
         }
         write_only_fields = ['images']
         read_only_fields = ['created_at', 'pk', 'image_urls']
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_image_urls(self, obj):
+        images = obj.images.all()
+        return [image.image.url for image in images]
 
 
 class UploadArticleImageSerializer(serializers.ModelSerializer):
@@ -43,4 +51,4 @@ class ErrorResponseSerializer(serializers.Serializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = "__all__"
+        fields = ['name']

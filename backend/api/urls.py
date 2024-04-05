@@ -30,7 +30,7 @@ router = SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
 router.register('slider', SliderViewSet, basename='slider')
 router.register('tags', TagViewSet, basename='tags')
-router.register('user/favourites', FavouriteViewSet, basename='favourites')
+router.register('favourites', FavouriteViewSet, basename='favourites')
 
 urlpatterns = [
     path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),

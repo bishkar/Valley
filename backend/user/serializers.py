@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from .models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -58,11 +59,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
+    tokens = serializers.SerializerMethodField('get_tokens', read_only=True)
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password', 'password2', 'tokens')
 
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_tokens(self, obj):
+        return obj.tokens()
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -70,7 +75,6 @@ class RegisterSerializer(serializers.ModelSerializer):
                 {"password": "Password fields didn't match."})
 
         return attrs
-
 
     def create(self, validated_data):
         user = User.objects.create(

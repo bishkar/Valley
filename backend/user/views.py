@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
@@ -29,9 +30,13 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     throttle_scope = 'email_auth'   
 
-    @swagger_auto_schema(responses=swagger_register_token_response,
-                         operation_description="Use this endpoint to register and authenticate via email",
-                         operation_summary="Sign up new user using email", request_body=RegisterSerializer)
+    # @extend_schema_view(
+    #     create=extend_schema(
+    #         description="Register a new user",
+    #         responses=RegisterSerializer,
+    #         summary="Register a new user",
+    #     ),
+    # )
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
     
