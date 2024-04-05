@@ -15,13 +15,6 @@ class ArticleImage(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
-
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
-        self.slug = slugify(self.name)
-        super().save(force_insert, force_update, using, update_fields)
 
 
 class Article(models.Model):
@@ -46,7 +39,7 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -56,6 +49,10 @@ class Article(models.Model):
     @property
     def image_urls(self):
         return [image.image.url for image in self.images.all()]
+    
+    @property
+    def tags_name(self):
+        return [tag.name for tag in self.tags.all()]
 
 
 class Slider(models.Model):

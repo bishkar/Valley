@@ -1,18 +1,27 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from article.models import Article, Slider, ArticleImage, Category
+from article.models import Article, Slider, ArticleImage, Category, Tag
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    image_urls = serializers.SerializerMethodField('get_image_urls')
+
     class Meta:
         model = Article
         fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images', 'category']
+                  'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name']
         extra_kwargs = {
-            'images': {'write_only': True}
+            'images': {'write_only': True},
+            'tags': {'write_only': True}
         }
         write_only_fields = ['images']
-        read_only_fields = ['created_at', 'pk', 'image_urls']
+        read_only_fields = ['created_at', 'pk', 'image_urls', 'tags_name']
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_image_urls(self, obj):
+        images = obj.images.all()
+        return [image.image.url for image in images]
 
 
 class UploadArticleImageSerializer(serializers.ModelSerializer):
@@ -47,6 +56,8 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only_fields = ['pk']
 
 
-        
-
-
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['pk', 'name']
+        read_only_fields = ['pk']
