@@ -1,15 +1,12 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
-from rest_framework import generics, mixins, viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
-from rest_framework.mixins import DestroyModelMixin, CreateModelMixin, RetrieveModelMixin
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.exceptions import NotFound, NotAcceptable
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from favourite.models import Favourite
-from rest_framework.views import APIView
-
-from favourite.serializers import FavouriteSerializer
 from article.models import Article
+from favourite.serializers import FavouriteSerializer, InfoSerializer
 
 
 @extend_schema_view(
@@ -26,7 +23,7 @@ from article.models import Article
     ),
     destroy=extend_schema(
         description="Delete a favourite",
-        responses={200: 'Favourite deleted'},
+        responses={200: InfoSerializer()},
         summary="Delete a favourite",
         parameters=[OpenApiParameter(name='id', type=str, location=OpenApiParameter.PATH)]
     ),
@@ -69,11 +66,11 @@ class FavouriteViewSet(mixins.CreateModelMixin,
 
         article_id = request.data.get('article')
         if not Article.objects.filter(id=article_id).exists():
-            raise ValueError('Article not found')
+            raise NotFound('Article not found')
 
         article = Article.objects.get(id=article_id)
         if Favourite.objects.filter(user=user, article=article).exists():
-            return Response({'error': 'Article already favourited' }, status=400)
+            return NotAcceptable({'error': 'Article already favourited'}, status=400)
 
         favourite = Favourite.objects.create(user=user, article=article)
         serializer = FavouriteSerializer(favourite)
@@ -89,11 +86,10 @@ class FavouriteViewSet(mixins.CreateModelMixin,
         user_id = request.user.id
 
         if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
-            return Response({'error': 'Favourite not found'}, status=404)
+            return NotFound({'error': 'Favourite not found'}, status=404)
 
         favourite = Favourite.objects.get(article_id=article_id, user=user_id)
         favourite.delete()
-        return Response({'message': 'Favourite deleted'}, status=200)
 
     @action(detail=False, methods=['get'], url_path='user/(?P<tag_name>.+)')
     def get_favourites_by_tag(self, request, tag_name):

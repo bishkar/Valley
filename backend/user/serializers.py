@@ -6,6 +6,15 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
 
+class StatusSerializer(serializers.Serializer):
+    status = serializers.CharField(read_only=True)
+    message = serializers.CharField(read_only=True)
+
+    class Meta:
+        fields = ['status', 'message']
+        read_only_fields = ['status', 'message']
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -59,15 +68,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    tokens = serializers.SerializerMethodField('get_tokens', read_only=True)
+    # tokens = serializers.SerializerMethodField('get_tokens', read_only=True)
+    access = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password', 'password2', 'tokens')
+        fields = ('first_name', 'last_name', 'email', 'password', 'password2', 'access', 'refresh')
 
-    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
-    def get_tokens(self, obj):
-        return obj.tokens()
+    # @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    # def get_tokens(self, obj):
+    #     return obj.tokens()
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
