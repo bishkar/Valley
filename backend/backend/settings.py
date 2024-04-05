@@ -55,19 +55,37 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    'drf_yasg',
+    # 'drf_yasg',
+    'drf_spectacular_sidecar',
+    'drf_spectacular',
+    'django_filters'
 ]
 
 
 # SWAGGER_SETTINGS: dict[str, any] = {
 #     'OPERATIONS_SORTER': 'method',
 # }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Valley',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'SCHEMA_PATH_PREFIX': '/api/v[0-9]',
+    'SERVE_AUTHENTICATION': ["rest_framework.authentication.SessionAuthentication"],
+}
+
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.ScopedRateThrottle',
