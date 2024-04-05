@@ -6,8 +6,8 @@ from article.models import Article, Slider, ArticleImage, Category
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['pk', 'original_title', 'translated_title', 'original_content', 'translated_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images', 'original_category']
+        fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content',
+                  'link_to_product', 'created_at', 'image_urls', 'images', 'category']
         extra_kwargs = {
             'images': {'write_only': True}
         }
@@ -43,7 +43,7 @@ class ErrorResponseSerializer(serializers.Serializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['pk', 'original_category', 'translated_category']
+        fields = ['pk', 'en_category', 'it_category']
         read_only_fields = ['pk']
 
 

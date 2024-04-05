@@ -25,15 +25,15 @@ class Tag(models.Model):
 
 
 class Article(models.Model):
-    original_title = models.CharField(max_length=100)
-    translated_title = models.CharField(max_length=100)
+    en_title = models.CharField(max_length=100)
+    it_title = models.CharField(max_length=100)
 
     tags = models.ManyToManyField('Tag')
 
     images = models.ManyToManyField('ArticleImage')
 
-    original_content = models.TextField()
-    translated_content = models.TextField()
+    en_content = models.TextField()
+    it_content = models.TextField()
 
     link_to_product = models.URLField()
 
@@ -46,7 +46,7 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
-    original_category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -70,5 +70,5 @@ class Slider(models.Model):
     
     
 class Category(models.Model):
-    original_category = models.CharField(max_length=100)
-    translated_category = models.CharField(max_length=100, default='None')
+    en_category = models.CharField(max_length=100)
+    it_category = models.CharField(max_length=100, default='None')
