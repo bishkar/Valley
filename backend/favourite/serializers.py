@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from article.models import Article
 from .models import Favourite
 
 
@@ -9,15 +11,18 @@ class FavouriteSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at', 'user']
         extra_kwargs = {
             'article': {'required': True, 'help_text': 'Article ID'},
+            'user': {"required": True}
         }
 
-    # def is_valid(self, *, raise_exception=False):
-    #
-    # def validate(self, user):
-    #
-    #     if Favourite.objects.filter(article=attrs['article'], user=self.context['request'].user).exists():
-    #         raise serializers.ValidationError('This article is already in your favourites')
-    #     return attrs
+    def validate(self, attrs):
+        user_id = self.context['request'].user.id
+        article = attrs['article']
+        if not article.visible:
+            raise serializers.ValidationError({'message': 'Article does not exist or is not visible'})
+        if Favourite.objects.filter(article=attrs['article'], user=user_id).exists():
+            raise serializers.ValidationError({"message": 'This article is already in your favourites'})
+
+        return attrs
 
 
 class InfoSerializer(serializers.Serializer):

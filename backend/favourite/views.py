@@ -45,6 +45,9 @@ class FavouriteViewSet(mixins.CreateModelMixin,
     # @swagger_auto_schema(responses=swagger_favourite_response_get,
     #                      operation_summary='Get all favourites',
     #                      operation_description='Get all favourites for the current user')
+    # def create(self, request, *args, **kwargs):
+    #     request.data['user'] = request.user.id
+    #     return super().create(request, *args, **kwargs)
 
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
@@ -61,21 +64,23 @@ class FavouriteViewSet(mixins.CreateModelMixin,
     #                      operation_summary='Create a favourite',
     #                      operation_description='Create a favourite for the current user',
     #                      request_body=FavouriteSerializer)
-    def create(self, request, *args, **kwargs):
-        user = request.user
+    # def create(self, request, *args, **kwargs):
+    #     user = request.user
 
-        article_id = request.data.get('article')
-        if not Article.objects.filter(id=article_id).exists():
-            raise NotFound('Article not found')
-
-        article = Article.objects.get(id=article_id)
-        if Favourite.objects.filter(user=user, article=article).exists():
-            return NotAcceptable({'error': 'Article already favourited'})
-
-        favourite = Favourite.objects.create(user=user, article=article)
-        serializer = FavouriteSerializer(favourite)
-
-        return Response(serializer.data)
+        # article_id = request.data.get('article')
+        # if not Article.objects.filter(id=article_id).exists():
+        #     return
+        #
+        # article = Article.objects.get(id=article_id)
+        # if Favourite.objects.filter(user=user, article=article).exists():
+        #     return
+        # favourite = Favourite.objects.create(user=user, article=article)
+        # serializer = FavouriteSerializer(data=request.data | {'user': request.user})
+        # serializer.validate(request.data)
+        #
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data)
 
     # @swagger_auto_schema(responses=swagger_favourite_response_delete,
     #                      operation_summary='Delete a favourite',
@@ -86,7 +91,7 @@ class FavouriteViewSet(mixins.CreateModelMixin,
         user_id = request.user.id
 
         if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
-            return NotFound({'error': 'Favourite not found'}, status=404)
+            return Response(InfoSerializer({'status': 'failed', 'message': 'Favourite not found'}).data)
 
         favourite = Favourite.objects.get(article_id=article_id, user=user_id)
         favourite.delete()
