@@ -15,7 +15,7 @@ export const loginUserFacebook = createAsyncThunk('auth/loginFacebook', async ({
       const response = await axios.post('http://127.0.0.1:8000/api/v1/token/facebook/', { auth_token });
       const { access, refresh } = response.data;
       console.log(response.data);
-      localStorage.setItem('isAuthenticated', true)
+      localStorage.setItem('loggedIn', true)
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
       return response.data;
@@ -32,7 +32,7 @@ export const authFacebookSlice = createSlice({
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
-      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('loggedIn');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },

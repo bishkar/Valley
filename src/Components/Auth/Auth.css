@@ -68,6 +68,10 @@
     cursor: pointer;
 }
 
+.form-button:hover {
+    background-color: #9f42f64f;
+}
+
 .checkbox-container {
     display: flex;
     align-items: center;

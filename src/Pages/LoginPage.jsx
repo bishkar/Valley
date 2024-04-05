@@ -1,15 +1,12 @@
 import LoginForm from "../components/Auth/Loginform.jsx";
-import RegisterForm from "../components/Auth/Registerform.jsx";
-import PasswordOtpForm from "../components/Auth/Passwordrecoverform.jsx";
-import ChangePasswordForm from "../components/Auth/Passwordrecoverconfirmform.jsx";
+
+import Navbar from "../components/Navbar/Navbar.jsx";
 
 const LoginPage = () => {
   return (
     <div>
+      <Navbar />
       <LoginForm />
-      <RegisterForm />
-      <PasswordOtpForm />
-      <ChangePasswordForm />
     </div>
   );
 };

@@ -20,7 +20,13 @@ const LoginForm = () => {
             password
         }
 
-        dispatch(loginUser(data));
+        dispatch(loginUser(data)).then((response) => {
+            if (response.payload) {
+                if (localStorage.getItem('accessToken')) {
+                    window.location.href = '/';
+                }
+            }
+        })
     }
 
     return (
@@ -40,7 +46,7 @@ const LoginForm = () => {
                         autoLoad={false}
                         fields="name,email,picture"
                         responseType='token'
-                        callback={(response) => dispatch(loginUserFacebook({ token: response.accessToken }))}
+                        callback={(response) => {dispatch(loginUserFacebook({ token: response.accessToken }))}}                  
                         cssClass="facebook-button"
                         icon="fa-facebook"
                     />

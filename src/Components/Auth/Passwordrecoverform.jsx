@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { sendCode } from '../../redux/auth.slice/restorePassword.slice';
 import { confirmCode } from '../../redux/auth.slice/restorePassword.slice';
 
-
 const PasswordOtpForm = () => {
     const dispatch = useDispatch();
 
@@ -22,13 +21,17 @@ const PasswordOtpForm = () => {
     const handleSubmitConfirmCode = (e) => {
         e.preventDefault();
         const promise = dispatch(confirmCode({ email, otp }));
-    
-        promise.then(result => {
-            const restoreToken = result.payload.restore_token;
-            console.log(restoreToken);
-            localStorage.setItem('restore_token', restoreToken);
-            localStorage.setItem('email', email);
-        });
+
+        if (!promise) {
+            return;
+        } else {
+            promise.then(result => {
+                const restoreToken = result.payload.restore_token;
+                localStorage.setItem('restore_token', restoreToken);
+                localStorage.setItem('email', email);
+                window.location.href = '/recover/change-password';
+            });
+        }
     }
 
     return (
