@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,32 +55,70 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    'drf_yasg',
+    # 'drf_yasg',
+    'drf_spectacular_sidecar',
+    'drf_spectacular',
+    'django_filters'
 ]
 
 
 # SWAGGER_SETTINGS: dict[str, any] = {
 #     'OPERATIONS_SORTER': 'method',
 # }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Valley',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'SCHEMA_PATH_PREFIX': '/api/v[0-9]',
+    'SERVE_AUTHENTICATION': ["rest_framework.authentication.SessionAuthentication"],
+}
+
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'refresh_token': '5/h',
+        'article': '5/m',
+        'facebook_auth': '5/m',
+        'favourite': '100/m',
+        'email_auth': '5/m',
+        'email_token_auth': '5/m',
+        'password_reset_request': '20/d',
+        'password_reset_confirm': '10/d',
+    }
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:5173",
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = 'user.User'
 ROOT_URLCONF = 'backend.urls'
 
@@ -104,13 +143,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -156,3 +205,6 @@ EMAIL_PORT = env.str("EMAIL_PORT")
 EMAIL_USE_TLS = env.str("EMAIL_USE_TLS")
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER") 
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD") 
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
