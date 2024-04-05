@@ -10,9 +10,10 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ['pk', 'original_title', 'translated_title', 'original_content', 'translated_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images']
+                  'link_to_product', 'created_at', 'image_urls', 'images', 'tags']
         extra_kwargs = {
-            'images': {'write_only': True}
+            'images': {'write_only': True},
+            'tags': {'write_only': True}
         }
         write_only_fields = ['images']
         read_only_fields = ['created_at', 'pk', 'image_urls']
@@ -51,4 +52,5 @@ class ErrorResponseSerializer(serializers.Serializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['name']
+        fields = ['pk', 'name']
+        read_only_fields = ['pk']

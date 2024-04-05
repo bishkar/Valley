@@ -15,10 +15,10 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from article.filters import ArticleFilter
-from article.models import Article, Slider
+from article.models import Article, Slider, Tag
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer
+    UploadArticleImageSerializer, TagSerializer
 
 
 # region Documentations
@@ -160,7 +160,7 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
 #     filter_backends = [SearchFilter]
 
 class TagViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
     permission_classes = [IsAdminUser]
 
