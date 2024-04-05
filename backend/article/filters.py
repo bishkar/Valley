@@ -5,5 +5,5 @@ class ArticleFilter(django_filters.FilterSet):
     class Meta:
         model = Article
         fields = {
-            'category_id': ['exact'],
+            'original_category': ['exact'],
         }

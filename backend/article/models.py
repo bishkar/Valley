@@ -46,7 +46,7 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    original_category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -70,4 +70,5 @@ class Slider(models.Model):
     
     
 class Category(models.Model):
-    category = models.CharField(max_length=100)
+    original_category = models.CharField(max_length=100)
+    translated_category = models.CharField(max_length=100, default='None')

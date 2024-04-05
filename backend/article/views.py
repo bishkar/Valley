@@ -112,7 +112,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAccountAdminOrReadOnly]
     
     def perform_create(self, serializer):
-        if Category.objects.filter(category=serializer.validated_data['category']).exists():
+        if Category.objects.filter(original_category=serializer.validated_data['original_category']).exists():
             raise serializers.ValidationError({'detail': 'Category already exists'})
 
         serializer.save()
