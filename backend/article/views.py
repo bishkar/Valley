@@ -13,12 +13,14 @@ from rest_framework.mixins import DestroyModelMixin
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import serializers
 
-from article.filters import ArticleFilter
-from article.models import Article, Slider, Tag
+from article.models import Article, Slider, Category, Tag
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer, TagSerializer
+    UploadArticleImageSerializer, CategorySerializer, TagSerializer
+from .filters import ArticleFilter
+from article.filters import ArticleFilter
 
 
 # region Documentations
@@ -55,7 +57,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.filter(visible=True).order_by('created_at')
     serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
-    search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
+    search_fields = ['en_title', 'it_title', 'en_content', 'it_content']
     filter_backends = [SearchFilter, DjangoFilterBackend]
     filterset_class = ArticleFilter
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -153,11 +155,17 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
                          'pk': image.pk}, status=status.HTTP_201_CREATED)
 
 
-# class ArticleSearchView(ListAPIView):
-#     queryset = Article.objects.all()
-#     serializer_class = ArticleSerializer
-#     search_fields = ['original_title', 'translated_title', 'original_content', 'translated_content']
-#     filter_backends = [SearchFilter]
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    permission_classes = [IsAccountAdminOrReadOnly]
+    
+    def perform_create(self, serializer):
+        if Category.objects.filter(en_category=serializer.validated_data['en_category']).exists():
+            raise serializers.ValidationError({'detail': 'Category already exists'})
+
+        serializer.save()
+
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()

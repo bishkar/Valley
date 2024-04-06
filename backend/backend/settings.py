@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import environs
+from datetime import timedelta
 
 env = environs.Env()
 env.read_env()
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'facebook_auth',
     'favourite',
     'article',
+    'translation',
+    'grading',
 
     # Third Party Apps
     'rest_framework',
@@ -90,6 +93,10 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.ScopedRateThrottle',
     ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        
+    ),
     'DEFAULT_THROTTLE_RATES': {
         'refresh_token': '5/h',
         'article': '5/m',
@@ -177,6 +184,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

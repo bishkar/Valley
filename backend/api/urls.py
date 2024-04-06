@@ -6,7 +6,7 @@ from rest_framework import permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_nested import routers
 from api.views import UserTokenRefreshView
-from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet
+from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet, CategoryViewSet
 from favourite.views import FavouriteViewSet # UserFavouriteTag
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
@@ -27,9 +27,9 @@ from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequ
 
 router = routers.SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
-router.register('slider', SliderViewSet, basename='slider')
+router.register(r'slider', SliderViewSet, basename='slider')
+router.register(r'category', CategoryViewSet, basename='category')
 router.register('tags', TagViewSet, basename='tags')
-
 router.register('favourites', FavouriteViewSet, basename='favourites')
 # domains_router = routers.NestedSimpleRouter(router, r'favourites', lookup='favourites')
 # domains_router.register(r'user', UserFavouriteTag, basename='domain-nameservers')
@@ -51,6 +51,7 @@ urlpatterns = [
 
     # article image
     path("articles/image/upload", UploadArticleImageView.as_view(), name="upload_article_image"),
+
     # path("articles/search/", ArticleSearchView.as_view(), name="search_article"),
     # # swagger json
     # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
