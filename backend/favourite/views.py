@@ -4,6 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound, NotAcceptable
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from article.serializers import ArticleSerializer
 from favourite.models import Favourite
 from article.models import Article
 from favourite.serializers import FavouriteSerializer, InfoSerializer
@@ -100,7 +102,9 @@ class FavouriteViewSet(mixins.CreateModelMixin,
     def get_favourites_by_tag(self, request, tag_name):
         user = request.user
         favourites = Favourite.objects.filter(user=user, article__tags__name=tag_name)
+
         serializer = FavouriteSerializer(favourites, many=True)
+
         return Response(serializer.data)
 
 

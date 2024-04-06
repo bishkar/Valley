@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import environs
 
@@ -61,7 +61,10 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
-
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
 # SWAGGER_SETTINGS: dict[str, any] = {
 #     'OPERATIONS_SORTER': 'method',
 # }

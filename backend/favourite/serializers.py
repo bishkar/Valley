@@ -1,10 +1,13 @@
 from rest_framework import serializers
 
 from article.models import Article
+from article.views import ArticleViewSet
 from .models import Favourite
 
 
 class FavouriteSerializer(serializers.ModelSerializer):
+    article = ArticleViewSet(required=False, read_only=True, source='*')
+
     class Meta:
         model = Favourite
         fields = ['article', 'user', 'created_at']
