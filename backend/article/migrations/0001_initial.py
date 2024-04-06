@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('original_content', models.TextField()),
                 ('translated_content', models.TextField()),
                 ('link_to_product', models.URLField()),
-                ('slug', models.SlugField(blank=True, unique=True)),
+                ('slug', models.SlugField(blank=True)),
                 ('visible', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),

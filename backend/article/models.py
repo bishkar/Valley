@@ -15,25 +15,18 @@ class ArticleImage(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
-
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
-        self.slug = slugify(self.name)
-        super().save(force_insert, force_update, using, update_fields)
 
 
 class Article(models.Model):
-    original_title = models.CharField(max_length=100)
-    translated_title = models.CharField(max_length=100)
+    en_title = models.CharField(max_length=100)
+    it_title = models.CharField(max_length=100)
 
     tags = models.ManyToManyField('Tag')
 
     images = models.ManyToManyField('ArticleImage')
 
-    original_content = models.TextField()
-    translated_content = models.TextField()
+    en_content = models.TextField()
+    it_content = models.TextField()
 
     link_to_product = models.URLField()
 
@@ -46,6 +39,8 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True)
+
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
@@ -54,6 +49,10 @@ class Article(models.Model):
     @property
     def image_urls(self):
         return [image.image.url for image in self.images.all()]
+    
+    @property
+    def tags_name(self):
+        return [tag.name for tag in self.tags.all()]
 
 
 class Slider(models.Model):
@@ -65,3 +64,8 @@ class Slider(models.Model):
     @property
     def big_image_url(self):
         return self.big_image.url
+    
+    
+class Category(models.Model):
+    en_category = models.CharField(max_length=100)
+    it_category = models.CharField(max_length=100, default='None')

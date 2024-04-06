@@ -1,8 +1,18 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from .models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+
+
+class StatusSerializer(serializers.Serializer):
+    status = serializers.CharField(read_only=True)
+    message = serializers.CharField(read_only=True)
+
+    class Meta:
+        fields = ['status', 'message']
+        read_only_fields = ['status', 'message']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,7 +28,6 @@ class UserVerifySerializer(serializers.ModelSerializer):
     status = serializers.CharField(read_only=True)
 
     class Meta:
-    
         model = User
         fields = ['otp', 'email', 'restore_token', 'status']
         read_only_fields = ['restore_token', 'status']
@@ -59,11 +68,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
+    # tokens = serializers.SerializerMethodField('get_tokens', read_only=True)
+    access = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password', 'password2', 'tokens')
+        fields = ('first_name', 'last_name', 'email', 'password', 'password2', 'access', 'refresh')
 
+    # @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    # def get_tokens(self, obj):
+    #     return obj.tokens()
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -71,7 +86,6 @@ class RegisterSerializer(serializers.ModelSerializer):
                 {"password": "Password fields didn't match."})
 
         return attrs
-
 
     def create(self, validated_data):
         user = User.objects.create(
