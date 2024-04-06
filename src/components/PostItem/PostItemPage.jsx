@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import Mainslider from "../Sliders/MainSlider/MainSlider";
 import "./PostItem.scss";
 
-export function PostItemPage() {
+const PostItemPage = () => {
   const { postId } = useParams();
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/${postId}`
@@ -43,3 +43,5 @@ export function PostItemPage() {
     </div>
   );
 }
+
+export default PostItemPage;

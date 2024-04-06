@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyMjUwNjcyLCJpYXQiOjE3MTIyNTAzNzIsImp0aSI6IjNhZGFiNTc0ZmEyODQzODI5YmRkOGRkYTJmYjFkYjk5IiwidXNlcl9pZCI6MX0.gZI9KvQyDnRh8250Ypy707N36iC70uAy3wxxnXn18L8"
+const token = localStorage.getItem("accessToken")
 
 export const addToFavorites = createAsyncThunk(
   'favorites/addToFavorites',

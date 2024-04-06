@@ -10,7 +10,7 @@ ul {
     border-bottom: 1px solid black;
     margin-bottom: 50px;
     gap: 20px;
-    width: 100%;
+    width: 1300px;
 
 }
 
@@ -34,6 +34,7 @@ ul {
 
 .header-element {
     margin-left: 48px;
+    cursor: pointer;
 }
 
 .nav-under {

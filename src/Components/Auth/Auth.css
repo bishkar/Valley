@@ -68,6 +68,10 @@
     cursor: pointer;
 }
 
+.form-button:hover {
+    background-color: #9f42f64f;
+}
+
 .checkbox-container {
     display: flex;
     align-items: center;
@@ -80,4 +84,84 @@
     width: 30px;
     height: 30px;
     cursor: pointer;
+}
+
+.social-media-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.facebook-button {
+    width: 650px;
+    height: 85px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #333;
+    transition: 0.3s;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.facebook-button:hover {
+    background-color: #3b5998;
+}
+
+.input-mail-div {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+}
+
+.form-button-send {
+    width: 120px;
+    height: 89px;
+    margin-bottom: 30px;
+    border: 1px solid #000000;
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    color: #333;
+    transition: 0.3s;
+    background-color: #bf80fb4f;
+    color: #000000;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-left: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-button-send:hover {
+    background-color: #9f42f64f;
+}
+
+.mail-send-input {
+    border-radius: 10px 0 0 10px;
+}
+
+.mail-form {
+    border-radius: 50px 50px 0px 0;
+}
+
+.code-form {
+    border-radius: 0 0 50px 50px;
+}
+
+.no-background {
+    background-color: transparent;
+    border: none;
+    background-image: none;
+    box-shadow: none;
 }

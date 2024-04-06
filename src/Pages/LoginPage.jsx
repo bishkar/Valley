@@ -1,4 +1,4 @@
-import LoginForm from "./../components/Auth/AuthForms.jsx";
+import LoginForm from "../components/Auth/Loginform.jsx";
 
 const LoginPage = () => {
   return (

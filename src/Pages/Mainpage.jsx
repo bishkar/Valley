@@ -1,7 +1,7 @@
-import Mainslider from "../components/Sliders/MainSlider/MainSlider";
-import Categorydiv from "../components/Dividers/Category/Categorydiv";
-import CardSlider from "../components/Sliders/CardSlider/Cardslider";
-import Posts from "../components/Posts/Posts";
+import Mainslider from "../components/Sliders/MainSlider/MainSlider.jsx";
+import Categorydiv from "../components/Dividers/Category/Categorydiv.jsx";
+import CardSlider from "../components/Sliders/CardSlider/Cardslider.jsx";
+import Posts from "../components/Posts/Posts.jsx";
 
 export default function MainPage() {
   return (
