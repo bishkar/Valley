@@ -8,8 +8,9 @@ import RegisterPage from "./pages/RegisterPage";
 import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import LogoutPage from "./pages/LogoutPage";
+import NewPostPage from "./pages/NewPostPage";
 
-import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -33,7 +34,10 @@ function App() {
         <Route path="/post/:postId" element={<PostItemPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/result/:nasaId" element={<ResultPost />} />
+        <Route path="/new-post" element={<NewPostPage />} />
       </Routes>
+
+      <Footer />
     </>
   );
 }

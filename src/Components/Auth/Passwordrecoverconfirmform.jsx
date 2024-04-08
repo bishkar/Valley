@@ -29,7 +29,12 @@ const ChangePasswordForm = () => {
                 email,
             }
 
-            dispatch(changePassword(data));
+            dispatch(changePassword(data)).then((response) => {
+                if (response.payload) {
+                    alert("Password changed successfully");
+                    window.location.href = '/login';
+                }
+            })
 
             localStorage.removeItem('email');
             localStorage.removeItem('restore_token');

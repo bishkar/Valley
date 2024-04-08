@@ -17,8 +17,6 @@ const Navbar = () => {
     loggedIn = true;
   }
 
-  console.log(loggedIn);
-
 
   return (
     <div className="container">
@@ -41,7 +39,9 @@ const Navbar = () => {
         </div>
 
         <div className="logo">
-          <img src={logoImage} alt="" />
+          <Link to="/">
+            <img src={logoImage} className="logo-image" alt="" />
+          </Link>
         </div>
 
         <div className="nav-container">

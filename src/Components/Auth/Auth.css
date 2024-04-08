@@ -101,6 +101,7 @@
     border-radius: 10px;
     font-size: 16px;
     color: #333;
+    background-color: rgb(8, 54, 152);
     transition: 0.3s;
     color: #fff;
     font-size: 24px;
@@ -164,4 +165,42 @@
     border: none;
     background-image: none;
     box-shadow: none;
+}
+
+.link-container {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-link {
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+    transition: 0.3s;
+    text-align: right;
+}
+
+.form-link:hover {
+    color: #ff6b6b;
+}
+
+.content-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.logout-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 0 20px;
 }

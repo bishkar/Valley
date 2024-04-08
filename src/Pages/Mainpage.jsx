@@ -13,7 +13,6 @@ export default function MainPage() {
       <Categorydiv />
       <CardSlider />
       <Posts />;
-      <Footer />
     </div>
   );
 }

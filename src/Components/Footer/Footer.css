@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
+    gap: 20px;
 }
 
 .footer-divider {
@@ -11,9 +12,44 @@
     height: 75px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo img {
     width: 130px;
     height: 150px;
+}
+
+.divider-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-image {
+    width: 30px;
+    height: 30px;
+    transform: translateY(5px);
+    transition: 0.2s;
+}
+
+.footer-image:hover {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    transform: translateY(0px);
+}
+
+.divider-content p {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: rgb(112, 112, 112)
 }
