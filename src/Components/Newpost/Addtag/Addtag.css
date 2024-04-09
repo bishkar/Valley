@@ -3,14 +3,14 @@
     justify-content: center;
     align-items: center;
     margin-top: 10px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     width: 100%;
 }
 
 .add-tag-container {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: start;
     align-items: center;
     width: 990px;
@@ -59,9 +59,10 @@
 
 .tags {
     display: flex;
-    flex-wrap: wrap; /* Дозволяє тегам займати простір у рядку */
-    justify-content: flex-start; /* Розміщує теги від лівого краю */
+    flex-wrap: wrap; 
+    justify-content: flex-start;
     align-items: center;
+    width: 100%;
 }
 
 .tag {
@@ -90,7 +91,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 5px; /* Додає простір між текстом тега і кнопкою видалення */
 }
 
 .delete-tag img {

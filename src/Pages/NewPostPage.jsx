@@ -2,8 +2,9 @@ import Navbar from "../components/Navbar/Navbar.jsx";
 
 import AddImage from "../components/Newpost/Addimage/Addimage.jsx";
 import AddTitle from "../components/Newpost/Addtitle/Addtitle.jsx";
-import AddTag from "../components/Newpost/Addtag/Addtag.jsx";
 import Tags from "../components/Newpost/Addtag/Tags.jsx";
+import AddLink from "../components/Newpost/Addlink/Addlink.jsx";
+import AddContent from "../components/Newpost/Addcontent/Addcontent.jsx";
 
 const NewPostPage = () => {
     return (
@@ -14,6 +15,8 @@ const NewPostPage = () => {
         <AddTitle placeholder={'Title'}/>
         <AddTitle placeholder={'Titolo'}/>
         <Tags />
+        <AddLink />
+        <AddContent />
         </div>
     );
 }
