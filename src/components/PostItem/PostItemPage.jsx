@@ -19,15 +19,11 @@ const PostItemPage = () => {
           <Mainslider />
           <h2 className="itemPage__title">{data.en_title}</h2>
           <ul className="itemPage__tagList">
-            <li>
-              <p>#tagName</p>
-            </li>
-            <li>
-              <p>#tagName</p>
-            </li>
-            <li>
-              <p>#tagName</p>
-            </li>
+            {data.tags_name.map((tag, index) => (
+              <li key={index}>
+                <p>{tag}</p>
+              </li>
+            ))}
           </ul>
           <div className="link__to__product">
             <p>

@@ -1,0 +1,39 @@
+.category__container{
+  display: flex;
+  flex-direction: column;
+  width: 1400px;
+  justify-content: center;
+  margin: 0 auto;
+  min-height: 60vh;
+  align-items: center;
+}
+
+.category__card{
+  width: 350px;
+  margin: 0 28px 36px;
+  background-color: #BF80FB33;
+  text-align: center;
+  box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.35);
+  border-radius: 40px;
+  position: relative;
+
+  & img{
+    border-radius: 40px 40px 0 0;
+    width: -webkit-fill-available;
+    height: 220px;
+  }
+}
+
+.category__body{
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  height: 70px;
+
+  & h4{
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 25px;
+
+  }
+}

@@ -24,17 +24,15 @@ export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
           <Link className="post__more" to={`/articles/${postId}`}>
             <img src={`http://127.0.0.1:8000${data.image_urls}`} />
             <div className="favourite__body">
-              <h4>{data.original_title}</h4>
+              <h4>{data.en_title}</h4>
               <ul className="postItem__tagList">
-                <li>
-                  <p>#tagName</p>
-                </li>
-                <li>
-                  <p>#tagName</p>
-                </li>
-                <li>
-                  <p>#tagName</p>
-                </li>
+                {data.tags_name.map((tag, index) => (
+                  <li key={index}>
+                    <Link className="post__more" to={`/articles/${postId}`}>
+                      <p>{tag}</p>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </Link>

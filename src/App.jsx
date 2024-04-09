@@ -11,18 +11,11 @@ import RegisterPage from "./pages/RegisterPage";
 import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import LogoutPage from "./pages/LogoutPage";
+import CategoryResult from "./components/CategoryResult/CategoryResult.jsx";
 
 function App() {
   return (
     <>
-      {/* <header>
-        <NavLink to="/" style={{ marginRight: "10px" }}>
-          Home
-        </NavLink>
-        <NavLink to="/search" style={{ marginRight: "10px" }}>
-            Search
-          </NavLink>
-      </header> */}
       <Navbar />
 
       <Routes>
@@ -30,6 +23,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/articles/:postId" element={<PostItemPage />} />
         <Route path="/favourites" element={<FavouritePage />} />
+        <Route path="/category/:categoryId" element={<CategoryResult />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/logout" element={<LogoutPage />} />
         <Route path="/recover" element={<RecoverPasswordPage />} />
@@ -41,6 +35,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/result/:nasaId" element={<ResultPost />} />
       </Routes>
+
       <Footer />
     </>
   );

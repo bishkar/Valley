@@ -11,6 +11,9 @@ import { useState } from "react";
 export default function PostItem({ post, isFavorited }) {
   const dispatch = useDispatch();
   const { pk, en_title, image_urls, tags_name } = post;
+  // const favorites = useSelector((state) => state.favorites);
+
+  // console.log("Fav", favorites);
 
   const [isFav, setIsFav] = useState(isFavorited);
 
