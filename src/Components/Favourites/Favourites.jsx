@@ -5,12 +5,14 @@ import {
 } from "../../redux/favourites.slice/favourites.slice";
 import { fetchPosts, selectPosts } from "../../redux/posts.slice/posts.slice";
 import { useEffect, useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import FavouriteItem from "./FavouriteItem";
 import "./Favourite.scss";
 
 export default function Favourites() {
   const dispatch = useDispatch();
   const postPerRow = 9;
+  const [block] = useAutoAnimate();
   const { posts } = useSelector(selectPosts);
   const favorites = useSelector((state) => state.favorites);
   const [next, setNext] = useState(postPerRow);
@@ -34,7 +36,7 @@ export default function Favourites() {
       <h1>Favourite Page</h1>
       <input className="fav__input" placeholder="#tagName"></input>
 
-      <div className="favourite__cards">
+      <div className="favourite__cards" ref={block}>
         {favorites?.length == 0 ? (
           <div>
             <h2>Your favourite page is empty</h2>
