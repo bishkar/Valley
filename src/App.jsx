@@ -1,14 +1,14 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import PostItemPage from "./components/PostItem/PostItemPage";
-import ResultPost from "./pages/ResultPost";
-import SearchPage from "./pages/SearchPage";
-import Mainpage from "./pages/Mainpage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import RecoverPasswordPage from "./pages/RecoverPasswordPage";
-import ChangePasswordPage from "./pages/ChangePasswordPage";
-import LogoutPage from "./pages/LogoutPage";
-import NewPostPage from "./pages/NewPostPage";
+ import PostItemPage from "./components/PostItem/PostItemPage";
+ import ResultPost from "./Pages/ResultPost";
+ import SearchPage from "./Pages/SearchPage";
+import Mainpage from "./Pages/Mainpage";
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+import RecoverPasswordPage from "./Pages/RecoverPasswordPage";
+import ChangePasswordPage from "./Pages/ChangePasswordPage";
+import LogoutPage from "./Pages/LogoutPage";
+import NewPostPage from "./Pages/NewPostPage";
 
 import Footer from "./components/Footer/Footer";
 

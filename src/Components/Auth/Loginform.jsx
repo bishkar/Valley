@@ -3,7 +3,7 @@ import './Auth.css';
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/auth.slice/login.slice';
-import ReactFacebookLogin from 'react-facebook-login';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 import { loginUserFacebook } from '../../redux/auth.slice/facebook.slice';
 
 import { Link } from 'react-router-dom';
