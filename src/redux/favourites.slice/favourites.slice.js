@@ -11,7 +11,7 @@ export const addToFavorites = createAsyncThunk(
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ article: payload.pk })
+      body: JSON.stringify({ article_id: payload.pk })
     });
     if (!response.ok) {
       throw new Error('Failed to add to favorites');
@@ -24,13 +24,13 @@ export const addToFavorites = createAsyncThunk(
 export const removeFromFavorites = createAsyncThunk(
   'favorites/removeFromFavorites',
   async (payload) => {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/', {
+    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/1/', {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ article: payload.pk })
+      body: JSON.stringify({ id: payload.pk })
     });
     if (!response.ok) {
       throw new Error('Failed to remove from favorites');
@@ -43,7 +43,7 @@ export const removeFromFavorites = createAsyncThunk(
 export const fetchFavorites = createAsyncThunk(
   'favorites/fetchFavorites',
   async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/', {
+    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/1/', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -70,8 +70,10 @@ const favoritesSlice = createSlice({
       })
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
         console.log('Removed from favorites:', action.payload);
-        // return state.filter((product) => product.pk !== action.payload.pk)
-        state.push(action.payload);
+        return state.filter((product) => {
+          product.pk !== action.payload.pk
+        })
+        // state.push(action.payload);
 
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "./PostItem.scss";
 import {
@@ -8,11 +8,10 @@ import {
 } from "../../redux/favourites.slice/favourites.slice";
 import { useState } from "react";
 
-export default function PostItem({ post }) {
+export default function PostItem({ post, isFavorited }) {
   const dispatch = useDispatch();
-  const { pk, original_title, image_urls } = post;
-  const favorites = useSelector((state) => state.favorites);
-  const isFavorited = favorites.some((favProduct) => favProduct.article === pk);
+  const { pk, en_title, image_urls, tags_name } = post;
+
   const [isFav, setIsFav] = useState(isFavorited);
 
   const handleAddToFavorites = () => {
@@ -25,23 +24,18 @@ export default function PostItem({ post }) {
       setIsFav(true);
     }
   };
-
   return (
     <div className="post__cart">
       <Link className="post__more" to={`/articles/${pk}`}>
         <img src={`http://127.0.0.1:8000${image_urls[0]}`} alt="try" />
         <div className="post__body">
-          <h4>{original_title}</h4>
+          <h4>{en_title}</h4>
           <ul className="postItem__tagList">
-            <li>
-              <p>#tagName</p>
-            </li>
-            <li>
-              <p>#tagName</p>
-            </li>
-            <li>
-              <p>#tagName</p>
-            </li>
+            {tags_name.map((tag, index) => (
+              <li key={index}>
+                <p>{tag}</p>
+              </li>
+            ))}
           </ul>
         </div>
       </Link>
@@ -56,6 +50,6 @@ export default function PostItem({ post }) {
 PostItem.propTypes = {
   post: PropTypes.shape({
     pk: PropTypes.number.isRequired,
-    original_title: PropTypes.string.isRequired,
+    en_title: PropTypes.string.isRequired,
   }).isRequired,
 };

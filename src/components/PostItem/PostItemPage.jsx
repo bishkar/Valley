@@ -17,7 +17,7 @@ const PostItemPage = () => {
       ) : (
         <>
           <Mainslider />
-          <h2 className="itemPage__title">{data.original_title}</h2>
+          <h2 className="itemPage__title">{data.en_title}</h2>
           <ul className="itemPage__tagList">
             <li>
               <p>#tagName</p>
@@ -37,11 +37,11 @@ const PostItemPage = () => {
               </a>
             </p>
           </div>
-          <p className="itemPage__content">{data.original_content}</p>
+          <p className="itemPage__content">{data.en_content}</p>
         </>
       )}
     </div>
   );
-}
+};
 
 export default PostItemPage;

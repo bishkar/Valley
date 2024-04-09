@@ -42,12 +42,12 @@ export default function Favourites() {
         ) : (
           <>
             {favorites?.slice(0, next)?.map((favPost, index) => {
-              const post = posts.find((post) => post.pk === favPost.article);
+              const post = posts.find((post) => post.pk === favPost.article.pk);
               if (post) {
                 return (
                   <FavouriteItem
                     key={index}
-                    postId={favPost.article}
+                    postId={favPost.article.pk}
                     handleRemoveFromFavorites={handleRemoveFromFavorites}
                   />
                 );
