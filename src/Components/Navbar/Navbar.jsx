@@ -47,11 +47,12 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-        <Link to="/">
-          <div className="logo">
-            <img src={logoImage} alt="" />
-          </div>
-        </Link>
+
+        <div className="logo">
+          <Link to="/">
+            <img src={logoImage} className="logo-image" alt="" />
+          </Link>
+        </div>
 
         <div className="nav-container">
           <div className="nav-header .right-header">

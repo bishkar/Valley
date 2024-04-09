@@ -1,0 +1,13 @@
+.editor-container {
+    width: 100%;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editor {
+    width: 990px;
+    border: 1px solid black;
+}
+

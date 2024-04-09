@@ -5,11 +5,11 @@ import Posts from "../components/Posts/Posts.jsx";
 
 export default function MainPage() {
   return (
-    <div>
+    <>
       <Mainslider />
       <Categorydiv />
       <CardSlider />
       <Posts />
-    </div>
+    </>
   );
 }

@@ -12,6 +12,7 @@ import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import LogoutPage from "./pages/LogoutPage";
 import CategoryResult from "./components/CategoryResult/CategoryResult.jsx";
+import NewPostPage from "./pages/NewPostPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/post/:postId" element={<PostItemPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/result/:nasaId" element={<ResultPost />} />
+        <Route path="/new-post" element={<NewPostPage />} />
       </Routes>
 
       <Footer />

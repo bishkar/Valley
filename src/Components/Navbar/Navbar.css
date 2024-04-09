@@ -54,11 +54,13 @@ ul {
     cursor: pointer;
     margin: 0;
     text-transform: uppercase;
+    border-radius: 25px;
+    padding: 5px;
 }
 
-/* .nav-link:hover {
-    background: rgb(191, 128, 251, 0.2);
-} */
+.nav-link:hover {
+    background-color: rgb(191, 128, 251, 0.2);
+}
 
 .nav-input {
     width: 100%;
@@ -69,11 +71,15 @@ ul {
 }
 
 .logo {
-    margin: 0px 20px 0px 20px;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(0px);
+    height: 100px;
 }
 
-.logo img {
+.logo-image {
     cursor: pointer;
 }
 

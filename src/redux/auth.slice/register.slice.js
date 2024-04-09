@@ -10,6 +10,12 @@ export const registerUser = createAsyncThunk('registration/registerUser', async 
   try {
     console.log(userData)
     const response = await axios.post('http://127.0.0.1:8000/api/v1/register/', userData);
+    console.log(response.data);
+    const access = response.data.access;
+    const refresh = response.data.refresh;
+    localStorage.setItem('loggedIn', true)
+    localStorage.setItem('accessToken', access);
+    localStorage.setItem('refreshToken', refresh);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -25,15 +31,12 @@ export const registrationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-        console.log('Registering user...');
         state.status = 'loading';
       })
       .addCase(registerUser.fulfilled, (state) => {
-        console.log('User registered successfully');
         state.status = 'succeeded';
       })
       .addCase(registerUser.rejected, (state, action) => {
-        console.log('Failed to register user');
         state.status = 'failed';
         state.error = action.payload;
       });

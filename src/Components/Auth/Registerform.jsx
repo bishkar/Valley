@@ -5,6 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import { useState } from "react";
 import { registerUser } from '../../redux/auth.slice/register.slice';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
@@ -26,7 +27,18 @@ const RegisterForm = () => {
             password2
         }
 
-        dispatch(registerUser(data));
+        dispatch(registerUser(data)).then((response) => {
+            if (response.payload) {
+                if (localStorage.getItem('accessToken')) {
+                    console.log('logged in');
+                    window.location.href = '/';
+                }
+                console.log('not logged in');
+            }
+        })
+
+        
+
     }
 
 
@@ -46,6 +58,11 @@ const RegisterForm = () => {
                 <input className="form-input" type="password" value={password2} onChange={(e) => setConfirmPassword(e.target.value)} />
 
                 <button type="submit" className="form-button">Continue</button>
+
+                <div className="content-container">
+                    <p>Already have an account? <Link to="/login" className="form-link">Login</Link></p>
+                </div>
+
             </form>
         </div>
     );
