@@ -4,10 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound, NotAcceptable
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from article.serializers import ArticleSerializer
+from rest_framework.permissions import IsAuthenticated
 from favourite.models import Favourite
-from article.models import Article
 from favourite.serializers import FavouriteSerializer, InfoSerializer
 
 
@@ -62,7 +60,7 @@ class FavouriteViewSet(mixins.CreateModelMixin,
         if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
             return Response(InfoSerializer({'status': 'failed', 'message': 'Favourite not found'}).data)
 
-        favourite = Favourite.objects.get(article_id=article_id, user=user_id)
+        favourite = Favourite.objects.get(article_id=article_id, user_id=user_id)
         favourite.delete()
 
     @action(detail=False, methods=['GET'], url_path='tag/(?P<tag_name>.+)')
