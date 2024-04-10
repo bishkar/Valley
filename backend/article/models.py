@@ -54,6 +54,10 @@ class Article(models.Model):
     @property
     def image_urls(self):
         return [image.image.url for image in self.images.all()]
+    
+    @property
+    def tags_name(self):
+        return [tag.name for tag in self.tags.all()]
 
 
 class Slider(models.Model):

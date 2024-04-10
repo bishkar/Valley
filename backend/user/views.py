@@ -28,7 +28,7 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
-    throttle_scope = 'email_auth'   
+    throttle_scope = 'email_auth'
 
     @extend_schema(
         description="Register a new user",
@@ -37,7 +37,7 @@ class RegisterView(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-    
+
         user = User.objects.get(email=request.data['email'])
         token = MyTokenObtainPairSerializer.get_token(user)
 
@@ -104,8 +104,9 @@ class PasswordResetConfirmView(generics.UpdateAPIView):
     )
     def put(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))
-
-        if user.restore_token == request.data.get('restore_token') and user.otp_expiry > timezone.now():
+        restore_token = request.data.get('restore_token')
+        if (user.restore_token and user.
+                user.restore_token == restore_token and user.otp_expiry > timezone.now()):
             user.restore_token = None
 
             user.set_password(request.data.get('password'))
@@ -121,6 +122,7 @@ class CheckOTPView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserVerifySerializer
     permission_classes = (AllowAny,)
+
     # search_fields = ['otp', 'email']
 
     @extend_schema(
@@ -135,7 +137,7 @@ class CheckOTPView(generics.RetrieveAPIView):
             user.otp = None
             user.restore_token = uuid.uuid4()
             user.otp_expiry = timezone.now() + timezone.timedelta(minutes=30)
-
+            user.save()
             return Response({'status': 'success', "restore_token": user.restore_token}, status=status.HTTP_200_OK)
         else:
             return Response({'status': 'Failed', 'message': "OTP is not valid or expired"},
