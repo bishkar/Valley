@@ -56,7 +56,9 @@ class FavouriteViewSet(mixins.CreateModelMixin,
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
+        print(kwargs)
         article_id = request.data.get('id')
+        print(article_id)
         user_id = request.user.id
 
         if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
@@ -64,7 +66,7 @@ class FavouriteViewSet(mixins.CreateModelMixin,
 
         favourite = Favourite.objects.get(article_id=article_id, user_id=user_id)
         favourite.delete()
-
+        return Response(InfoSerializer({'status': 'success', 'message': 'Favourite deleted'}).data)
     @action(detail=False, methods=['GET'], url_path='tag/(?P<tag_name>.+)')
     def get_favourites_by_tag(self, request, tag_name):
         user = request.user
