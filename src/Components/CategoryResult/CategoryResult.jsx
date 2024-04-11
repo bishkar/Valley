@@ -1,44 +1,49 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts, selectPosts } from "../../redux/posts.slice/posts.slice";
 import CategoryResultItem from "./CategoryResultItem";
+import useFetch from "../../hooks/useFetch";
 import "./Category.scss";
 import Mainslider from "../Sliders/MainSlider/MainSlider";
+import { useState } from "react";
 
 export default function CategoryResult() {
   const { categoryId } = useParams();
-  const dispatch = useDispatch();
-  const { posts } = useSelector(selectPosts);
   const postPerRow = 15;
   const [next, setNext] = useState(postPerRow);
 
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+  const { data, error, loading } = useFetch(
+    `http://127.0.0.1:8000/api/v1/articles/?en_category=${categoryId}`
+  );
 
   const handleMorePosts = () => {
     setNext(next + postPerRow);
   };
 
+  if (error) {
+    return <div>Oops there is a mistake</div>;
+  }
+
   return (
     <>
-      <Mainslider />
-      <div className="category__container">
-        <h1>Posts</h1>
-        <div className="favourite__cards">
-          {posts?.slice(0, next)?.map((post, index) => {
-            if (post.category == categoryId) {
-              return <CategoryResultItem key={index} post={post} />;
-            }
-          })}
-        </div>
-        {next < posts?.length && (
-          <button className="loadMoreBtn" onClick={handleMorePosts}>
-            more...
-          </button>
-        )}
-      </div>
+      {loading ? (
+        <div>loading data</div>
+      ) : (
+        <>
+          <Mainslider />
+          <div className="category__container">
+            <h1>Posts</h1>
+            <div className="favourite__cards">
+              {data?.slice(0, next)?.map((post, index) => (
+                <CategoryResultItem key={index} post={post} />
+              ))}
+            </div>
+            {next < data?.length && (
+              <button className="loadMoreBtn" onClick={handleMorePosts}>
+                more...
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </>
   );
 }

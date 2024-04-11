@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import Mainslider from "../Sliders/MainSlider/MainSlider";
 import "./PostItem.scss";
@@ -27,10 +27,10 @@ const PostItemPage = () => {
           </ul>
           <div className="link__to__product">
             <p>
-              Link to the product:{" "}
-              <a href={data.link_to_product} target="_blank">
+              Link to the product:
+              <Link to={data.link_to_product} target="_blank">
                 {data.link_to_product}
-              </a>
+              </Link>
             </p>
           </div>
           <p className="itemPage__content">{data.en_content}</p>

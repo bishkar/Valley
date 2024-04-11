@@ -3,27 +3,33 @@ import {
   fetchFavorites,
   removeFromFavorites,
 } from "../../redux/favourites.slice/favourites.slice";
-import { fetchPosts, selectPosts } from "../../redux/posts.slice/posts.slice";
 import { useEffect, useState } from "react";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import {
+  fetchTagsByKeyword,
+  selectTags,
+} from "../../redux/tags.slice/tags.slice";
 import FavouriteItem from "./FavouriteItem";
 import "./Favourite.scss";
 
 export default function Favourites() {
   const dispatch = useDispatch();
-  const postPerRow = 9;
-  const [block] = useAutoAnimate();
-  const { posts } = useSelector(selectPosts);
   const favorites = useSelector((state) => state.favorites);
+  const tags = useSelector(selectTags);
+  const postPerRow = 9;
   const [next, setNext] = useState(postPerRow);
+  const [keyword, setKeyword] = useState("");
+  const filteredFavorites = keyword === "" ? favorites : tags;
 
   useEffect(() => {
     dispatch(fetchFavorites());
-    dispatch(fetchPosts());
-  }, [dispatch]);
+    if (keyword !== "") {
+      dispatch(fetchTagsByKeyword(keyword));
+    }
+  }, [dispatch, keyword]);
 
   const handleRemoveFromFavorites = (article) => {
     dispatch(removeFromFavorites(article));
+    dispatch(fetchTagsByKeyword(keyword));
     dispatch(fetchFavorites());
   };
 
@@ -34,31 +40,30 @@ export default function Favourites() {
   return (
     <div className="favourite__container">
       <h1>Favourite Page</h1>
-      <input className="fav__input" placeholder="#tagName"></input>
-
-      <div className="favourite__cards" ref={block}>
-        {favorites?.length == 0 ? (
+      <input
+        className="fav__input"
+        type="text"
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+      />
+      <div className="favourite__cards">
+        {favorites.length === 0 ? (
           <div>
             <h2>Your favourite page is empty</h2>
           </div>
         ) : (
           <>
-            {favorites?.slice(0, next)?.map((favPost, index) => {
-              const post = posts.find((post) => post.pk === favPost.article.pk);
-              if (post) {
-                return (
-                  <FavouriteItem
-                    key={index}
-                    postId={favPost.article.pk}
-                    handleRemoveFromFavorites={handleRemoveFromFavorites}
-                  />
-                );
-              }
-            })}
+            {filteredFavorites.slice(0, next).map((favPost, index) => (
+              <FavouriteItem
+                key={index}
+                postId={favPost.article.pk}
+                handleRemoveFromFavorites={handleRemoveFromFavorites}
+              />
+            ))}
           </>
         )}
       </div>
-      {next < favorites?.length && (
+      {next < filteredFavorites.length && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
           more...
         </button>

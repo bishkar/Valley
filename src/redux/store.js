@@ -3,7 +3,7 @@ import postsSliceReducer from './posts.slice/posts.slice';
 import favouriteSliceReducer from './favourites.slice/favourites.slice';
 import { imagesApi } from './api.slice/api.slice';
 import categorySliceReducer from './category.slice/category.slice';
-
+import tagsSliceReducer from './tags.slice/tags.slice';
 
 import resgistraionSliceReducer from './auth.slice/register.slice';
 import authSliceReducer from './auth.slice/login.slice';
@@ -16,6 +16,7 @@ export const store = configureStore({
     posts: postsSliceReducer,
     favorites: favouriteSliceReducer,
     category: categorySliceReducer,
+    tags: tagsSliceReducer,
     registration: resgistraionSliceReducer,
     auth: authSliceReducer,
     tokens: tokenSlice,
