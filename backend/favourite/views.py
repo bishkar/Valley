@@ -66,7 +66,8 @@ class FavouriteViewSet(mixins.CreateModelMixin,
     @action(detail=False, methods=['GET'], url_path='tag/(?P<tag_name>.+)')
     def get_favourites_by_tag(self, request, tag_name):
         user = request.user
-        favourites = Favourite.objects.filter(user=user, article__tags__name=tag_name)
+
+        favourites = Favourite.objects.filter(user=user, article__tags__name__icontains=tag_name)
 
         serializer = FavouriteSerializer(favourites, many=True)
 
