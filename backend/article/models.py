@@ -29,6 +29,7 @@ class Article(models.Model):
     it_content = models.TextField()
 
     link_to_product = models.URLField()
+    view_count = models.IntegerField(default=0)
 
     visible = models.BooleanField(default=True)
 
@@ -69,3 +70,8 @@ class Slider(models.Model):
 class Category(models.Model):
     en_category = models.CharField(max_length=100)
     it_category = models.CharField(max_length=100, default='None')
+
+
+class UserUrlViewer(models.Model):
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    article = models.ForeignKey('Article', on_delete=models.CASCADE)

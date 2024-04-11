@@ -8,17 +8,18 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, parser_classes, action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.mixins import DestroyModelMixin
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import serializers
+from rest_framework import generics, mixins
 
-from article.models import Article, Slider, Category, Tag
+from article.models import Article, Slider, Category, Tag, UserUrlViewer
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer, CategorySerializer, TagSerializer
+    UploadArticleImageSerializer, CategorySerializer, TagSerializer, UrlViewCountSerializer
 
 from .filters import ArticleFilter
 from article.filters import ArticleFilter
@@ -172,4 +173,32 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [IsAdminUser]
+
+
+class UrlViewCountView(viewsets.ModelViewSet):
+    queryset = UserUrlViewer.objects.all()
+    serializer_class = UrlViewCountSerializer
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        try:
+            article = Article.objects.get(pk=pk)
+
+            if UserUrlViewer.objects.filter(user=request.user, article=article).exists():
+                return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            UserUrlViewer.objects.create(user=request.user, article=article)
+            article.view_count += 1
+            article.save()
+
+            return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
+        except Article.DoesNotExist:
+            return Response({'detail': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    
+
 
