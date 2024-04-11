@@ -64,6 +64,21 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
+REDIS_HOST = env.str("REDIS_HOST")
+REDIS_PORT = env.str("REDIS_PORT")
+REDIS_DB = env.str("REDIS_DB")
+REDIS_PASSWORD = env.str("REDIS_PASSWORD")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://{}:{}".format(REDIS_HOST, REDIS_PORT),
+        "OPTIONS": {
+            "db": REDIS_DB,
+        }
+    }
+}
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
@@ -101,14 +116,14 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_THROTTLE_RATES': {
         'refresh_token': '5/h',
-        'article': '100/m',
+        'article': '1000/m',
         'facebook_auth': '5/m',
         'favourite': '200/m',
         'email_auth': '5/m',
         'email_token_auth': '5/m',
         'password_reset_request': '20/d',
         'password_reset_confirm': '10/d',
-    }
+    },
 }
 
 
