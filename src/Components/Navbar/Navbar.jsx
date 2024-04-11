@@ -78,7 +78,7 @@ const Navbar = () => {
             )}
           </div>
           <ul className="nav-list nav-under">
-            {category?.slice(3)?.map((item, index) => (
+            {category?.slice(3, 6)?.map((item, index) => (
               <li key={index}>
                 <CategoryItem key={item.pk} category={item} />
               </li>
