@@ -5,19 +5,20 @@ import savedImage from "./../../assets/Icons/Saved/Saved.svg";
 import loginImage from "./../../assets/Icons/Profile/Login.svg";
 import logoutImage from "./../../assets/Icons/Profile/Logout.svg";
 // import settingsImage from "./../../assets/Icons/Profile/Settings.svg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategory,
   selectCategory,
 } from "../../redux/category.slice/category.slice";
 import CategoryItem from "../Category/CategoryItem";
-
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { category } = useSelector(selectCategory);
+  const [searchTerm, setSearchTerm] = useState("");
+
   let loggedIn = localStorage.getItem("loggedIn");
 
   useEffect(() => {
@@ -37,7 +38,19 @@ const Navbar = () => {
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-header">
-            <input type="text" className="nav-input" />
+            <input
+              type="text"
+              className="nav-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm === "" ? (
+              console.log("enter the text")
+            ) : (
+              <Link to={`/search/result/${searchTerm}`}>
+                <button>Search</button>
+              </Link>
+            )}
           </div>
           <ul className="nav-list nav-under">
             {category?.slice(0, 3)?.map((item, index) => (

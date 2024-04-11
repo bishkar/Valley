@@ -8,7 +8,7 @@ import SearchResults from "../components/SearchResults/SearchResults";
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState(skipToken);
 
-  const { data } = useSearchQuery(searchQuery);
+  const data = useSearchQuery(searchQuery);
 
   function handleSearch(searchValue) {
     setSearchQuery(searchValue);

@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 export default function SearchResult({ item }) {
-  // console.log(item);
   return (
-    <Box>
-      <Link to={`/result/${item.data[0].nasa_id}`}>
-        <Box
-          component="img"
-          sx={{
-            maxWidth: "100%",
-          }}
-          src={item.links[0].href}
-          alt={item.data[0].description}
-        ></Box>
-        <Typography>{item.data[0].title}</Typography>
+    <div className="category__card">
+      <Link className="post__more" to={`/articles/${item.pk}`}>
+        <img src={`http://127.0.0.1:8000${item.image_urls[0]}`} alt="try" />
+        <div className="category__body">
+          <h4>{item.en_title}</h4>
+          <ul className="postItem__tagList">
+            {item.tags_name.map((tag, index) => (
+              <li key={index}>
+                <p>{tag}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Link>
-    </Box>
+    </div>
   );
 }
