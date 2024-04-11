@@ -39,7 +39,7 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, blank=True, null=True)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None

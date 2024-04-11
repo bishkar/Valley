@@ -19,6 +19,7 @@ from article.models import Article, Slider, Category, Tag
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
     UploadArticleImageSerializer, CategorySerializer, TagSerializer
+
 from .filters import ArticleFilter
 from article.filters import ArticleFilter
 
