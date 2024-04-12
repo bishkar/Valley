@@ -178,9 +178,17 @@ class TagViewSet(viewsets.ModelViewSet):
 class UrlViewCountView(viewsets.ModelViewSet):
     queryset = UserUrlViewer.objects.all()
     serializer_class = UrlViewCountSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
+    http_method_names = ['get', 'post'] 
 
-    def update(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
+        article_id = kwargs.get('pk')
+        articles_count = UserUrlViewer.objects.filter(article=article_id).count()
+
+        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)
+            
+
+    def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
 
         try:
@@ -190,15 +198,17 @@ class UrlViewCountView(viewsets.ModelViewSet):
                 return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
             
             UserUrlViewer.objects.create(user=request.user, article=article)
-            article.view_count += 1
-            article.save()
 
             return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
+        
         except Article.DoesNotExist:
             return Response({'detail': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
+        
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+    def list(self, request, *args, **kwargs):
+        return Response({'detail': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
 
 

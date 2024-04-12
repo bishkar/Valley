@@ -29,7 +29,6 @@ class Article(models.Model):
     it_content = models.TextField()
 
     link_to_product = models.URLField()
-    view_count = models.IntegerField(default=0)
 
     visible = models.BooleanField(default=True)
 
