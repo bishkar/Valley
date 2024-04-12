@@ -20,7 +20,7 @@ from rest_framework import serializers
 from article.models import Article, Slider, Category, Tag
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer, CategorySerializer, TagSerializer
+    UploadArticleImageSerializer, CategorySerializer, TagSerializer, ShortArticleSerializer
 from .filters import ArticleFilter
 from article.filters import ArticleFilter
 from .pagination import ArticlesResultsSetPagination
@@ -60,7 +60,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     pagination_class = ArticlesResultsSetPagination
 
     queryset = Article.objects.filter(visible=True).order_by('created_at')
-    serializer_class = ArticleSerializer
+    # serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
     search_fields = ['en_title', 'it_title', 'en_content', 'it_content']
 
@@ -68,6 +68,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
     filterset_class = ArticleFilter
     http_method_names = ['get', 'post', 'put', 'delete']
     throttle_scope = 'article'
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ShortArticleSerializer
+        return ArticleSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -81,7 +86,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 15 ))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     # @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated], url_path='user/tag',
