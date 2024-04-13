@@ -185,8 +185,7 @@ class UrlViewCountView(viewsets.ModelViewSet):
         article_id = kwargs.get('pk')
         articles_count = UserUrlViewer.objects.filter(article=article_id).count()
 
-        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)
-            
+        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)  
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
