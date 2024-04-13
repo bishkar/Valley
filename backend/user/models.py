@@ -47,7 +47,7 @@ class User(AbstractUser):
         }
 
     @staticmethod
-    def get_or_create_social_user(provider, email, name, password):
+    def get_or_create_social_user(provider, email, name, secret_token):
         get_user_by_email = User.objects.filter(email=email)
         if get_user_by_email.exists():
             get_user_by_email = get_user_by_email.first()
@@ -61,6 +61,6 @@ class User(AbstractUser):
         second_name = name[1]
 
         user = User.objects.create(email=email, first_name=first_name, last_name=second_name, provider=provider)
-        user.set_password(password)
+        user.set_password(secret_token)
         user.save()
         return user 

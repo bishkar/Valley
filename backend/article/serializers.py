@@ -4,6 +4,13 @@ from rest_framework import serializers
 from article.models import Article, Slider, ArticleImage, Category, Tag, UserUrlViewer
 
 
+class ShortArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name']
+        read_only_fields = ['created_at', 'pk', 'tags_name']
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     image_urls = serializers.SerializerMethodField('get_image_urls')
 

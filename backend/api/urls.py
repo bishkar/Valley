@@ -5,7 +5,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_nested import routers
-from api.views import UserTokenRefreshView
+from api.views import UserTokenRefreshView, CustomEmailTokenObtainView
 from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet, CategoryViewSet,\
     UrlViewCountView
 from favourite.views import FavouriteViewSet # UserFavouriteTag
@@ -37,7 +37,7 @@ router.register('url-view-count', UrlViewCountView, basename='url-view-count')
 # domains_router.register(r'user', UserFavouriteTag, basename='domain-nameservers')
 
 urlpatterns = [
-    path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/email/", CustomEmailTokenObtainView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", UserTokenRefreshView.as_view(), name="token_refresh"),
     path("token/facebook/", include('facebook_auth.urls')),
 
@@ -45,7 +45,7 @@ urlpatterns = [
 
     # reset password
     path("reset-password/request/<str:email>/", PasswordResetRequestView.as_view(), name="password_reset_request"),
-    path("reset-password/verify/otp/<str:email>/<str:restore_token>/", CheckOTPView.as_view(), name="password_verify_otp"),
+    path("reset-password/verify/otp/<str:email>/<str:otp>/", CheckOTPView.as_view(), name="password_verify_otp"),
     path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
 
     # favourite
