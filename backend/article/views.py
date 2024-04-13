@@ -1,6 +1,7 @@
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from drf_yasg import openapi
@@ -10,6 +11,7 @@ from rest_framework.decorators import api_view, parser_classes, action
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.mixins import DestroyModelMixin
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
@@ -18,9 +20,10 @@ from rest_framework import serializers
 from article.models import Article, Slider, Category, Tag
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer, CategorySerializer, TagSerializer
+    UploadArticleImageSerializer, CategorySerializer, TagSerializer, ShortArticleSerializer
 from .filters import ArticleFilter
 from article.filters import ArticleFilter
+from .pagination import ArticlesResultsSetPagination
 
 
 # region Documentations
@@ -54,14 +57,22 @@ from article.filters import ArticleFilter
 )
 # endregion
 class ArticleViewSet(viewsets.ModelViewSet):
+    pagination_class = ArticlesResultsSetPagination
+
     queryset = Article.objects.filter(visible=True).order_by('created_at')
-    serializer_class = ArticleSerializer
+    # serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
     search_fields = ['en_title', 'it_title', 'en_content', 'it_content']
+
     filter_backends = [SearchFilter, DjangoFilterBackend]
     filterset_class = ArticleFilter
     http_method_names = ['get', 'post', 'put', 'delete']
     throttle_scope = 'article'
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ShortArticleSerializer
+        return ArticleSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -75,6 +86,9 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @method_decorator(cache_page(60 * 15 ))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
     # @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated], url_path='user/tag',
     #         url_name='user/tag')
     # def get_favourites_by_tag(self, request, pk=None):
