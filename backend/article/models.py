@@ -39,7 +39,7 @@ class Article(models.Model):
 
     on_top = models.BooleanField(default=False)
 
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, blank=True, null=True)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -69,3 +69,8 @@ class Slider(models.Model):
 class Category(models.Model):
     en_category = models.CharField(max_length=100)
     it_category = models.CharField(max_length=100, default='None')
+
+
+class UserUrlViewer(models.Model):
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    article = models.ForeignKey('Article', on_delete=models.CASCADE)

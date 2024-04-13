@@ -123,7 +123,8 @@ REST_FRAMEWORK = {
         'email_token_auth': '5/m',
         'password_reset_request': '20/d',
         'password_reset_confirm': '10/d',
-    },
+        'url_view_count': '1/y',
+    }
 }
 
 
