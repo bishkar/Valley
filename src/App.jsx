@@ -1,7 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import PostItemPage from "./components/PostItem/PostItemPage";
-import ResultPost from "./pages/ResultPost";
-import SearchPage from "./pages/SearchPage";
 import Mainpage from "./pages/Mainpage";
 import LoginPage from "./pages/LoginPage";
 import FavouritePage from "./pages/FavouritePage";
@@ -14,6 +12,7 @@ import LogoutPage from "./pages/LogoutPage";
 import CategoryResult from "./components/CategoryResult/CategoryResult.jsx";
 import NewPostPage from "./pages/NewPostPage";
 import SearchResults from "./components/SearchResults/SearchResults.jsx";
+import TagsSearch from "./components/TagsSearch/TagsSearch.jsx";
 
 function App() {
   return (
@@ -34,9 +33,8 @@ function App() {
           element={<ChangePasswordPage />}
         />
         <Route path="/post/:postId" element={<PostItemPage />} />
-        <Route path="/search" element={<SearchPage />} />
         <Route path="/search/result/:searchTerm" element={<SearchResults />} />
-        <Route path="/result/:nasaId" element={<ResultPost />} />
+        <Route path="/search/tags/:searchTags" element={<TagsSearch />} />
         <Route path="/new-post" element={<NewPostPage />} />
       </Routes>
 

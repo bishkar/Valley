@@ -13,7 +13,9 @@ export default function CategoryResultItem({ post }) {
           <ul className="postItem__tagList">
             {tags_name.map((tag, index) => (
               <li key={index}>
-                <p>{tag}</p>
+                <Link className="post__more" to={`/search/tags/${tag}`}>
+                  <p>{tag}</p>
+                </Link>
               </li>
             ))}
           </ul>

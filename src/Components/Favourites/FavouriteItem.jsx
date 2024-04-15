@@ -28,7 +28,7 @@ export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
               <ul className="postItem__tagList">
                 {data.tags_name.map((tag, index) => (
                   <li key={index}>
-                    <Link className="post__more" to={`/articles/${postId}`}>
+                    <Link className="post__more" to={`/search/tags/${tag}`}>
                       <p>{tag}</p>
                     </Link>
                   </li>

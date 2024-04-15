@@ -32,7 +32,7 @@ export default function CategoryResult() {
           <div className="category__container">
             <h1>Posts</h1>
             <div className="favourite__cards">
-              {data?.slice(0, next)?.map((post, index) => (
+              {data.results?.slice(0, next)?.map((post, index) => (
                 <CategoryResultItem key={index} post={post} />
               ))}
             </div>

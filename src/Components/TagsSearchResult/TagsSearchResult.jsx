@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function SearchResult({ item }) {
+export default function TagsSearchResult({ item }) {
   return (
     <div className="category__card">
       <Link className="post__more" to={`/articles/${item.pk}`}>

@@ -30,7 +30,7 @@ export default function Posts() {
       <div className="posts__body">
         <div className="post__container">
           <div className="vl"></div>
-          {posts?.slice(0, next)?.map((post, index) => {
+          {posts.results?.slice(0, next)?.map((post, index) => {
             const isFavorited = favorites.some(
               (favProduct) => favProduct.article.pk === post.pk
             );
@@ -40,7 +40,7 @@ export default function Posts() {
           })}
         </div>
       </div>
-      {next < posts?.length && (
+      {next < posts.results?.length && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
           more...
         </button>

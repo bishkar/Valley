@@ -21,7 +21,9 @@ const PostItemPage = () => {
           <ul className="itemPage__tagList">
             {data.tags_name.map((tag, index) => (
               <li key={index}>
-                <p>{tag}</p>
+                <Link className="post__more" to={`/search/tags/${tag}`}>
+                  <p>{tag}</p>
+                </Link>
               </li>
             ))}
           </ul>

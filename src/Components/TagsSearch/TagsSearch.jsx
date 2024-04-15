@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import SearchResult from "../SearchResult/SearchResult";
+import TagsSearchResult from "../TagsSearchResult/TagsSearchResult";
 import {
-  searchArticles,
-  selectArticles,
-} from "../../redux/articleSearch.slice/articleSearch.slice";
+  searchTagsArticles,
+  selectArticlesTags,
+} from "../../redux/articleTagsSearch.slice/articleTagsSearch.slice";
 
-export default function SearchResults() {
+export default function TagsSearchj() {
   const dispatch = useDispatch();
-  const { searchTerm } = useParams();
-  const { articles, loading, error } = useSelector(selectArticles);
+  const { searchTags } = useParams();
+  const { articlesTags, loading, error } = useSelector(selectArticlesTags);
   const postPerRow = 15;
   const [next, setNext] = useState(postPerRow);
 
@@ -19,8 +19,8 @@ export default function SearchResults() {
   };
 
   useEffect(() => {
-    dispatch(searchArticles(searchTerm));
-  }, [dispatch, searchTerm]);
+    dispatch(searchTagsArticles(searchTags));
+  }, [dispatch, searchTags]);
 
   if (error) {
     return <div>Oops there is a mistake</div>;
@@ -33,17 +33,19 @@ export default function SearchResults() {
   return (
     <>
       <div className="category__container">
-        <h1>Result({articles.count})</h1>
-        {articles.length === 0 ? (
+        <h1>
+          {searchTags} ({articlesTags.count})
+        </h1>
+        {articlesTags.results?.length === 0 ? (
           <div>There are no articles on this topic</div>
         ) : (
           <>
             <div className="favourite__cards">
-              {articles.results?.slice(0, next)?.map((post, index) => (
-                <SearchResult key={index} item={post} />
+              {articlesTags.results?.slice(0, next)?.map((post, index) => (
+                <TagsSearchResult key={index} item={post} />
               ))}
             </div>
-            {next < articles.results?.length && (
+            {next < articlesTags.results?.length && (
               <button className="loadMoreBtn" onClick={handleMorePosts}>
                 more...
               </button>
