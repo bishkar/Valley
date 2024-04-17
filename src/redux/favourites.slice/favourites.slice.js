@@ -79,7 +79,7 @@ const favoritesSlice = createSlice({
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         console.log('Fetched favorites:', action.payload);
         return action.payload;
-      });
+      })
   },
 });
 

@@ -11,11 +11,8 @@ import { useState } from "react";
 export default function PostItem({ post, isFavorited }) {
   const dispatch = useDispatch();
   const { pk, en_title, image_urls, tags_name } = post;
-  // const favorites = useSelector((state) => state.favorites);
-
-  // console.log("Fav", favorites);
-
   const [isFav, setIsFav] = useState(isFavorited);
+  const loggedIn = localStorage.getItem("loggedIn");
 
   const handleAddToFavorites = () => {
     if (isFav) {
@@ -27,6 +24,7 @@ export default function PostItem({ post, isFavorited }) {
       setIsFav(true);
     }
   };
+
   return (
     <div className="post__cart">
       <Link className="post__more" to={`/articles/${pk}`}>
@@ -44,7 +42,9 @@ export default function PostItem({ post, isFavorited }) {
           </ul>
         </div>
       </Link>
+
       <button
+        style={{ display: loggedIn === "true" ? "block" : "none" }}
         className={`heart__img ${isFav ? "active__favourite" : ""}`}
         onClick={handleAddToFavorites}
       />

@@ -11,6 +11,7 @@ export default function Posts() {
   const postPerRow = 4;
   const [next, setNext] = useState(postPerRow);
   const favorites = useSelector((state) => state.favorites);
+  console.log(favorites);
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -31,9 +32,9 @@ export default function Posts() {
         <div className="post__container">
           <div className="vl"></div>
           {posts.results?.slice(0, next)?.map((post, index) => {
-            const isFavorited = favorites.some(
-              (favProduct) => favProduct.article.pk === post.pk
-            );
+            const isFavorited = favorites.some((favProduct) => {
+              return favProduct.article.pk === post.pk;
+            });
             return (
               <PostItem key={index} post={post} isFavorited={isFavorited} />
             );

@@ -1,60 +1,75 @@
-import imageOne from "../../../assets/FromFigma/Slider1.jpg";
-import imageTwo from "../../../assets/FromFigma/Slider2.webp";
-import imageThree from "../../../assets/FromFigma/Slider3.jpg";
-import arrowForward from "../../../assets/Icons/Arrows/ArrowForward.svg";
-import arrowBackward from "../../../assets/Icons/Arrows/ArrowBack.svg";
-import { Slide } from "react-slideshow-image";
-import "react-slideshow-image/dist/styles.css";
-import "./MainSlider.css";
+import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+import "./MainSlider.scss";
+import useFetch from "../../../hooks/useFetch";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Mainslider() {
-  const images = [imageOne, imageTwo, imageThree];
+  const { data, error, loading } = useFetch(
+    `http://127.0.0.1:8000/api/v1/slider/`
+  );
+
+  const NextArrow = ({ onClick }) => {
+    return (
+      <div className="arrow next" onClick={onClick}>
+        <FaArrowRight />
+      </div>
+    );
+  };
+
+  const PrevArrow = ({ onClick }) => {
+    return (
+      <div className="arrow prev" onClick={onClick}>
+        <FaArrowLeft />
+      </div>
+    );
+  };
+
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const settings = {
+    centerMode: true,
+    infinite: true,
+    slidesToShow: 1,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 2000,
+    rows: 1,
+    slidesPerRow: 1,
+    centerPadding: "0px",
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    variableWidth: true,
+    beforeChange: (current, next) => setImageIndex(next),
+  };
+
+  if (error) return <h1 style={{ color: "red" }}>An error!!!</h1>;
+
+  if (loading) return <h1>loading</h1>;
 
   return (
-    <div className="slider-cont">
-      <span className="slider-background"></span>
-      <div className="slider-container">
-        <Slide
-          className="slider"
-          prevArrow={
-            <div>
+    <div className="mainSlider__container">
+      <Slider {...settings}>
+        {data?.map((post, idx) => (
+          <div
+            key={idx}
+            className={
+              idx === imageIndex ? "slide activeSlide" : "slide deactiveSlide"
+            }
+          >
+            <Link to={`/post/${post.id}`}>
               <img
-                className="custom-arrow prev-arrow"
-                src={arrowBackward}
-                alt=""
+                src={post.big_image}
+                alt={post.id}
+                className="slide__image"
               />
-            </div>
-          }
-          nextArrow={
-            <div>
-              <img
-                className="custom-arrow next-arrow"
-                src={arrowForward}
-                alt=""
-              />
-            </div>
-          }
-        >
-          <div className="each-slide-effect">
-            <div
-              style={{ backgroundImage: `url(${images[0]})` }}
-              className="slide-image"
-            ></div>
+            </Link>
           </div>
-          <div className="each-slide-effect">
-            <div
-              style={{ backgroundImage: `url(${images[1]})` }}
-              className="slide-image"
-            ></div>
-          </div>
-          <div className="each-slide-effect">
-            <div
-              style={{ backgroundImage: `url(${images[2]})` }}
-              className="slide-image"
-            ></div>
-          </div>
-        </Slide>
-      </div>
+        ))}
+      </Slider>
     </div>
   );
 }
