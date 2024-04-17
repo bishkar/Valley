@@ -18,6 +18,7 @@ from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, Us
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.utils import send_otp_mail, generate_otp
 import uuid
+from django.utils.translation import gettext as _
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -85,9 +86,9 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
             user.save()
             send_otp_mail(email, otp)
 
-            return Response({'status': 'success', 'message': 'OTP sent to your email'}, status=status.HTTP_200_OK)
+            return Response({'status': 'success', 'message': _('OTP sent to your email')}, status=status.HTTP_200_OK)
 
-        return Response({'status': 'success', 'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'status': 'failed', 'message': _('User not found')}, status=status.HTTP_404_NOT_FOUND)
 
 
 class PasswordResetConfirmView(generics.UpdateAPIView):

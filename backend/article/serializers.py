@@ -38,6 +38,7 @@ class UploadArticleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleImage
         fields = ['image', 'pk']
+        read_only_fields = ['pk']
 
 
 class SliderSerializer(serializers.ModelSerializer):

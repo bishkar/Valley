@@ -16,6 +16,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import serializers
+from django.utils.translation import gettext as _
 
 from article.models import Article, Slider, Category, Tag
 from article.permissions import IsAccountAdminOrReadOnly
@@ -176,7 +177,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         if Category.objects.filter(en_category=serializer.validated_data['en_category']).exists():
-            raise serializers.ValidationError({'detail': 'Category already exists'})
+            raise serializers.ValidationError({'detail': _('Category already exists')})
 
         serializer.save()
 
