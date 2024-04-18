@@ -9,7 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, parser_classes, action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.mixins import DestroyModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -18,10 +18,14 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from django.utils.translation import gettext as _
 
-from article.models import Article, Slider, Category, Tag
+from rest_framework import generics, mixins
+
+
+from article.models import Article, Slider, Category, Tag, UserUrlViewer
 from article.permissions import IsAccountAdminOrReadOnly
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer, CategorySerializer, TagSerializer, ShortArticleSerializer
+    UploadArticleImageSerializer, CategorySerializer, TagSerializer, UrlViewCountSerializer, ShortArticleSerializer
+
 from .filters import ArticleFilter
 from article.filters import ArticleFilter
 from .pagination import ArticlesResultsSetPagination
@@ -87,14 +91,14 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @method_decorator(cache_page(60 * 15 ))
+    # @method_decorator(cache_page(60 * 15 ))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
     @action(detail=False, methods=['get'], permission_classes=[AllowAny], url_path='on_top')
     def get_on_top(self, request):
         articles = Article.objects.filter(on_top=True)
-        serializer = ArticleSerializer(articles, many=True)
+        serializer = ShortArticleSerializer(articles, many=True)
         return Response(serializer.data)
 
 
@@ -184,4 +188,41 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [IsAdminUser]
+
+
+class UrlViewCountView(viewsets.ModelViewSet):
+    queryset = UserUrlViewer.objects.all()
+    serializer_class = UrlViewCountSerializer
+    permission_classes = [IsAdminUser]
+    http_method_names = ['get', 'post'] 
+
+    def retrieve(self, request, *args, **kwargs):
+        article_id = kwargs.get('pk')
+        articles_count = UserUrlViewer.objects.filter(article=article_id).count()
+
+        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)  
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        try:
+            article = Article.objects.get(pk=pk)
+
+            if UserUrlViewer.objects.filter(user=request.user, article=article).exists():
+                return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            UserUrlViewer.objects.create(user=request.user, article=article)
+
+            return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
+        
+        except Article.DoesNotExist:
+            return Response({'detail': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def list(self, request, *args, **kwargs):
+        return Response({'detail': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+
 
