@@ -13,10 +13,13 @@ from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.mixins import DestroyModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import serializers
+from django.utils.translation import gettext as _
+
 from rest_framework import generics, mixins
+
 
 from article.models import Article, Slider, Category, Tag, UserUrlViewer
 from article.permissions import IsAccountAdminOrReadOnly
@@ -88,17 +91,15 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @method_decorator(cache_page(60 * 15 ))
+    # @method_decorator(cache_page(60 * 15 ))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
-    # @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated], url_path='user/tag',
-    #         url_name='user/tag')
-    # def get_favourites_by_tag(self, request, pk=None):
-    #     print(pk)
-    #     tag = request.query_params.get('tag')
-    #     articles = Article.objects.filter(tags__slug=tag)
-    #     serializer = ArticleSerializer(articles, many=True)
-    #     return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny], url_path='on_top')
+    def get_on_top(self, request):
+        articles = Article.objects.filter(on_top=True)
+        serializer = ShortArticleSerializer(articles, many=True)
+        return Response(serializer.data)
 
 
 @parser_classes((MultiPartParser,))
@@ -178,7 +179,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         if Category.objects.filter(en_category=serializer.validated_data['en_category']).exists():
-            raise serializers.ValidationError({'detail': 'Category already exists'})
+            raise serializers.ValidationError({'detail': _('Category already exists')})
 
         serializer.save()
 

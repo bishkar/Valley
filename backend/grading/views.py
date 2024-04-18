@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 from .models import Grade
 from .serializers import GradeSerializer
+from django.utils.translation import gettext as _
 
 
 class GradeView(viewsets.ModelViewSet):
@@ -19,7 +20,7 @@ class GradeView(viewsets.ModelViewSet):
         article = serializer.validated_data['article']
 
         if Grade.objects.filter(user=user, article=article).exists():
-            return Response({'error': 'You have already graded this article'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': _('You have already graded this article')}, status=status.HTTP_400_BAD_REQUEST)
         
         serializer.save(user=self.request.user)
 

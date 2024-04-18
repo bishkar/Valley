@@ -7,7 +7,7 @@ from article.models import Article, Slider, ArticleImage, Category, Tag, UserUrl
 class ShortArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name']
+        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name', 'on_top']
         read_only_fields = ['created_at', 'pk', 'tags_name']
 
 
@@ -16,8 +16,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name',]
+        fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content', 'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name', 'on_top']
+
         extra_kwargs = {
             'images': {'write_only': True},
             'tags': {'write_only': True}
@@ -38,6 +38,7 @@ class UploadArticleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleImage
         fields = ['image', 'pk']
+        read_only_fields = ['pk']
 
 
 class UrlViewCountSerializer(serializers.ModelSerializer):
