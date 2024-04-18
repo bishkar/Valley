@@ -10,6 +10,8 @@ import authFacebookSlice from './auth.slice/facebook.slice';
 import restorePasswordSlice from './auth.slice/restorePassword.slice';
 import articleSearchSliceReducer from './articleSearch.slice/articleSearch.slice';
 import articleTagsSearchReducer from './articleTagsSearch.slice/articleTagsSearch.slice';
+// import getCategorySlice from './category.slice/getCategory.slice';
+import newPostSlice from './posts.slice/newpost.slice';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +26,8 @@ export const store = configureStore({
     tokens: tokenSlice,
     authFacebook: authFacebookSlice,
     restorePassword: restorePasswordSlice,
+    // category: getCategorySlice,
+    newpost: newPostSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -1,12 +1,23 @@
-import './Addtitle.css'
-
+// AddTitle.jsx
+import './Addtitle.css';
 import { useState } from 'react';
 
-const AddTitle = ({placeholder}) => {
+const AddTitle = ({ placeholder, setPostData, language }) => { // Додайте setPostData до параметрів компонента
     const [title, setTitle] = useState('');
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
+        if (language === 'en') {
+            setPostData((prevData) => ({
+                ...prevData,
+                en_title: e.target.value 
+            }));
+        } else {
+            setPostData((prevData) => ({
+                ...prevData,
+                it_title: e.target.value 
+            }));
+        }
     };
 
     return (
@@ -19,7 +30,7 @@ const AddTitle = ({placeholder}) => {
                 onChange={handleTitleChange}
             />
         </div>
-    )
-}
+    );
+};
 
 export default AddTitle;

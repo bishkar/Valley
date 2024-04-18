@@ -3,22 +3,25 @@ import './Auth.css';
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { changePassword } from '../../redux/auth.slice/restorePassword.slice';
+import ErrorMessage from './Errormessage';
 
 const ChangePasswordForm = () => {
     const dispatch = useDispatch();
 
     const [password, setPassword] = useState("");
     const [password1, setPassword1] = useState("");
+    const [errors, setErrors] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
         
         if (password !== password1) {
-            alert("Passwords do not match");
-            return;
-        } else if (password.length < 8) {
-            alert("Password must be at least 8 characters long");
-            return;
+            setErrors({ password: "Passwords do not match" });
+        } else if (password.length < 6 || password.length > 20) {
+            setErrors({ password: "Password must be between 6 and 20 characters" });
+        } else if (!passwordRegex.test(password)) {
+            setErrors({ password: "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character" });
         } else {
             const email = localStorage.getItem('email');
             const restore_token = localStorage.getItem('restore_token');
@@ -50,6 +53,7 @@ const ChangePasswordForm = () => {
                 <input className="form-input" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <label className="form-label" htmlFor="password">Password:</label>
                 <input className="form-input" type="password" value={password1} onChange={(e) => setPassword1(e.target.value)} />
+                {errors.password && <ErrorMessage message={errors.password} />}
 
                 <button type="submit" className="form-button">Change Password</button>
             </form>

@@ -1,4 +1,4 @@
-import './Addcontent.css'
+import "../Addcontent/Addcontent.css";
 
 import EditorJS from '@editorjs/editorjs';
 import Embed from '@editorjs/embed'
@@ -24,9 +24,78 @@ const EDITOR_JS_TOOLS = {
     header: Header,
 }
 
-const AddContent = ({setPostData}) => {
-    let editor = { isReady: false };
+const AddContentIT = ({setPostData}) => {
+    // const editor = new EditorJS({ 
+    //     holder: 'editorjs', 
+    //     tools: {
+    //         header: {
+    //             class: Header,
+    //             inlineToolbar: ['link'],
+    //             config: {
+    //                 placeholder: 'Enter a header',
+    //                 levels: [2, 3, 4],
+    //                 defaultLevel: 3
+    //             },
+    //         },
+    //         embed: {
+    //             class: Embed,
+    //             inlineToolbar: true,
+    //             config: {
+    //                 services: {
+    //                     youtube: true,
+    //                     coub: true
+    //                 }
+    //             }
+    //         },
+    //         list: {
+    //             class: List,
+    //             inlineToolbar: true,
+    //         },
+    //         warning: Warning,
+    //         code: Code,
+    //         linkTool: LinkTool,
+    //         image: {
+    //             class: Image,
+    //             config: {
+    //                 endpoints: {
+    //                     byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
+    //                     byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+    //                 }
+    //             }
+    //         },
+    //         raw: Raw,
+    //         paragraph: {
+    //             class: Paragraph,
+    //             inlineToolbar: true,
+    //         },
+    //         table: {
+    //             class: Table,
+    //             inlineToolbar: true,
+    //         },
+    //         quote: {
+    //             class: Quote,
+    //             inlineToolbar: true,
+    //             config: {
+    //                 quotePlaceholder: 'Enter a quote',
+    //                 captionPlaceholder: 'Quote\'s author',
+    //             },
+    //         },
+    //         marker: Marker,
+    //         checklist: {
+    //             class: CheckList,
+    //             inlineToolbar: true,
+    //         },
+    //         delimiter: Delimiter,
+    //         inlineCode: {
+    //             class: InlineCode,
+    //             inlineToolbar: true,
+    //         },
+    //         simpleImage: SimpleImage,
+    //     },
+        
+    // })
 
+    let editor = { isReady: false };
     useEffect(() => {
         if (!editor.isReady) {
             editor = new EditorJS({
@@ -62,10 +131,9 @@ const AddContent = ({setPostData}) => {
                                 class: Image,
                                 config: {
                                     endpoints: {
-                                        byFile: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your backend file uploader endpoint
-                                        byUrl: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your endpoint that provides uploading by Url
-                                    },
-                                    additionalRequestHeaders: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNDQ3MDQ1LCJpYXQiOjE3MTM0NDM0NDUsImp0aSI6IjQzNTA5Zjg0ZjlmMTQ3YzM4MTNmYTdmOTI5ZWY3MmI0IiwidXNlcl9pZCI6MTB9.fLy78_7r14DgVjAh2_CWRprH3YTSKs5qbSQHRLaTdxA"},
+                                        byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
+                                        byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+                                    }
                                 }
                             },
                             raw: Raw,
@@ -102,14 +170,14 @@ const AddContent = ({setPostData}) => {
                                 {
                                     type: "header",
                                     data: {
-                                        text: "English Content",
+                                        text: "Italian content",
                                         level: 2
                                     }
                                 },
                                 {
                                     type: "paragraph",
                                     data: {
-                                        text: "Paste your english content here"
+                                        text: "Paste your italian content here"
                                     }
                                 }
                             ]},
@@ -117,7 +185,7 @@ const AddContent = ({setPostData}) => {
                                 editor.save().then((outputData) => {
                                     setPostData((prevData) => ({
                                         ...prevData,
-                                        en_content: outputData,
+                                        it_content: outputData,
                                     }));
                                   }).catch((error) => {
                                     console.log('Saving failed: ', error)
@@ -136,4 +204,4 @@ const AddContent = ({setPostData}) => {
     );
 }
 
-export default AddContent;
+export default AddContentIT;

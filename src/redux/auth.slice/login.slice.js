@@ -20,7 +20,7 @@ export const loginUser = createAsyncThunk('auth/login', async ({ email, password
       localStorage.setItem('refreshToken', refresh);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+        throw error;
     }
 });
 
