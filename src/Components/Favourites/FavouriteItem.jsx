@@ -22,7 +22,7 @@ export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
       ) : (
         <div className="favourite__card">
           <Link className="post__more" to={`/articles/${postId}`}>
-            <img src={`http://127.0.0.1:8000${data.image_urls}`} />
+            <img src={`http://127.0.0.1:8000${data.image_urls[0]}`} />
             <div className="favourite__body">
               <h4>{data.en_title}</h4>
               <ul className="postItem__tagList">

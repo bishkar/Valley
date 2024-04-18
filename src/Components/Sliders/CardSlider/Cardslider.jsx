@@ -1,5 +1,6 @@
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
 import "./Cardslider.scss";
 
@@ -46,14 +47,16 @@ export default function CardSlider() {
         {data?.slice(0, 6).map((item, index) => {
           return (
             <div key={index} className="card">
-              <img
-                className="card__img"
-                src={`http://127.0.0.1:8000/${item.image_urls[0]}`}
-                alt=""
-              />
-              <div className="card__body">
-                <h3>{item.en_title}</h3>
-              </div>
+              <Link to={`/post/${item.pk}`}>
+                <img
+                  className="card__img"
+                  src={`http://127.0.0.1:8000/${item.image_urls[0]}`}
+                  alt=""
+                />
+                <div className="card__body">
+                  <h3>{item.en_title}</h3>
+                </div>
+              </Link>
             </div>
           );
         })}

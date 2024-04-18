@@ -10,8 +10,11 @@ import {
 export default function TagsSearchj() {
   const dispatch = useDispatch();
   const { searchTags } = useParams();
-  const { articlesTags, loading, error } = useSelector(selectArticlesTags);
+  const postPerRow = 6;
+  const { articlesTags, error } = useSelector(selectArticlesTags);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allArticles, setAllArticles] = useState([]);
+  const [next, setNext] = useState(postPerRow);
 
   useEffect(() => {
     dispatch(
@@ -22,17 +25,36 @@ export default function TagsSearchj() {
   }, [dispatch, searchTags, currentPage]);
 
   useEffect(() => {
-    if (articlesTags.count > articlesTags?.results.length) {
-      setCurrentPage(currentPage + 1);
+    setCurrentPage(1);
+    setNext(postPerRow);
+  }, [searchTags]);
+
+  useEffect(() => {
+    if (articlesTags?.results && articlesTags?.results?.length > 0) {
+      if (currentPage === 1) {
+        setAllArticles([...articlesTags.results]);
+      } else {
+        setAllArticles((prevPosts) => {
+          const newPosts = articlesTags.results.filter((post) => {
+            return !prevPosts.some((prevPost) => prevPost.pk === post.pk);
+          });
+          return [...prevPosts, ...newPosts];
+        });
+      }
     }
-  }, [articlesTags, currentPage]);
+  }, [articlesTags.results, currentPage]);
+
+  const handleMorePosts = () => {
+    if (next >= allArticles.length) {
+      setCurrentPage(currentPage + 1);
+      setNext(next + postPerRow);
+    } else {
+      setNext(next + postPerRow);
+    }
+  };
 
   if (error) {
     return <div>Oops there is a mistake</div>;
-  }
-
-  if (loading) {
-    return <h1>Loading</h1>;
   }
 
   return (
@@ -46,10 +68,15 @@ export default function TagsSearchj() {
         ) : (
           <>
             <div className="favourite__cards">
-              {articlesTags.results?.map((post, index) => (
+              {allArticles?.slice(0, next).map((post, index) => (
                 <TagsSearchResult key={index} item={post} />
               ))}
             </div>
+            {next < articlesTags?.count && (
+              <button className="loadMoreBtn" onClick={handleMorePosts}>
+                more...
+              </button>
+            )}
           </>
         )}
       </div>

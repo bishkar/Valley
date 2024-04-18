@@ -10,7 +10,7 @@ export default function TagsSearchResult({ item }) {
           <ul className="postItem__tagList">
             {item.tags_name.map((tag, index) => (
               <li key={index}>
-                <Link className="post__more" to={`/search/tags/${tag}`}>
+                <Link as="li" className="post__more" to={`/search/tags/${tag}`}>
                   <p>{tag}</p>
                 </Link>
               </li>

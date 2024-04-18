@@ -36,7 +36,6 @@ export default function Posts() {
     }
   }, [posts.results, currentPage]);
 
-  console.log(allPosts);
   const handleMorePosts = () => {
     if (next >= allPosts.length) {
       setCurrentPage(currentPage + 1);
