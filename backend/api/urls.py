@@ -13,6 +13,7 @@ from facebook_auth.views import FacebookApiView
 from grading.views import GradeView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
     CheckOTPView
+from translation.views import TranslateView
 
 # from api.views import secure_view
 
@@ -51,8 +52,8 @@ urlpatterns = [
     path("reset-password/verify/otp/<str:email>/<str:otp>/", CheckOTPView.as_view(), name="password_verify_otp"),
     path("reset-password/confirm/", PasswordResetConfirmView.as_view(), name="password_change"),
 
-    # favourite
-    # path("user/favourites/", FavouriteViewSet.as_view(), name="favourites"),
+    # translation
+    path("translate/", TranslateView.as_view(), name="translate"),
 
     # article image
     path("articles/image/upload", UploadArticleImageView.as_view(), name="upload_article_image"),
