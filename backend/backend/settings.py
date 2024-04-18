@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import environs
 from datetime import timedelta
@@ -64,7 +64,25 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
+REDIS_HOST = env.str("REDIS_HOST")
+REDIS_PORT = env.str("REDIS_PORT")
+REDIS_DB = env.str("REDIS_DB")
+REDIS_PASSWORD = env.str("REDIS_PASSWORD")
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://{}:{}".format(REDIS_HOST, REDIS_PORT),
+        "OPTIONS": {
+            "db": REDIS_DB,
+        }
+    }
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
 # SWAGGER_SETTINGS: dict[str, any] = {
 #     'OPERATIONS_SORTER': 'method',
 # }
@@ -85,7 +103,6 @@ REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
@@ -99,13 +116,14 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_THROTTLE_RATES': {
         'refresh_token': '5/h',
-        'article': '5/m',
+        'article': '1000/m',
         'facebook_auth': '5/m',
-        'favourite': '100/m',
+        'favourite': '200/m',
         'email_auth': '5/m',
         'email_token_auth': '5/m',
         'password_reset_request': '20/d',
         'password_reset_confirm': '10/d',
+        'url_view_count': '1/y',
     }
 }
 
@@ -187,7 +205,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-
+    "TOKEN_OBTAIN_SERIALIZER": "api.serializers.CustomTokenObtainPairSerializer",
 }
 
 # Internationalization

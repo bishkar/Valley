@@ -5,8 +5,9 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_nested import routers
-from api.views import UserTokenRefreshView
-from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet, CategoryViewSet
+from api.views import UserTokenRefreshView, CustomEmailTokenObtainView
+from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet, CategoryViewSet,\
+    UrlViewCountView
 from favourite.views import FavouriteViewSet # UserFavouriteTag
 from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
@@ -31,11 +32,12 @@ router.register(r'slider', SliderViewSet, basename='slider')
 router.register(r'category', CategoryViewSet, basename='category')
 router.register('tags', TagViewSet, basename='tags')
 router.register('favourites', FavouriteViewSet, basename='favourites')
+router.register('url-view-count', UrlViewCountView, basename='url-view-count')
 # domains_router = routers.NestedSimpleRouter(router, r'favourites', lookup='favourites')
 # domains_router.register(r'user', UserFavouriteTag, basename='domain-nameservers')
 
 urlpatterns = [
-    path("token/email/", EmailTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/email/", CustomEmailTokenObtainView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", UserTokenRefreshView.as_view(), name="token_refresh"),
     path("token/facebook/", include('facebook_auth.urls')),
 

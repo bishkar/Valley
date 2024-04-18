@@ -1,7 +1,14 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from article.models import Article, Slider, ArticleImage, Category, Tag
+from article.models import Article, Slider, ArticleImage, Category, Tag, UserUrlViewer
+
+
+class ShortArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name']
+        read_only_fields = ['created_at', 'pk', 'tags_name']
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -10,7 +17,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name']
+                  'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name',]
         extra_kwargs = {
             'images': {'write_only': True},
             'tags': {'write_only': True}
@@ -31,6 +38,12 @@ class UploadArticleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleImage
         fields = ['image', 'pk']
+
+
+class UrlViewCountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserUrlViewer
+        fields = ['article']
 
 
 class SliderSerializer(serializers.ModelSerializer):

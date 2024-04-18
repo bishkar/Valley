@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from article.models import Article
+from article.views import ArticleViewSet
 from article.serializers import ArticleSerializer
 from .models import Favourite
 
