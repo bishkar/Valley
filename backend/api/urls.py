@@ -9,6 +9,7 @@ from api.views import UserTokenRefreshView, CustomEmailTokenObtainView
 from article.views import ArticleViewSet, SliderViewSet, UploadArticleImageView, TagViewSet, CategoryViewSet
 from favourite.views import FavouriteViewSet # UserFavouriteTag
 from facebook_auth.views import FacebookApiView
+from grading.views import GradeView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
     CheckOTPView
 
@@ -31,6 +32,7 @@ router.register(r'slider', SliderViewSet, basename='slider')
 router.register(r'category', CategoryViewSet, basename='category')
 router.register('tags', TagViewSet, basename='tags')
 router.register('favourites', FavouriteViewSet, basename='favourites')
+router.register('grade', GradeView, basename='grade')
 # domains_router = routers.NestedSimpleRouter(router, r'favourites', lookup='favourites')
 # domains_router.register(r'user', UserFavouriteTag, basename='domain-nameservers')
 

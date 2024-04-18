@@ -27,7 +27,7 @@ msgstr "La categoria esiste già"
 
 #: .\favourite\views.py:62
 msgid "Favourite not found"
-msgstr ""
+msgstr "Preferito non trovato"
 
 #: .\favourite\views.py:66
 msgid "Favourite deleted"
