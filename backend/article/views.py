@@ -168,7 +168,7 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         image = serializer.save()
 
-        return Response({'image': image.image.url,
+        return Response({'url': image.image.url,
                          'pk': image.pk}, status=status.HTTP_201_CREATED)
 
 
