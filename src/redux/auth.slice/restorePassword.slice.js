@@ -11,12 +11,10 @@ const initialState = {
 
 export const sendCode = createAsyncThunk('auth/sendCode', async (data, { rejectWithValue }) => {
     try {
-        console.log(data)
         const response = await axios.get(`http://127.0.0.1:8000/api/v1/reset-password/request/${data}/`);
-        console.log(response.data)
         return response.data;
     } catch (error) {
-        return rejectWithValue(error.response.data);
+        throw error;
     }
 })
 
@@ -24,21 +22,19 @@ export const confirmCode = createAsyncThunk('auth/confirmCode', async (data, { r
     console.log(`http://127.0.0.1:8000/api/v1/verify/otp/${data.email}/${data.otp}/`)
     try {
         const response = await axios.get(`http://127.0.0.1:8000/api/v1/reset-password/verify/otp/${data.email}/${data.otp}/`);
-        console.log(response.data)
         return response.data;
     } catch (error) {
-        return rejectWithValue(error.response.data);
+        throw error;
     }
 })
 
+
 export const changePassword = createAsyncThunk('auth/changePassword', async (data, { rejectWithValue }) => {
     try {
-        console.log(data)
         const response = await axios.put('http://127.0.0.1:8000/api/v1/reset-password/confirm/', data);
-        console.log(response)
         return response.data;
     } catch (error) {
-        return rejectWithValue(error.response.data);
+        throw error;
     }
 })
 

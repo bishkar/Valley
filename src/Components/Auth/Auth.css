@@ -204,3 +204,17 @@
     height: 100vh;
     padding: 0 20px;
 }
+
+.error-message {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    color: #ff6b6b;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.error-message p {
+    margin: 0;
+}

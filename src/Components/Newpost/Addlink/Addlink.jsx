@@ -1,12 +1,17 @@
 import "./Addlink.css";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
-const AddLink = () => {
+const AddLink = ({ setPostData }) => {
     const [link, setLink] = useState("");
 
     const handleLinkChange = (e) => {
-        setLink(e.target.value);
+        const newLink = e.target.value;
+        setLink(newLink);
+        setPostData((prevData) => ({
+            ...prevData,
+            link_to_product: newLink,
+        }));
     };
 
     return (

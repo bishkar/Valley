@@ -4,13 +4,17 @@ import { useState } from 'react';
 
 import addImg from '../../../assets/Icons/Add/add.svg';
 
-const AddImage = ({setImages, images}) => {
-    // const [images, setImages] = useState([]);
+const AddImage = ({setPostData}) => {
+    const [images, setImages] = useState([]);
 
     const handleImageUpload = (e) => {
         const files = e.target.files;
         if (files.length > 0) {
             setImages([...images, files[0]]);
+            setPostData((prevData) => ({
+                ...prevData,
+                images: [...images, files[0]]
+            }));
         }
     };
 

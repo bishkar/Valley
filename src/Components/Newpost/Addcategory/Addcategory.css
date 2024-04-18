@@ -1,0 +1,18 @@
+.addcategory {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    gap: 20px;
+}
+
+.addcategory select {
+    width: 100%;
+    max-width: 990px;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: #f5f5f5;
+}
