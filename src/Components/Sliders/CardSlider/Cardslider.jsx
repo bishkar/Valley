@@ -1,14 +1,11 @@
-import "./Cardslider.scss";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import Slider from "react-slick";
 import useFetch from "../../../hooks/useFetch";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import "./Cardslider.scss";
 
 export default function CardSlider() {
   const { data, error, loading } = useFetch(
-    `http://127.0.0.1:8000/api/v1/slider/`
+    `http://127.0.0.1:8000/api/v1/articles/on_top/`
   );
 
   const NextArrow = ({ onClick }) => {
@@ -31,6 +28,7 @@ export default function CardSlider() {
     dots: true,
     infinite: true,
     autoplay: true,
+    autoplaySpeed: 3000,
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
@@ -45,12 +43,16 @@ export default function CardSlider() {
   return (
     <div className="card-slider">
       <Slider {...settings}>
-        {data?.map((item, index) => {
+        {data?.slice(0, 6).map((item, index) => {
           return (
             <div key={index} className="card">
-              <img className="card__img" src={item.big_image} alt="" />
+              <img
+                className="card__img"
+                src={`http://127.0.0.1:8000/${item.image_urls[0]}`}
+                alt=""
+              />
               <div className="card__body">
-                <h3>{item.title}</h3>
+                <h3>{item.en_title}</h3>
               </div>
             </div>
           );

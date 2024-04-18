@@ -1,7 +1,6 @@
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
-
 .mainSlider__container {
   width: 1300px;
   height: auto;
@@ -12,12 +11,10 @@
     width: auto !important;
   }
   
-  
   .slick-track {
     height: 580px;
+    text-align: center;
   }
-  
-  
   
   .slick-list {
     height: auto;
@@ -37,6 +34,7 @@
     opacity: 0.5;
   }
   
+  
   .activeSlide {
     transform: scale(1.2);
     opacity: 1;
@@ -49,7 +47,7 @@
     z-index: -1;
     overflow: hidden;
   }
-  
+
   .next {
     right: 105px;
     top: 45%;

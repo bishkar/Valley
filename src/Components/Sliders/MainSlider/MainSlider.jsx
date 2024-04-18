@@ -1,11 +1,9 @@
-import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-import "./MainSlider.scss";
-import useFetch from "../../../hooks/useFetch";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import useFetch from "../../../hooks/useFetch";
+import "./MainSlider.scss";
 
 export default function Mainslider() {
   const { data, error, loading } = useFetch(
@@ -35,14 +33,16 @@ export default function Mainslider() {
     infinite: true,
     slidesToShow: 1,
     autoplay: true,
+    focusOnSelect: true,
+    autoplaySpeed: 3000,
     speed: 500,
-    autoplaySpeed: 2000,
     rows: 1,
     slidesPerRow: 1,
     centerPadding: "0px",
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     variableWidth: true,
+    variableHeight: true,
     beforeChange: (current, next) => setImageIndex(next),
   };
 

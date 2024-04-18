@@ -11,16 +11,21 @@ export default function TagsSearchj() {
   const dispatch = useDispatch();
   const { searchTags } = useParams();
   const { articlesTags, loading, error } = useSelector(selectArticlesTags);
-  const postPerRow = 15;
-  const [next, setNext] = useState(postPerRow);
-
-  const handleMorePosts = () => {
-    setNext(next + postPerRow);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(searchTagsArticles(searchTags));
-  }, [dispatch, searchTags]);
+    dispatch(
+      searchTagsArticles(
+        `http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}&tag=${searchTags}`
+      )
+    );
+  }, [dispatch, searchTags, currentPage]);
+
+  useEffect(() => {
+    if (articlesTags.count > articlesTags?.results.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  }, [articlesTags, currentPage]);
 
   if (error) {
     return <div>Oops there is a mistake</div>;
@@ -36,20 +41,15 @@ export default function TagsSearchj() {
         <h1>
           {searchTags} ({articlesTags.count})
         </h1>
-        {articlesTags.results?.length === 0 ? (
+        {articlesTags?.count === 0 ? (
           <div>There are no articles on this topic</div>
         ) : (
           <>
             <div className="favourite__cards">
-              {articlesTags.results?.slice(0, next)?.map((post, index) => (
+              {articlesTags.results?.map((post, index) => (
                 <TagsSearchResult key={index} item={post} />
               ))}
             </div>
-            {next < articlesTags.results?.length && (
-              <button className="loadMoreBtn" onClick={handleMorePosts}>
-                more...
-              </button>
-            )}
           </>
         )}
       </div>

@@ -3,7 +3,6 @@ import "./Footer.css";
 import logoImage from "./../../assets/Logo/logo.svg";
 import instagramImage from "./../../assets/Icons/Social/Instagram.svg";
 import facebookImage from "./../../assets/Icons/Social/Facebook.svg";
-import whatsappImage from "./../../assets/Icons/Social/Whatsapp.svg";
 
 import { Link } from "react-router-dom";
 

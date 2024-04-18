@@ -10,28 +10,53 @@ export default function Posts() {
   const { posts, status } = useSelector(selectPosts);
   const postPerRow = 4;
   const [next, setNext] = useState(postPerRow);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [allPosts, setAllPosts] = useState([]);
   const favorites = useSelector((state) => state.favorites);
-  console.log(favorites);
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(
+      fetchPosts(`http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}`)
+    );
     dispatch(fetchFavorites());
-  }, [dispatch]);
+  }, [dispatch, currentPage]);
 
+  useEffect(() => {
+    if (posts?.results && posts?.results.length > 0) {
+      if (currentPage === 1) {
+        setAllPosts([...posts.results]);
+      } else {
+        setAllPosts((prevPosts) => {
+          const newPosts = posts.results.filter((post) => {
+            return !prevPosts.some((prevPost) => prevPost.pk === post.pk);
+          });
+          return [...prevPosts, ...newPosts];
+        });
+      }
+    }
+  }, [posts.results, currentPage]);
+
+  console.log(allPosts);
   const handleMorePosts = () => {
-    setNext(next + postPerRow);
+    if (next >= allPosts.length) {
+      setCurrentPage(currentPage + 1);
+      setNext(next + postPerRow);
+    } else {
+      setNext(next + postPerRow);
+    }
   };
 
   if (status === "failed") {
     return <h1>No posts 😢</h1>;
   }
+
   return (
     <>
       <h1 className="posts__title">Posts</h1>
       <div className="posts__body">
         <div className="post__container">
           <div className="vl"></div>
-          {posts.results?.slice(0, next)?.map((post, index) => {
+          {allPosts.slice(0, next).map((post, index) => {
             const isFavorited = favorites.some((favProduct) => {
               return favProduct.article.pk === post.pk;
             });
@@ -41,7 +66,7 @@ export default function Posts() {
           })}
         </div>
       </div>
-      {next < posts.results?.length && (
+      {next < posts?.count && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
           more...
         </button>

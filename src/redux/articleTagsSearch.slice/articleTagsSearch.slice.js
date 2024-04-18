@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const searchTagsArticles = createAsyncThunk(
   'articlesTags/searchTags',
   async (searchTags) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/articles/?tag=${searchTags}`);
+    const response = await fetch(searchTags);
     const data = await response.json();
     return data;
   }

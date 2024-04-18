@@ -6,8 +6,8 @@ const initialState = {
   status: null
 }
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  const data = await fetch("http://127.0.0.1:8000/api/v1/articles/",)
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (articleUrl) => {
+  const data = await fetch(articleUrl,)
     .then((res) => res.json())
 
   return data;
