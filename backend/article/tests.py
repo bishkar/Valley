@@ -27,32 +27,32 @@ class UserUrlViewerTest(APITestCase):
 
     def test_user_can_not_add_view(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-        response = self.client.post(self.url + f"{self.article.id}/", format='json')
+        response = self.client.post(self.url, data={"article" : self.article.id}, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_admin_can_add_view(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin_token))
-        response = self.client.post(self.url + f"{self.article.id}/", format='json')
+        response = self.client.post(self.url, data={"article" : self.article.id}, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_double_view(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin_token))
-        response = self.client.post(self.url + f"{self.article.id}/", format='json')
+        response = self.client.post(self.url, data={"article" : self.article.id}, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        response = self.client.post(self.url + f"{self.article.id}/", format='json')
+        response = self.client.post(self.url, data={"article" : self.article.id}, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_multiply_views(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin_token))
-        response = self.client.post(self.url + f"{self.article.id}/", format='json')
+        response = self.client.post(self.url, data={"article" : self.article.id}, format='json')
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin2_token))
-        response = self.client.post(self.url + f"{self.article.id}/", format='json')
+        response = self.client.post(self.url, data={"article" : self.article.id}, format='json')
 
         response = self.client.get(self.url + f"{self.article.id}/", format='json')
 
