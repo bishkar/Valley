@@ -45,7 +45,7 @@ class GradeView(viewsets.ModelViewSet):
             article.save()
         except Grade.DoesNotExist:
             Grade.objects.create(user=user, article_id=article_id, grade=grade)
-        return Response({'grades': grade})
+        return Response({'grade': grade})
     
     def destroy(self, request, pk=None, *args, **kwargs):
         article_id = pk
