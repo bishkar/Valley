@@ -65,3 +65,35 @@ class UserUrlViewerTest(APITestCase):
         User.objects.all().delete()
         
         self.client.logout()
+
+
+
+class TestRefreshToken(APITestCase):
+    def setUp(self):
+        self.url = "/api/v1/token/refresh/"
+
+        self.admin = User.objects.create_superuser(email="admin@admin.com", password="admin")
+        self.admin_token = RefreshToken.for_user(self.admin)
+
+    def test_refresh_token(self):
+        response = self.client.post(self.url, {"refresh": str(self.admin_token)}, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue('access' in response.data)
+
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(response.data['access']))
+        
+        response = self.client.post("/api/v1/url-view-count/" + f"{1}/", format='json')
+        self.assertFalse(response.status_code == status.HTTP_401_UNAUTHORIZED)
+
+    def test_invalid_token(self):
+        response = self.client.post(self.url, {"refresh": "INVALID_TOKEN"}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_no_token(self):
+        response = self.client.post(self.url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def tearDown(self):
+        User.objects.all().delete()
+        self.client.logout()
