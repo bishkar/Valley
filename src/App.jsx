@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 import PostItemPage from "./components/PostItem/PostItemPage";
-import Mainpage from "./pages/Mainpage";
-import LoginPage from "./pages/LoginPage";
-import FavouritePage from "./pages/FavouritePage";
+import Mainpage from "./pages/Mainpage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import FavouritePage from "./pages/FavouritePage.jsx";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer.jsx";
-import RegisterPage from "./pages/RegisterPage";
-import RecoverPasswordPage from "./pages/RecoverPasswordPage";
-import ChangePasswordPage from "./pages/ChangePasswordPage";
-import LogoutPage from "./pages/LogoutPage";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import RecoverPasswordPage from "./pages/RecoverPasswordPage.jsx";
+import ChangePasswordPage from "./pages/ChangePasswordPage.jsx";
+import LogoutPage from "./pages/LogoutPage.jsx";
 import CategoryResult from "./components/CategoryResult/CategoryResult.jsx";
-import NewPostPage from "./pages/NewPostPage";
+import NewPostPage from "./pages/NewPostPage.jsx";
 import SearchResults from "./components/SearchResults/SearchResults.jsx";
 import TagsSearch from "./components/TagsSearch/TagsSearch.jsx";
 

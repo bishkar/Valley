@@ -7,11 +7,13 @@ import {
   removeFromFavorites,
 } from "../../redux/favourites.slice/favourites.slice";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function PostItem({ post, isFavorited }) {
   const dispatch = useDispatch();
-  const { pk, en_title, image_urls, tags_name } = post;
+  const { pk, image_urls, tags_name } = post;
   const [isFav, setIsFav] = useState(isFavorited);
+  const { t } = useTranslation();
   const loggedIn = localStorage.getItem("loggedIn");
 
   const handleAddToFavorites = () => {
@@ -24,13 +26,12 @@ export default function PostItem({ post, isFavorited }) {
       setIsFav(true);
     }
   };
-
   return (
     <div className="post__cart">
       <Link className="post__more" to={`/articles/${pk}`}>
         <img src={`http://127.0.0.1:8000${image_urls[0]}`} alt="try" />
         <div className="post__body">
-          <h4>{en_title}</h4>
+          <h4>{t("parameters.postNameTitle", { data: post })}</h4>
           <ul className="postItem__tagList">
             {tags_name.map((tag, index) => (
               <li key={index}>

@@ -2,18 +2,21 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import useFetch from "../../hooks/useFetch";
 import "./Favourite.scss";
-
+import { useTranslation } from "react-i18next";
 export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/${postId}`
   );
-
+  const { t } = useTranslation();
+  //console.log(data);
+  // const { it_title, en_title } = data;
+  ///const { it_title, en_title } = { it_title: "aaa", en_title: "b" };
   const handleRemoveClick = () => {
     handleRemoveFromFavorites(data);
   };
 
   if (error) {
-    return <div>Oops there is a mistake</div>;
+    return <div>{t("Oops there is a mistake")}</div>;
   }
   return (
     <>
@@ -24,7 +27,7 @@ export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
           <Link className="post__more" to={`/articles/${postId}`}>
             <img src={`http://127.0.0.1:8000${data.image_urls[0]}`} />
             <div className="favourite__body">
-              <h4>{data.en_title}</h4>
+              <h4>{t("parameters.postTitle", { data: data })} </h4>
               <ul className="postItem__tagList">
                 {data.tags_name.map((tag, index) => (
                   <li key={index}>

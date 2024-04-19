@@ -4,7 +4,7 @@ import { fetchPosts, selectPosts } from "../../redux/posts.slice/posts.slice";
 import { fetchFavorites } from "../../redux/favourites.slice/favourites.slice";
 import PostItem from "../PostItem/PostItem";
 import "./Posts.scss";
-
+import { useTranslation } from "react-i18next";
 export default function Posts() {
   const dispatch = useDispatch();
   const { posts, status } = useSelector(selectPosts);
@@ -13,7 +13,7 @@ export default function Posts() {
   const [currentPage, setCurrentPage] = useState(1);
   const [allPosts, setAllPosts] = useState([]);
   const favorites = useSelector((state) => state.favorites);
-
+  const { t } = useTranslation();
   useEffect(() => {
     dispatch(
       fetchPosts(`http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}`)
@@ -46,12 +46,12 @@ export default function Posts() {
   };
 
   if (status === "failed") {
-    return <h1>No posts 😢</h1>;
+    return <h1>{t("No posts 😢")}</h1>;
   }
 
   return (
     <>
-      <h1 className="posts__title">Posts</h1>
+      <h1 className="posts__title">{t("Posts")}</h1>
       <div className="posts__body">
         <div className="post__container">
           <div className="vl"></div>
@@ -67,7 +67,7 @@ export default function Posts() {
       </div>
       {next < posts?.count && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
-          more...
+          {t("more...")}
         </button>
       )}
     </>

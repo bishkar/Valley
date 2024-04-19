@@ -13,6 +13,7 @@ import {
 } from "../../redux/category.slice/category.slice";
 import CategoryItem from "../Category/CategoryItem";
 import { Link } from "react-router-dom";
+import i18n from "../../../i18n";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Navbar = () => {
 
   let loggedIn = localStorage.getItem("loggedIn");
 
+  let currentLanguage = localStorage.getItem("i18nextLng");
   useEffect(() => {
     dispatch(fetchCategory());
   }, [dispatch]);
@@ -30,8 +32,19 @@ const Navbar = () => {
   } else {
     loggedIn = true;
   }
-
+  if (currentLanguage === null || currentLanguage === false) {
+    currentLanguage = "it";
+  }
+  const [language, setLanguage] = useState(currentLanguage);
+  let nextLanguage = currentLanguage === "it" ? "en" : "it";
+  console.log(nextLanguage);
   console.log(loggedIn);
+
+  function getCurrentLanguage() {
+    const nextLanguage = language === "it" ? "en" : "it";
+    i18n.changeLanguage(nextLanguage);
+    setLanguage(() => nextLanguage);
+  }
 
   return (
     <div className="container">
@@ -75,7 +88,9 @@ const Navbar = () => {
 
         <div className="nav-container">
           <div className="nav-header right-header">
-            <a className="header-element language">IT / ENG</a>
+            <a className="header-element language" onClick={getCurrentLanguage}>
+              {language == "it" ? "Italian" : "English"}
+            </a>
             {loggedIn ? (
               <>
                 <Link to="/favourites">
