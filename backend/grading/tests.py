@@ -54,7 +54,7 @@ class GradeTest(APITestCase):
         grade = Grade.objects.create(article=article, user=self.user, grade=True)
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-        response = self.client.put(self.url + f"{grade.id}/", {"grade": False}, format='json')
+        response = self.client.put(self.url + f"{article.id}/", {"grade": False}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['grade'], False)
@@ -67,8 +67,7 @@ class GradeTest(APITestCase):
         grade = Grade.objects.create(article=article, user=self.user, grade=True)
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-        response = self.client.delete(self.url + f"{grade.id}/")
-
+        response = self.client.delete(self.url + f"{article.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def tearDown(self):

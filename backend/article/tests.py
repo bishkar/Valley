@@ -58,3 +58,10 @@ class UserUrlViewerTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['clicks_count'], 2)
+        
+    def tearDown(self) -> None:
+        UserUrlViewer.objects.all().delete()
+        Article.objects.all().delete()
+        User.objects.all().delete()
+        
+        self.client.logout()
