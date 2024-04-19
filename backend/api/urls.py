@@ -13,6 +13,7 @@ from facebook_auth.views import FacebookApiView
 from user.views import RegisterView, EmailTokenObtainPairView, PasswordResetRequestView, PasswordResetConfirmView, \
     CheckOTPView
 from translation.views import TranslateView
+from grading.views import GradeView
 
 # from api.views import secure_view
 
@@ -31,6 +32,7 @@ router = routers.SimpleRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
 router.register(r'slider', SliderViewSet, basename='slider')
 router.register(r'category', CategoryViewSet, basename='category')
+router.register('grade', GradeView, basename='grade')
 router.register('tags', TagViewSet, basename='tags')
 router.register('favourites', FavouriteViewSet, basename='favourites')
 router.register('url-view-count', UrlViewCountView, basename='url-view-count')

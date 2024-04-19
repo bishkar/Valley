@@ -1,9 +1,8 @@
 from rest_framework.test import APITestCase
-from user.models import User
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
-import requests
-import json
+
+from user.models import User
 
 
 class Translation(APITestCase):
@@ -29,18 +28,15 @@ class Translation(APITestCase):
             }
         }
         ]
-        try:
-            self.admin = User.objects.create_superuser(email="admin@admin.com", password="admin")
-            self.user = User.objects.create(email="user@user.com", first_name="as", last_name="as",)
-            self.user.set_password("user")
-            self.user.save()
 
-            self.admin_token = AccessToken.for_user(self.admin)
-            self.user_token = AccessToken.for_user(self.user)
+        self.admin = User.objects.create_superuser(email="admin@admin.com", password="admin")
+        self.user = User.objects.create(email="user@user.com", first_name="as", last_name="as",)
+        self.user.set_password("user")
+        self.user.save()
 
-        except json.decoder.JSONDecodeError:
-            print("Unable to decode JSON")
-           
+        self.admin_token = AccessToken.for_user(self.admin)
+        self.user_token = AccessToken.for_user(self.user)
+ 
 
     def test_admin_user_can_translate(self):
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin_token))
@@ -78,7 +74,6 @@ class Translation(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def tearDown(self):
-        self.admin.delete()
-        self.user.delete()
+        User.objects.all().delete()
 
         self.client.logout()
