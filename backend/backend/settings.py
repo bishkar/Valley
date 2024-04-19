@@ -116,7 +116,7 @@ REST_FRAMEWORK = {
         
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'refresh_token': '5/h',
+        'refresh_token': '5000/h',
         'article': '1000/m',
         'facebook_auth': '5/m',
         'favourite': '200/m',

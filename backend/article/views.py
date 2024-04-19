@@ -213,8 +213,9 @@ class UrlViewCountView(viewsets.ModelViewSet):
 
         return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)  
 
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
+    
+    def create(self, request, *args, **kwargs):
+        pk = request.data.get('article')
 
         try:
             article = Article.objects.get(pk=pk)
