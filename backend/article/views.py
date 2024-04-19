@@ -22,7 +22,7 @@ from rest_framework import generics, mixins
 
 
 from article.models import Article, Slider, Category, Tag, UserUrlViewer
-from article.permissions import IsAccountAdminOrReadOnly
+from article.permissions import IsAccountAdminOrReadOnly, IsUserPostAdminGet
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
     UploadArticleImageSerializer, CategorySerializer, TagSerializer, UrlViewCountSerializer, ShortArticleSerializer
 
@@ -30,6 +30,7 @@ from .filters import ArticleFilter
 from article.filters import ArticleFilter
 from .pagination import ArticlesResultsSetPagination
 
+from .utils import get_client_ip
 
 # region Documentations
 @extend_schema_view(
@@ -204,7 +205,7 @@ class TagViewSet(viewsets.ModelViewSet):
 class UrlViewCountView(viewsets.ModelViewSet):
     queryset = UserUrlViewer.objects.all()
     serializer_class = UrlViewCountSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsUserPostAdminGet]
     http_method_names = ['get', 'post'] 
 
     def retrieve(self, request, *args, **kwargs):
@@ -219,11 +220,16 @@ class UrlViewCountView(viewsets.ModelViewSet):
 
         try:
             article = Article.objects.get(pk=pk)
+            ip = get_client_ip(request)
+            user_id = request.user.id
 
-            if UserUrlViewer.objects.filter(user=request.user, article=article).exists():
+            if request.user.is_anonymous:
+                user_id = None
+
+            if UserUrlViewer.objects.filter(user=user_id, article=article, ip=ip).exists():
                 return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
             
-            UserUrlViewer.objects.create(user=request.user, article=article)
+            UserUrlViewer.objects.create(user=user_id, article=article, ip=ip)
 
             return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
         

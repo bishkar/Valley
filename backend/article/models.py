@@ -73,4 +73,5 @@ class Category(models.Model):
 
 class UserUrlViewer(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True, blank=True)
-    article = models.ForeignKey('Article', on_delete=models.CASCADE, null=True, blank=True)
+    article = models.ForeignKey('Article', on_delete=models.CASCADE)
+    ip = models.CharField(max_length=100)
