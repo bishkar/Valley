@@ -38,40 +38,40 @@ class Translation(APITestCase):
         self.user_token = AccessToken.for_user(self.user)
  
 
-    # def test_admin_user_can_translate(self):
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin_token))
-    #     response = self.client.post(self.url, self.data, format='json')
+    def test_admin_user_can_translate(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.admin_token))
+        response = self.client.post(self.url, self.data, format='json')
 
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data, [
-    #     {
-    #         "id": "jsnz7-hho4",
-    #         "type": "header",
-    #         "data": {
-    #             "text": "Hi there! How are you?",
-    #             "level": 2
-    #         }
-    #     },
-    #     {
-    #         "id": "PYoj-ZpE5m",
-    #         "type": "paragraph",
-    #         "data": {
-    #             "text": "I really like Italian food.",
-    #             "caption": "I really like Italian food.",
-    #             "message": "I really like Italian food.",
-    #             "alignment": "left"
-    #         }
-    #     }
-    # ])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, [
+        {
+            "id": "jsnz7-hho4",
+            "type": "header",
+            "data": {
+                "text": "Hi there! How are you?",
+                "level": 2
+            }
+        },
+        {
+            "id": "PYoj-ZpE5m",
+            "type": "paragraph",
+            "data": {
+                "text": "I really like Italian food.",
+                "caption": "I really like Italian food.",
+                "message": "I really like Italian food.",
+                "alignment": "left"
+            }
+        }
+    ])
         
-    # def test_unauthenticated_user_cannot_translate(self):
-    #     response = self.client.post(self.url, self.data, format='json')
-    #     self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    def test_unauthenticated_user_cannot_translate(self):
+        response = self.client.post(self.url, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    # def test_user_cannot_translate(self):
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-    #     response = self.client.post(self.url, self.data, format='json')
-    #     self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+    def test_user_cannot_translate(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
+        response = self.client.post(self.url, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def tearDown(self):
         User.objects.all().delete()

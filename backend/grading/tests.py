@@ -19,57 +19,57 @@ class GradeTest(APITestCase):
         self.admin_token = AccessToken.for_user(self.admin)
         self.user_token = AccessToken.for_user(self.user)
 
-    # def test_user_can_grade(self):
-    #     article = Article.objects.create(en_title="Title", it_title="Titolo",
-    #                                           en_content="Text", it_content="Testo",
-    #                                           link_to_product="https://www.google.com",
-    #                                           author=self.user)
+    def test_user_can_grade(self):
+        article = Article.objects.create(en_title="Title", it_title="Titolo",
+                                              en_content="Text", it_content="Testo",
+                                              link_to_product="https://www.google.com",
+                                              author=self.user)
         
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-    #     response = self.client.post(self.url, {"article" : article.id, "grade" : True}, format='json')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
+        response = self.client.post(self.url, {"article" : article.id, "grade" : True}, format='json')
 
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    # def test_invalid_pk(self):
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-    #     response = self.client.post(self.url, {"article": 423, "grade": True}, format='json')
+    def test_invalid_pk(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
+        response = self.client.post(self.url, {"article": 423, "grade": True}, format='json')
 
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    # def test_invalid_grade(self):
-    #     article = Article.objects.create(en_title="Titleee", it_title="Titolo",
-    #                                           en_content="Text", it_content="Testo",
-    #                                           link_to_product="https://www.google.com",
-    #                                           author=self.user)
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-    #     response = self.client.post(self.url, {"article": article.id, "grade": "XUI"}, format='json')
+    def test_invalid_grade(self):
+        article = Article.objects.create(en_title="Titleee", it_title="Titolo",
+                                              en_content="Text", it_content="Testo",
+                                              link_to_product="https://www.google.com",
+                                              author=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
+        response = self.client.post(self.url, {"article": article.id, "grade": "XUI"}, format='json')
 
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         
-    # def test_update_grade(self):
-    #     article = Article.objects.create(en_title="Titleee", it_title="Titolo",
-    #                                           en_content="Text", it_content="Testo",
-    #                                           link_to_product="https://www.google.com",
-    #                                           author=self.user)
-    #     grade = Grade.objects.create(article=article, user=self.user, grade=True)
+    def test_update_grade(self):
+        article = Article.objects.create(en_title="Titleee", it_title="Titolo",
+                                              en_content="Text", it_content="Testo",
+                                              link_to_product="https://www.google.com",
+                                              author=self.user)
+        grade = Grade.objects.create(article=article, user=self.user, grade=True)
 
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-    #     response = self.client.put(self.url + f"{grade.id}/", {"grade": False}, format='json')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
+        response = self.client.put(self.url + f"{grade.id}/", {"grade": False}, format='json')
 
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data['grade'], False)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['grade'], False)
 
-    # def test_delete_grade(self):
-    #     article = Article.objects.create(en_title="Titleee", it_title="Titolo",
-    #                                           en_content="Text", it_content="Testo",
-    #                                           link_to_product="https://www.google.com",
-    #                                           author=self.user)
-    #     grade = Grade.objects.create(article=article, user=self.user, grade=True)
+    def test_delete_grade(self):
+        article = Article.objects.create(en_title="Titleee", it_title="Titolo",
+                                              en_content="Text", it_content="Testo",
+                                              link_to_product="https://www.google.com",
+                                              author=self.user)
+        grade = Grade.objects.create(article=article, user=self.user, grade=True)
 
-    #     self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
-    #     response = self.client.delete(self.url + f"{grade.id}/")
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.user_token))
+        response = self.client.delete(self.url + f"{grade.id}/")
 
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def tearDown(self):
         User.objects.all().delete()
