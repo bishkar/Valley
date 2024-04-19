@@ -25,8 +25,8 @@ class Article(models.Model):
 
     images = models.ManyToManyField('ArticleImage')
 
-    en_content = models.TextField()
-    it_content = models.TextField()
+    en_content = models.JSONField()
+    it_content = models.JSONField()
 
     link_to_product = models.URLField()
 
