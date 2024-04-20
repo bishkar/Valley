@@ -14,7 +14,13 @@ export default function PostItem({ post, isFavorited }) {
   const { pk, image_urls, tags_name } = post;
   const [isFav, setIsFav] = useState(isFavorited);
   const { t } = useTranslation();
-  const loggedIn = localStorage.getItem("loggedIn");
+
+  let loggedIn = localStorage.getItem("loggedIn");
+  if (loggedIn === null || loggedIn === "false" || loggedIn === false) {
+    loggedIn = false;
+  }
+
+  // let loggedIn = useAuth();
 
   const handleAddToFavorites = () => {
     if (isFav) {

@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import "./Favourite.scss";
 import { useTranslation } from "react-i18next";
 export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
-  const { en_title, image_urls, tags_name } = postId.article;
-
+  const { image_urls, tags_name } = postId.article;
+  const { t } = useTranslation();
   const handleRemoveClick = () => {
     handleRemoveFromFavorites(postId.article);
   };
@@ -15,7 +15,7 @@ export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
         <Link className="post__more" to={`/articles/${postId}`}>
           <img src={`http://127.0.0.1:8000${image_urls[0]}`} />
           <div className="favourite__body">
-            <h4>{en_title}</h4>
+            <h4>{t("parameters.postTitle", { data: postId.article })} </h4>
             <ul className="postItem__tagList">
               {tags_name.map((tag, index) => (
                 <li key={index}>

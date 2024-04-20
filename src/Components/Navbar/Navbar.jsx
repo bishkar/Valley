@@ -12,22 +12,43 @@ import {
 } from "../../redux/category.slice/category.slice";
 import CategoryItem from "../Category/CategoryItem";
 import { Link } from "react-router-dom";
+import i18n from "../../../i18n";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { category } = useSelector(selectCategory);
   const [searchTerm, setSearchTerm] = useState("");
   const [showRightHeader, setShowRightHeader] = useState(false);
-  let loggedIn = localStorage.getItem("loggedIn");
+  // let loggedIn = localStorage.getItem("loggedIn");
+
+  let loggedIn = useAuth();
 
   useEffect(() => {
+    // dispatch(setUser());
     dispatch(fetchCategory());
   }, [dispatch]);
 
-  if (loggedIn === null || loggedIn === "false") {
+  let currentLanguage = localStorage.getItem("i18nextLng");
+  useEffect(() => {
+    // dispatch(setUser());
+    dispatch(fetchCategory());
+  }, [dispatch]);
+
+  if (loggedIn === null || loggedIn === "false" || loggedIn === false) {
     loggedIn = false;
   } else {
     loggedIn = true;
+  }
+  if (currentLanguage === null || currentLanguage === false) {
+    currentLanguage = "it";
+  }
+  const [language, setLanguage] = useState(currentLanguage);
+
+  function getCurrentLanguage() {
+    const nextLanguage = language === "it" ? "en" : "it";
+    i18n.changeLanguage(nextLanguage);
+    setLanguage(() => nextLanguage);
   }
 
   console.log(loggedIn);
@@ -81,7 +102,12 @@ const Navbar = () => {
             <div
               className={`right-header ${showRightHeader ? "show" : "hide"}`}
             >
-              <a className="header-element language">IT / ENG</a>
+              <a
+                className="header-element language"
+                onClick={getCurrentLanguage}
+              >
+                {language == "it" ? "Italian" : "English"}
+              </a>
               <Link to="/">
                 <div className="header-element">
                   <img src={profileImage} alt="" />

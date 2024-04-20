@@ -6,7 +6,7 @@ export default function CategoryItem({ category }) {
   // const { it_category, en_category } = category;
   return (
     <>
-      <Link to={`/category/${category.en_category}`}>
+      <Link to={`/category/${category.pk}`}>
         <p className="nav-link">{t("parameters.categoryName", { category })}</p>
       </Link>
     </>

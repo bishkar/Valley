@@ -11,6 +11,7 @@ export default function CategoryResult() {
   const { t } = useTranslation();
   const postPerRow = 15;
   const [next, setNext] = useState(postPerRow);
+
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/?category_id=${categoryId}`
   );
