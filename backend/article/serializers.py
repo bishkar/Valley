@@ -5,10 +5,17 @@ from article.models import Article, Slider, ArticleImage, Category, Tag, UserUrl
 
 
 class ShortArticleSerializer(serializers.ModelSerializer):
+    image_urls = serializers.SerializerMethodField('get_image_urls')
+
     class Meta:
         model = Article
-        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name', 'on_top']
-        read_only_fields = ['created_at', 'pk', 'tags_name']
+        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name', 'on_top', 'image_urls']
+        read_only_fields = ['created_at', 'pk', 'tags_name', 'image_urls']
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_image_urls(self, obj):
+        images = obj.images.all()
+        return [image.image.url for image in images]
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -29,7 +36,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_image_urls(self, obj):
         images = obj.images.all()
         return [image.image.url for image in images]
-
 
 class UploadArticleImageSerializer(serializers.ModelSerializer):
     image = serializers.ImageField()

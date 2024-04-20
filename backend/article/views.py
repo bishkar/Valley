@@ -205,40 +205,41 @@ class TagViewSet(viewsets.ModelViewSet):
 class UrlViewCountView(viewsets.ModelViewSet):
     queryset = UserUrlViewer.objects.all()
     serializer_class = UrlViewCountSerializer
+
     permission_classes = [IsUserPostAdminGet]
     http_method_names = ['get', 'post'] 
 
     def retrieve(self, request, *args, **kwargs):
+        print(get_client_ip(request))
         article_id = kwargs.get('pk')
         articles_count = UserUrlViewer.objects.filter(article=article_id).count()
 
-        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)  
+        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)
 
-    
     def create(self, request, *args, **kwargs):
         pk = request.data.get('article')
 
         try:
             article = Article.objects.get(pk=pk)
             ip = get_client_ip(request)
-            user_id = request.user.id
+            user_id = request.user
 
             if request.user.is_anonymous:
                 user_id = None
 
             if UserUrlViewer.objects.filter(user=user_id, article=article, ip=ip).exists():
                 return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             UserUrlViewer.objects.create(user=user_id, article=article, ip=ip)
 
             return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
-        
+
         except Article.DoesNotExist:
             return Response({'detail': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
     def list(self, request, *args, **kwargs):
         return Response({'detail': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
