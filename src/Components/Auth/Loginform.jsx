@@ -6,7 +6,7 @@ import { loginUser } from "../../redux/auth.slice/login.slice";
 import FacebookLogin from "react-facebook-login";
 import { loginUserFacebook } from "../../redux/auth.slice/facebook.slice";
 import ErrorMessage from "./Errormessage";
-
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const LoginForm = () => {
@@ -15,6 +15,8 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null); // Ініціалізуємо стан помилки
+
+  const { t } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,20 +59,22 @@ const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {error ? <ErrorMessage message="Invalid email or password" /> : null}
+        {error ? (
+          <ErrorMessage message={`${t("Invalid email or password")}`} />
+        ) : null}
         <div className="link-container">
           <Link to="/recover" className="form-link">
-            Forgot password?
+            {t("Forgot password?")}
           </Link>
         </div>
 
         <button type="submit" className="form-button">
-          Continue
+          {t("Continue")}
         </button>
 
         <div className="social-media-container">
           <FacebookLogin
-            appId="394073726712169"
+            appId="389543820509728"
             autoLoad={false}
             fields="name,email,picture"
             callback={(response) =>
@@ -78,15 +82,15 @@ const LoginForm = () => {
             }
             cssClass="facebook-button"
             icon="fa-facebook"
-            textButton="Continue with Facebook"
+            textButton={t("Continue with Facebook")}
           />
         </div>
 
         <div className="content-container">
           <p>
-            Don`t have an account?
+            {t("Don`t have an account?")}
             <Link to="/register" className="form-link">
-              Create account
+              {t("Create account")}
             </Link>
           </p>
         </div>

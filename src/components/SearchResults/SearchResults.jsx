@@ -6,7 +6,7 @@ import {
   searchArticles,
   selectArticles,
 } from "../../redux/articleSearch.slice/articleSearch.slice";
-
+import { useTranslation } from "react-i18next";
 export default function SearchResults() {
   const dispatch = useDispatch();
   const { searchTerm } = useParams();
@@ -15,7 +15,7 @@ export default function SearchResults() {
   const [next, setNext] = useState(postPerRow);
   const [allArticles, setAllArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const { t } = useTranslation();
   useEffect(() => {
     dispatch(
       searchArticles(
@@ -56,9 +56,11 @@ export default function SearchResults() {
   return (
     <>
       <div className="category__container">
-        <h1>Result({articles.count})</h1>
+        <h1>
+          {t("Result")} ({articles.count})
+        </h1>
         {articles.count === 0 ? (
-          <div>There are no articles on this topic</div>
+          <div>{t("There are no articles on this topic")}</div>
         ) : (
           <>
             <div className="favourite__cards">

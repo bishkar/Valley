@@ -10,7 +10,7 @@ import {
 } from "../../redux/tags.slice/tags.slice";
 import FavouriteItem from "./FavouriteItem";
 import "./Favourite.scss";
-
+import { useTranslation } from "react-i18next";
 export default function Favourites() {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
@@ -19,7 +19,7 @@ export default function Favourites() {
   const [next, setNext] = useState(postPerRow);
   const [keyword, setKeyword] = useState("");
   const filteredFavorites = keyword === "" ? favorites : tags;
-
+  const { t } = useTranslation();
   useEffect(() => {
     dispatch(fetchFavorites());
     if (keyword !== "") {
@@ -39,7 +39,7 @@ export default function Favourites() {
 
   return (
     <div className="favourite__container">
-      <h1>Favourite Page</h1>
+      <h1>{t("Favourite Page")}</h1>
       <input
         className="fav__input"
         type="text"
@@ -49,7 +49,7 @@ export default function Favourites() {
       <div className="favourite__cards">
         {favorites.length === 0 ? (
           <div>
-            <h2>Your favourite page is empty</h2>
+            <h2>{t("Your favourite page is empty")}</h2>
           </div>
         ) : (
           <>
@@ -65,7 +65,7 @@ export default function Favourites() {
       </div>
       {next < filteredFavorites.length && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
-          more...
+          {t("more...")}
         </button>
       )}
     </div>

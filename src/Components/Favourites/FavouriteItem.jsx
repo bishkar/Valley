@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Favourite.scss";
-
+import { useTranslation } from "react-i18next";
 export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
   const { en_title, image_urls, tags_name } = postId.article;
 

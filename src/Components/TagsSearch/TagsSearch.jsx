@@ -6,7 +6,7 @@ import {
   searchTagsArticles,
   selectArticlesTags,
 } from "../../redux/articleTagsSearch.slice/articleTagsSearch.slice";
-
+import { useTranslation } from "react-i18next";
 export default function TagsSearchj() {
   const dispatch = useDispatch();
   const { searchTags } = useParams();
@@ -15,7 +15,7 @@ export default function TagsSearchj() {
   const [currentPage, setCurrentPage] = useState(1);
   const [allArticles, setAllArticles] = useState([]);
   const [next, setNext] = useState(postPerRow);
-
+  const { t } = useTranslation();
   useEffect(() => {
     dispatch(
       searchTagsArticles(
@@ -64,7 +64,7 @@ export default function TagsSearchj() {
           {searchTags} ({articlesTags.count})
         </h1>
         {articlesTags?.count === 0 ? (
-          <div>There are no articles on this topic</div>
+          <div>{t("There are no articles on this topic")}</div>
         ) : (
           <>
             <div className="favourite__cards">
@@ -74,7 +74,7 @@ export default function TagsSearchj() {
             </div>
             {next < articlesTags?.count && (
               <button className="loadMoreBtn" onClick={handleMorePosts}>
-                more...
+                {t("more...")}
               </button>
             )}
           </>
