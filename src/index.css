@@ -35,6 +35,7 @@ h1 {
   line-height: 1.1;
 }
 
+
 button {
   color: #fff;
   border-radius: 8px;
@@ -53,4 +54,13 @@ button {
   max-width: 1300px;
   margin: 0 auto;
   box-sizing: border-box;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
 }

@@ -53,10 +53,10 @@ export default function Favourites() {
           </div>
         ) : (
           <>
-            {filteredFavorites.slice(0, next).map((favPost, index) => (
+            {filteredFavorites?.slice(0, next)?.map((favPost, index) => (
               <FavouriteItem
                 key={index}
-                postId={favPost.article.pk}
+                postId={favPost}
                 handleRemoveFromFavorites={handleRemoveFromFavorites}
               />
             ))}

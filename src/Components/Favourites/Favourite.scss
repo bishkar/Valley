@@ -46,8 +46,10 @@
 
   & img{
     border-radius: 40px 40px 0 0;
-    width: -webkit-fill-available;
     height: 220px;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
   }
 }
 
@@ -86,18 +88,24 @@
   text-transform: uppercase;
 }
 
-// .btn__favourite {
-//   border: none;
-//   background: none;
-//   font-size: 50px;
-//   cursor: pointer;
-//   color: #ffffff;
-//   padding: 0;
-//   position: absolute;
-//   top: 15px;
-//   right: 35px;
-// }
-
 .active__favourite {
   background-image: url("../../img/Vector.svg");
+}
+
+
+@media only screen and (max-width: 600px) {
+  .favourite__container{
+    max-width: 500px;
+    width: auto;
+    margin: 0 15px;
+
+    & h1 {
+      font-size: 32px;
+    }
+  }
+
+  .favourite__card{
+    width: 330px;
+    margin: 0 auto 36px;
+  }
 }

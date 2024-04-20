@@ -32,6 +32,9 @@ export default function Mainslider() {
     centerMode: true,
     infinite: true,
     slidesToShow: 1,
+    swipeToSlide: false,
+    draggable: false,
+    swipe: false,
     autoplay: true,
     focusOnSelect: true,
     autoplaySpeed: 3000,
@@ -60,7 +63,7 @@ export default function Mainslider() {
               idx === imageIndex ? "slide activeSlide" : "slide deactiveSlide"
             }
           >
-            <Link to={`/post/${post.id}`}>
+            <Link to={idx === imageIndex ? `/post/${post.id}` : "#"}>
               <img
                 src={post.big_image}
                 alt={post.id}

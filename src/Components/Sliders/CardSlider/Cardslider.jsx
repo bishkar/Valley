@@ -1,4 +1,5 @@
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
@@ -8,6 +9,20 @@ export default function CardSlider() {
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/on_top/`
   );
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const NextArrow = ({ onClick }) => {
     return (
@@ -28,10 +43,13 @@ export default function CardSlider() {
   const settings = {
     dots: true,
     infinite: true,
+    swipeToSlide: false,
+    draggable: false,
+    swipe: false,
     autoplay: true,
     autoplaySpeed: 3000,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: isMobile ? 1 : 2,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,

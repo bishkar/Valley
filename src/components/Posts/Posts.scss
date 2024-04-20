@@ -39,3 +39,26 @@
   margin-left: -3px;
   top: 0;
 }
+
+@media only screen and (max-width: 600px) {
+
+  .posts__body{
+    max-width: 500px;
+    margin: 0 15px;
+    width: auto;
+  }
+
+  .vl{
+    display: none;
+  }
+
+  .post__container {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: auto;
+  }
+
+  .loadMoreBtn{
+    padding: 0 0 10px;
+  }
+}

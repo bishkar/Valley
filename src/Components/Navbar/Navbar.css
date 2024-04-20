@@ -1,7 +1,3 @@
-ul {
-    list-style-type: none;
-}
-
 .navbar {
     display: flex;
     flex-direction: row;
@@ -11,7 +7,6 @@ ul {
     margin-bottom: 50px;
     gap: 20px;
     width: 1300px;
-
 }
 
 .nav-container {
@@ -21,7 +16,6 @@ ul {
 }
 
 .nav-header {
-    height: 75px;
     border-bottom: 1px solid black;
     border-top: 1px solid black;
     display: flex;
@@ -29,26 +23,53 @@ ul {
     justify-content: flex-start;
     align-items: center;
     padding: 0px 20px;
-    height: 69px;
     position: relative;
+    width: 500px;
 
 }
 
+.nav__top {
+    display: flex;
+    height: 69px;
+    justify-content: space-between;
+}
+
+
 .right-header {
+    display: flex;
+    align-items: center;
+    width: 500px;
+    padding: 0 20px;
     justify-content: flex-end;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    transition: visibility 0s, opacity 0.5s linear;
 }
 
 .header-element {
     margin-left: 48px;
     cursor: pointer;
+
+    & span {
+        display: none;
+    }
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 400px;
 }
 
 .nav-under {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 20px;
+    gap: 70px;
 }
 
 .nav-link {
@@ -68,6 +89,10 @@ ul {
     background-color: rgb(191, 128, 251, 0.2);
 }
 
+.nav__title {
+    display: none;
+}
+
 .nav-input {
     font-family: "Inria Serif", serif;
     padding-left: 12px;
@@ -77,6 +102,7 @@ ul {
     background: rgb(191, 128, 251, 0.2);
     border: none;
     text-transform: uppercase;
+    transition: all 0.8s;
 }
 
 .search__icon {
@@ -109,4 +135,159 @@ ul {
 
 .language:hover {
     background-color: #51cdfd;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: -5px;
+    left: 15px;
+}
+
+.hamburger input {
+    display: none;
+}
+
+.hamburger svg {
+    height: 40px;
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+    fill: none;
+    stroke: #9339FF;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+    stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked+svg {
+    transform: rotate(-45deg);
+}
+
+.hamburger input:checked+svg .line-top-bottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
+}
+
+
+.right-header.show {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .navbar {
+        margin: 32px 15px 0;
+        gap: 20px;
+        max-width: 500px;
+        width: auto;
+    }
+
+    .hamburger {
+        display: block;
+        z-index: 2;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .nav__top {
+        height: 77px;
+    }
+
+    .nav-header {
+        flex-direction: column;
+        border: none;
+    }
+
+    .nav__title {
+        display: block;
+        margin: 0;
+    }
+
+    .nav-input {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .search__icon {
+        top: 55%;
+        right: 30px;
+        transform: none;
+    }
+
+    .right-header {
+        z-index: 1;
+        box-shadow: 0px 4px 4px 3px rgba(0, 0, 0, 0.25);
+        position: absolute;
+        background-color: white;
+        left: 0px;
+        border: none;
+        top: 0;
+        flex-direction: column;
+        padding-top: 60px;
+        width: 140px;
+        max-width: 500px;
+        border-bottom-right-radius: 40px;
+        align-items: flex-start;
+    }
+
+    .right-header.hide {
+        opacity: 0;
+        visibility: hidden;
+        z-index: -1;
+    }
+
+    .header-element {
+        margin: 15px 0;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        & span {
+            display: block;
+        }
+    }
+
+    .nav-under {
+        max-width: 400px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin: 0 auto;
+    }
+
+    .nav-list {
+        gap: 12px;
+        width: auto;
+        margin-top: 0;
+    }
+
+    .nav-link {
+        color: black;
+        font-size: 16px;
+        font-weight: 300;
+        transition: 0.3s;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-link:hover {
+        background-color: transparent;
+    }
+
 }

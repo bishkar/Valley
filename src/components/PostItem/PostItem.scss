@@ -18,7 +18,7 @@
   padding: 0 30px;
   display: flex;
   flex-direction: column;
-  height: 90px;
+  height: 70px;
 
   & h4{
     margin: 0;
@@ -123,4 +123,53 @@
 
 .itemPage__content{
   font-size: 18px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+  .post__cart{
+    max-width: 350px;
+    width: auto;
+    margin: 0 auto 25px;
+
+  
+    & img{
+      width: 320px;
+      height: 180px;
+      object-fit: cover;  
+    }
+  }
+
+  .post__body{
+    height: 50px;
+  
+    & h4{
+      margin: 0;
+      text-transform: capitalize;
+      font-size: 18px;
+    }
+  }
+
+  .itemPage__container{
+    width: auto;
+    max-width: 500px;
+    margin: 0 15px;
+  }
+
+  .itemPage__title{
+    margin: 40px 0 15px;
+    font-size: 46px;
+  }
+
+  .link__to__product{
+   
+   & p{ 
+    font-size: 16px;
+  }
+
+    & a{
+      word-wrap: break-word;
+    }
+  }
 }

@@ -73,8 +73,6 @@ const favoritesSlice = createSlice({
         return state.filter((product) => {
           product.pk !== action.payload.pk
         })
-        // state.push(action.payload);
-
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         console.log('Fetched favorites:', action.payload);

@@ -11,8 +11,8 @@ const Footer = () => {
     <div className="container">
       <div className="footer">
         <div className="footer-divider">
+          <p>You can write us a letter</p>
           <div className="divider-content">
-            <p>You can write us a letter</p>
             <Link>
               <img src={instagramImage} alt="" className="footer-image" />
             </Link>

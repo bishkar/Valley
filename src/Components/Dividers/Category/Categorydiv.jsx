@@ -1,6 +1,6 @@
 import "./Categorydiv.css";
 
-const Categorydiv = ({ category }) => {
+const Categorydiv = () => {
   return (
     <div className="container">
       <div className="category-div">
