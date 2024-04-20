@@ -28,6 +28,12 @@ class TranslateView(CreateAPIView):
             data_to_translate = item.get("data", {})
             for field, value in data_to_translate.items():
                 if field in fields_to_translate:
+                    if len(value) > 500:
+                        parts = [value[i:i + 500] for i in range(0, len(value), 500)]
+                        translated_parts = [translator.translate(part) for part in parts]
+                        data_to_translate[field] = "".join(translated_parts)
+                        continue
+                    
                     data_to_translate[field] = translator.translate(value)
             item["data"] = data_to_translate
 
