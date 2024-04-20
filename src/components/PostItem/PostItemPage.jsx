@@ -7,29 +7,34 @@ import { useEffect } from "react";
 import { fetchStats, makeClick } from "../../redux/posts.slice/clicks.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
+import { isAdminUser } from "../../redux/auth.slice/token.slice";
 const PostItemPage = () => {
   const { postId } = useParams();
-  const clicks = useSelector((state) => state.clicks);
+  const { clicks } = useSelector((state) => state.clicks);
   console.log(`clicks ${clicks}`);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const isFetching = useRef(false);
-
+  const admin = isAdminUser();
+  console.log("isAdmin", admin);
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/${postId}`
   );
 
   useEffect(() => {
-    dispatch(fetchStats(postId));
+    const admin = isAdminUser();
+    if (admin) {
+      dispatch(fetchStats(postId));
+    }
   }, [dispatch, postId]);
 
-  const handleClcik = () => {
+  function handleClcik() {
     if (!isFetching.current) {
       dispatch(makeClick(postId));
       isFetching.current = true;
     }
-  };
+  }
 
   if (error) return <h1 style={{ color: "red" }}>An error!!!</h1>;
   return (
@@ -40,7 +45,7 @@ const PostItemPage = () => {
         <>
           <Mainslider />
           <h2 className="itemPage__title">
-            {data.en_title} <span>({clicks[0]})</span>
+            {data.en_title} {admin && <span>({clicks})</span>}
           </h2>
           <ul className="itemPage__tagList">
             {data?.tags_name.map((tag, index) => (
@@ -57,7 +62,7 @@ const PostItemPage = () => {
               <Link
                 to={data.link_to_product}
                 target="_blank"
-                onClick={handleClcik()}
+                onClick={handleClcik}
               >
                 {data.link_to_product}
               </Link>

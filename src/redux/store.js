@@ -5,7 +5,7 @@ import categorySliceReducer from "./category.slice/category.slice";
 import tagsSliceReducer from "./tags.slice/tags.slice";
 import resgistraionSliceReducer from "./auth.slice/register.slice";
 import authSliceReducer from "./auth.slice/login.slice";
-import tokenSlice from "./auth.slice/token.slice";
+import tokenSlice, { setUser } from "./auth.slice/token.slice";
 import authFacebookSlice from "./auth.slice/facebook.slice";
 import restorePasswordSlice from "./auth.slice/restorePassword.slice";
 import articleSearchSliceReducer from "./articleSearch.slice/articleSearch.slice";
@@ -13,8 +13,10 @@ import articleTagsSearchReducer from "./articleTagsSearch.slice/articleTagsSearc
 // import getCategorySlice from './category.slice/getCategory.slice';
 import newPostSlice from "./posts.slice/newpost.slice";
 import clicksSlice from "./posts.slice/clicks.slice";
+
 export const store = configureStore({
   reducer: {
+    auth: authSliceReducer,
     posts: postsSliceReducer,
     favorites: favouriteSliceReducer,
     category: categorySliceReducer,
@@ -22,7 +24,7 @@ export const store = configureStore({
     articles: articleSearchSliceReducer,
     articlesTags: articleTagsSearchReducer,
     registration: resgistraionSliceReducer,
-    auth: authSliceReducer,
+
     tokens: tokenSlice,
     authFacebook: authFacebookSlice,
     restorePassword: restorePasswordSlice,
@@ -31,4 +33,5 @@ export const store = configureStore({
     clicks: clicksSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  devTools: true,
 });

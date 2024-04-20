@@ -14,20 +14,23 @@ import {
 import CategoryItem from "../Category/CategoryItem";
 import { Link } from "react-router-dom";
 import i18n from "../../../i18n";
-
+import useAuth from "../../hooks/useAuth";
+// import { setUser } from "../../redux/auth.slice/token.slice";
+// import { setUser } from "../../redux/auth.slice/token.slice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { category } = useSelector(selectCategory);
   const [searchTerm, setSearchTerm] = useState("");
 
-  let loggedIn = localStorage.getItem("loggedIn");
+  let loggedIn = useAuth();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
   useEffect(() => {
+    // dispatch(setUser());
     dispatch(fetchCategory());
   }, [dispatch]);
 
-  if (loggedIn === null || loggedIn === "false") {
+  if (loggedIn === null || loggedIn === "false" || loggedIn === false) {
     loggedIn = false;
   } else {
     loggedIn = true;
@@ -36,9 +39,6 @@ const Navbar = () => {
     currentLanguage = "it";
   }
   const [language, setLanguage] = useState(currentLanguage);
-  let nextLanguage = currentLanguage === "it" ? "en" : "it";
-  console.log(nextLanguage);
-  console.log(loggedIn);
 
   function getCurrentLanguage() {
     const nextLanguage = language === "it" ? "en" : "it";

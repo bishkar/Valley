@@ -5,7 +5,6 @@
   "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character": "La password deve contenere almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale.",
   "Password changed successfully": "La password è stata modificata con successo",
   "Change Password": "Modifica della password",
-
   "First name must be between 3 and 20 characters": "Il nome deve essere compreso tra 3 e 20 caratteri",
   "Last name must be between 3 and 20 characters": "Il cognome deve essere compreso tra 3 e 20 caratteri",
   "Invalid email": "Email non valida",
@@ -43,6 +42,7 @@
   "Your favourite page is empty": "La pagina dei preferiti è vuota",
   "Write here new category": "Scrivere qui la nuova categoria",
   "Link to the product: ": "Link al prodotto: ",
+  "Favourite Page": "Pagina preferita",
   "parameters": {
     "postNameTitle": "{{data.it_title}}",
     "categoryName": "{{category.it_category}}",
