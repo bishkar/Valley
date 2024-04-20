@@ -22,7 +22,7 @@ from rest_framework import generics, mixins
 
 
 from article.models import Article, Slider, Category, Tag, UserUrlViewer
-from article.permissions import IsAccountAdminOrReadOnly
+from article.permissions import IsAccountAdminOrReadOnly, IsUserPostAdminGet
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
     UploadArticleImageSerializer, CategorySerializer, TagSerializer, UrlViewCountSerializer, ShortArticleSerializer
 
@@ -30,6 +30,7 @@ from .filters import ArticleFilter
 from article.filters import ArticleFilter
 from .pagination import ArticlesResultsSetPagination
 
+from .utils import get_client_ip
 
 # region Documentations
 @extend_schema_view(
@@ -80,6 +81,17 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return ArticleSerializer
 
     def perform_create(self, serializer):
+        new_tags = []
+        tags = self.request.data.get('article_tags')
+        
+        for tag in tags:
+            if not Tag.objects.filter(name=tag).exists():
+                new_tag = Tag.objects.create(name=tag)
+                new_tags.append(new_tag)
+            else:
+                new_tags.append(Tag.objects.get(name=tag))
+
+        serializer.validated_data['tags'] = new_tags
         serializer.save(author=self.request.user)
 
     def retrieve(self, request, *args, **kwargs):
@@ -190,20 +202,12 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-
 class UrlViewCountView(viewsets.ModelViewSet):
     queryset = UserUrlViewer.objects.all()
     serializer_class = UrlViewCountSerializer
-    permission_classes = [IsAdminUser]
-    http_method_names = ['get', 'post']
+
+    permission_classes = [IsUserPostAdminGet]
+    http_method_names = ['get', 'post'] 
 
     def retrieve(self, request, *args, **kwargs):
         print(get_client_ip(request))
@@ -212,16 +216,21 @@ class UrlViewCountView(viewsets.ModelViewSet):
 
         return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)
 
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
+    def create(self, request, *args, **kwargs):
+        pk = request.data.get('article')
 
         try:
             article = Article.objects.get(pk=pk)
+            ip = get_client_ip(request)
+            user_id = request.user
 
-            if UserUrlViewer.objects.filter(user=request.user, article=article).exists():
+            if request.user.is_anonymous:
+                user_id = None
+
+            if UserUrlViewer.objects.filter(user=user_id, article=article, ip=ip).exists():
                 return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
 
-            UserUrlViewer.objects.create(user=request.user, article=article)
+            UserUrlViewer.objects.create(user=user_id, article=article, ip=ip)
 
             return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
 

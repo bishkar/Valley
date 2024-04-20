@@ -27,7 +27,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'images': {'write_only': True},
-            'tags': {'write_only': True}
+            'tags': {'write_only': True, 'required': False},
         }
         write_only_fields = ['images']
         read_only_fields = ['created_at', 'pk', 'image_urls', 'tags_name']
