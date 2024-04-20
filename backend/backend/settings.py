@@ -81,7 +81,7 @@ CACHES = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 # SWAGGER_SETTINGS: dict[str, any] = {
@@ -116,14 +116,14 @@ REST_FRAMEWORK = {
         
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'refresh_token': '5/h',
-        'article': '1000/m',
-        'facebook_auth': '5/m',
-        'favourite': '200/m',
-        'email_auth': '5/m',
-        'email_token_auth': '5/m',
-        'password_reset_request': '20/d',
-        'password_reset_confirm': '10/d',
+        'refresh_token': '500/h',
+        'article': '10000/m',
+        'facebook_auth': '5000/m',
+        'favourite': '200000/m',
+        'email_auth': '5000/m',
+        'email_token_auth': '5000/m',
+        'password_reset_request': '200/d',
+        'password_reset_confirm': '100/d',
         'url_view_count': '1/y',
     }
 }
@@ -216,6 +216,7 @@ AUTH_PASSWORD_VALIDATORS = [
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "TOKEN_OBTAIN_SERIALIZER": "api.serializers.CustomTokenObtainPairSerializer",
+    "ROTATE_REFRESH_TOKENS": True,
 }
 
 # Internationalization

@@ -168,7 +168,7 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         image = serializer.save()
 
-        return Response({'image': image.image.url,
+        return Response({'url': image.image.url,
                          'pk': image.pk}, status=status.HTTP_201_CREATED)
 
 
@@ -190,17 +190,27 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class UrlViewCountView(viewsets.ModelViewSet):
     queryset = UserUrlViewer.objects.all()
     serializer_class = UrlViewCountSerializer
     permission_classes = [IsAdminUser]
-    http_method_names = ['get', 'post'] 
+    http_method_names = ['get', 'post']
 
     def retrieve(self, request, *args, **kwargs):
+        print(get_client_ip(request))
         article_id = kwargs.get('pk')
         articles_count = UserUrlViewer.objects.filter(article=article_id).count()
 
-        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)  
+        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -210,17 +220,17 @@ class UrlViewCountView(viewsets.ModelViewSet):
 
             if UserUrlViewer.objects.filter(user=request.user, article=article).exists():
                 return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             UserUrlViewer.objects.create(user=request.user, article=article)
 
             return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
-        
+
         except Article.DoesNotExist:
             return Response({'detail': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
     def list(self, request, *args, **kwargs):
         return Response({'detail': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     

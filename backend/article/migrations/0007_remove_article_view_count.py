@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('article', '0006_userurlviewer'),
+        ('article', '0005_article_view_count'),
     ]
 
     operations = [
