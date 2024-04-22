@@ -18,6 +18,13 @@ class ShortArticleSerializer(serializers.ModelSerializer):
         return [image.image.url for image in images]
 
 
+class ShortArticleSerializerWithFavorite(ShortArticleSerializer):
+    is_favourite = serializers.BooleanField()
+
+    class Meta(ShortArticleSerializer.Meta):
+        fields = ShortArticleSerializer.Meta.fields + ['is_favourite']
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     image_urls = serializers.SerializerMethodField('get_image_urls')
 
