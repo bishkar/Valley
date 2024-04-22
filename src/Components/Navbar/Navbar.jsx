@@ -20,18 +20,15 @@ const Navbar = () => {
   const { category } = useSelector(selectCategory);
   const [searchTerm, setSearchTerm] = useState("");
   const [showRightHeader, setShowRightHeader] = useState(false);
-  // let loggedIn = localStorage.getItem("loggedIn");
 
   let loggedIn = useAuth();
 
   useEffect(() => {
-    // dispatch(setUser());
     dispatch(fetchCategory());
   }, [dispatch]);
 
   let currentLanguage = localStorage.getItem("i18nextLng");
   useEffect(() => {
-    // dispatch(setUser());
     dispatch(fetchCategory());
   }, [dispatch]);
 
@@ -50,8 +47,6 @@ const Navbar = () => {
     i18n.changeLanguage(nextLanguage);
     setLanguage(() => nextLanguage);
   }
-
-  console.log(loggedIn);
 
   return (
     <div className="container">
@@ -81,7 +76,7 @@ const Navbar = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               {searchTerm === "" ? (
-                console.log("enter the text")
+                ""
               ) : (
                 <Link to={`/search/result/${searchTerm}`}>
                   <svg

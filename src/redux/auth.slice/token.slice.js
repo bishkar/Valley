@@ -47,7 +47,6 @@ export const isAccessTokenExpired = (accessToken) => {
 export const isAdminUser = () => {
   try {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("isaAdminUser", accessToken);
     const decodedToken = jwtDecode(accessToken);
 
     return decodedToken.is_admin;
@@ -59,12 +58,8 @@ export const isAdminUser = () => {
 export const setUser = createAsyncThunk("tokens/setUser", async () => {
   let access = localStorage.getItem("accessToken");
   let refresh = localStorage.getItem("refreshToken");
-  // const dispatch = useDispatch();
 
-  console.log("set user");
   if (!access || !refresh) {
-    // localStorage.setItem("loggedIn", false);
-
     return false;
   }
 
@@ -95,11 +90,6 @@ export const setUser = createAsyncThunk("tokens/setUser", async () => {
 export const tokenSlice = createSlice({
   name: "tokens",
   initialState,
-  // reducers: {
-  //   isAdminUser: (state) => {
-  //     state.admin = isAdminUser();
-  //   },
-  // },
   extraReducers: (builder) => {
     builder
       .addCase(setUser.fulfilled, (state, action) => {
@@ -120,10 +110,4 @@ export const tokenSlice = createSlice({
   },
 });
 
-// export const { setCredentials, logOut } = tokenSlice.actions;
-
 export default tokenSlice.reducer;
-
-// export const selectCurrentUser = (state) => state.token.user;
-
-// export const selectToken = (state) => state.token;

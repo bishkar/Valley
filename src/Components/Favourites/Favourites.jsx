@@ -11,6 +11,7 @@ import {
 import FavouriteItem from "./FavouriteItem";
 import "./Favourite.scss";
 import { useTranslation } from "react-i18next";
+
 export default function Favourites() {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
@@ -20,6 +21,7 @@ export default function Favourites() {
   const [keyword, setKeyword] = useState("");
   const filteredFavorites = keyword === "" ? favorites : tags;
   const { t } = useTranslation();
+
   useEffect(() => {
     dispatch(fetchFavorites());
     if (keyword !== "") {
@@ -44,6 +46,7 @@ export default function Favourites() {
         className="fav__input"
         type="text"
         value={keyword}
+        placeholder="Search by tagName"
         onChange={(e) => setKeyword(e.target.value)}
       />
       <div className="favourite__cards">

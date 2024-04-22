@@ -12,24 +12,30 @@ import { useRef } from "react";
 
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
 const PostItemPage = () => {
-  const { postId } = useParams();
-  const { clicks } = useSelector((state) => state.clicks);
-  console.log(`clicks ${clicks}`);
   const dispatch = useDispatch();
+  const { postId } = useParams();
   const { t } = useTranslation();
-  const isFetching = useRef(false);
-  useEffect(() => {
-    const admin = isAdminUser();
-    if (admin) {
-      dispatch(fetchStats(postId));
-    }
-  }, [dispatch, postId]);
-
   const admin = isAdminUser();
-  console.log("isAdmin", admin);
+  const { clicks } = useSelector((state) => state.clicks);
+  const isFetching = useRef(false);
+  const [imageIndex, setImageIndex] = useState(0);
+
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/${postId}`
   );
+
+  useEffect(() => {
+    if (admin) {
+      dispatch(fetchStats(postId));
+    }
+  }, [dispatch, postId, admin]);
+
+  function handleClcik() {
+    if (!isFetching.current) {
+      dispatch(makeClick(postId));
+      isFetching.current = true;
+    }
+  }
 
   const NextArrow = ({ onClick }) => {
     return (
@@ -46,8 +52,6 @@ const PostItemPage = () => {
       </div>
     );
   };
-
-  const [imageIndex, setImageIndex] = useState(0);
 
   const settings = {
     centerMode: true,
@@ -67,19 +71,6 @@ const PostItemPage = () => {
     prevArrow: <PrevArrow />,
     beforeChange: (current, next) => setImageIndex(next),
   };
-  useEffect(() => {
-    const admin = isAdminUser();
-    if (admin) {
-      dispatch(fetchStats(postId));
-    }
-  }, [dispatch, postId]);
-
-  function handleClcik() {
-    if (!isFetching.current) {
-      dispatch(makeClick(postId));
-      isFetching.current = true;
-    }
-  }
 
   if (error) return <h1 style={{ color: "red" }}>An error!!!</h1>;
   return (
@@ -132,7 +123,6 @@ const PostItemPage = () => {
               </Link>
             </p>
           </div>
-
           <p className="itemPage__content">
             {t("parameters.postContent", { data })}
           </p>

@@ -19,9 +19,6 @@ export default function PostItem({ post, isFavorited }) {
   if (loggedIn === null || loggedIn === "false" || loggedIn === false) {
     loggedIn = false;
   }
-
-  // let loggedIn = useAuth();
-
   const handleAddToFavorites = () => {
     if (isFav) {
       dispatch(removeFromFavorites(post));
@@ -38,17 +35,17 @@ export default function PostItem({ post, isFavorited }) {
         <img src={`http://127.0.0.1:8000${image_urls[0]}`} alt="try" />
         <div className="post__body">
           <h4>{t("parameters.postNameTitle", { data: post })}</h4>
-          <ul className="postItem__tagList">
-            {tags_name.map((tag, index) => (
-              <li key={index}>
-                <Link className="post__more" to={`/search/tags/${tag}`}>
-                  <p>{tag}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
       </Link>
+      <ul className="postItem__tagList">
+        {tags_name.map((tag, index) => (
+          <li key={index}>
+            <Link className="post__more" to={`/search/tags/${tag}`}>
+              <p>{tag}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
 
       <button
         style={{ display: loggedIn === "true" ? "block" : "none" }}

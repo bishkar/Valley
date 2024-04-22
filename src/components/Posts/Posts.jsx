@@ -1,47 +1,57 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts, selectPosts } from "../../redux/posts.slice/posts.slice";
-import { fetchFavorites } from "../../redux/favourites.slice/favourites.slice";
+import {
+  fetchFavorites,
+  selectFavorites,
+} from "../../redux/favourites.slice/favourites.slice";
 import PostItem from "../PostItem/PostItem";
 import "./Posts.scss";
 import { useTranslation } from "react-i18next";
+import {
+  searchArticles,
+  selectArticles,
+} from "../../redux/articleSearch.slice/articleSearch.slice";
+
 export default function Posts() {
   const dispatch = useDispatch();
-  const { posts, status } = useSelector(selectPosts);
+  const { t } = useTranslation();
+  const { articles, status } = useSelector(selectArticles);
+  const favorites = useSelector(selectFavorites);
   const postPerRow = 4;
   const [next, setNext] = useState(postPerRow);
   const [currentPage, setCurrentPage] = useState(1);
-  const [allPosts, setAllPosts] = useState([]);
-  const favorites = useSelector((state) => state.favorites);
-  const { t } = useTranslation();
+  const [allArticles, setAllArticles] = useState([]);
+
   useEffect(() => {
     dispatch(
-      fetchPosts(`http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}`)
+      searchArticles(
+        `http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}`
+      )
     );
     dispatch(fetchFavorites());
   }, [dispatch, currentPage]);
 
   useEffect(() => {
-    if (posts?.results && posts?.results.length > 0) {
+    if (articles?.results && articles?.results.length > 0) {
       if (currentPage === 1) {
-        setAllPosts([...posts.results]);
+        setAllArticles([...articles.results]);
       } else {
-        setAllPosts((prevPosts) => {
-          const newPosts = posts.results.filter((post) => {
+        setAllArticles((prevPosts) => {
+          const newPosts = articles.results.filter((post) => {
             return !prevPosts.some((prevPost) => prevPost.pk === post.pk);
           });
           return [...prevPosts, ...newPosts];
         });
       }
     }
-  }, [posts.results, currentPage]);
+  }, [articles.results, currentPage]);
 
   const handleMorePosts = () => {
-    if (next >= allPosts.length) {
+    if (next >= allArticles.length) {
       setCurrentPage(currentPage + 1);
       setNext(next + postPerRow);
     } else {
-      setNext(next + postPerRow);
+      setNext(next - 2 + postPerRow);
     }
   };
 
@@ -55,17 +65,17 @@ export default function Posts() {
       <div className="posts__body">
         <div className="post__container">
           <div className="vl"></div>
-          {allPosts.slice(0, next).map((post, index) => {
-            const isFavorited = favorites.some((favProduct) => {
-              return favProduct.article.pk === post.pk;
-            });
+          {allArticles?.slice(0, next)?.map((post, index) => {
+            const isFavorited = favorites?.some(
+              (favProduct) => favProduct.article.pk === post.pk
+            );
             return (
               <PostItem key={index} post={post} isFavorited={isFavorited} />
             );
           })}
         </div>
       </div>
-      {next < posts?.count && (
+      {next < articles?.count && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
           {t("more...")}
         </button>

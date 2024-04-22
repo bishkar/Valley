@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   width: 1400px;
-  justify-content: center;
   margin: 0 auto;
   min-height: 60vh;
   align-items: center;
@@ -57,7 +56,6 @@
   padding: 0 30px;
   display: flex;
   flex-direction: column;
-  height: 60px;
 
   & h4{
     margin: 0;
@@ -84,7 +82,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 10px 10px;
   text-transform: uppercase;
 }
 

@@ -7,6 +7,7 @@ import {
   selectArticles,
 } from "../../redux/articleSearch.slice/articleSearch.slice";
 import { useTranslation } from "react-i18next";
+
 export default function SearchResults() {
   const dispatch = useDispatch();
   const { searchTerm } = useParams();
@@ -16,6 +17,7 @@ export default function SearchResults() {
   const [allArticles, setAllArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
+
   useEffect(() => {
     dispatch(
       searchArticles(
@@ -27,7 +29,7 @@ export default function SearchResults() {
   useEffect(() => {
     setCurrentPage(1);
     setNext(postPerRow);
-  }, [searchTerm]);
+  }, []);
 
   useEffect(() => {
     if (articles?.results && articles?.results?.length > 0) {
@@ -70,7 +72,7 @@ export default function SearchResults() {
             </div>
             {next < articles?.count && (
               <button className="loadMoreBtn" onClick={handleMorePosts}>
-                more...
+                {t("more...")}
               </button>
             )}
           </>
