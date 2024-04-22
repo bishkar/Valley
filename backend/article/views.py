@@ -197,8 +197,13 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         image = serializer.save()
 
-        return Response({'url': image.image.url,
-                         'pk': image.pk}, status=status.HTTP_201_CREATED)
+        return Response({
+            "success": 1,
+            "file": {
+                "url": "http://127.0.0.1:8000/" + image.image.url,
+                "id": image.pk
+
+            }}, status=status.HTTP_201_CREATED)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
