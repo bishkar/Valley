@@ -9,10 +9,10 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function PostItem({ post, isFavorited }) {
+export default function PostItem({ post }) {
   const dispatch = useDispatch();
-  const { pk, image_urls, tags_name } = post;
-  const [isFav, setIsFav] = useState(isFavorited);
+  const { pk, image_urls, tags_name, is_favourite } = post;
+  const [isFav, setIsFav] = useState(is_favourite);
   const { t } = useTranslation();
 
   let loggedIn = localStorage.getItem("loggedIn");

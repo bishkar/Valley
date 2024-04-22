@@ -30,9 +30,9 @@ export default function Favourites() {
   }, [dispatch, keyword]);
 
   const handleRemoveFromFavorites = (article) => {
-    dispatch(removeFromFavorites(article));
-    dispatch(fetchTagsByKeyword(keyword));
-    dispatch(fetchFavorites());
+    dispatch(removeFromFavorites(article)).then(() => {
+      dispatch(fetchFavorites());
+    });
   };
 
   const handleMorePosts = () => {

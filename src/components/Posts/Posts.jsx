@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchFavorites,
-  selectFavorites,
-} from "../../redux/favourites.slice/favourites.slice";
+// import {
+//   fetchFavorites,
+//   selectFavorites,
+// } from "../../redux/favourites.slice/favourites.slice";
 import PostItem from "../PostItem/PostItem";
 import "./Posts.scss";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,7 @@ export default function Posts() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { articles, status } = useSelector(selectArticles);
-  const favorites = useSelector(selectFavorites);
+  // const favorites = useSelector(selectFavorites);
   const postPerRow = 4;
   const [next, setNext] = useState(postPerRow);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +28,6 @@ export default function Posts() {
         `http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}`
       )
     );
-    dispatch(fetchFavorites());
   }, [dispatch, currentPage]);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ export default function Posts() {
       setCurrentPage(currentPage + 1);
       setNext(next + postPerRow);
     } else {
-      setNext(next - 2 + postPerRow);
+      setNext(next + postPerRow - 2);
     }
   };
 
@@ -66,12 +65,7 @@ export default function Posts() {
         <div className="post__container">
           <div className="vl"></div>
           {allArticles?.slice(0, next)?.map((post, index) => {
-            const isFavorited = favorites?.some(
-              (favProduct) => favProduct.article.pk === post.pk
-            );
-            return (
-              <PostItem key={index} post={post} isFavorited={isFavorited} />
-            );
+            return <PostItem key={index} post={post} />;
           })}
         </div>
       </div>

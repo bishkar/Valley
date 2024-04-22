@@ -71,8 +71,8 @@ const favoritesSlice = createSlice({
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
         console.log('Removed from favorites:', action.payload);
         return state.filter((product) => {
-          product.pk !== action.payload.pk
-        })
+          return product.pk !== action.payload.pk
+        });
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         console.log('Fetched favorites:', action.payload);

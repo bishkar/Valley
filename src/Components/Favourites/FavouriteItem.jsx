@@ -2,17 +2,24 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Favourite.scss";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
   const { image_urls, tags_name } = postId.article;
   const { t } = useTranslation();
+  const [isFav, setIsFav] = useState(true);
+
   const handleRemoveClick = () => {
     handleRemoveFromFavorites(postId.article);
+    setIsFav(false);
   };
 
   return (
     <>
-      <div className="favourite__card">
+      <div
+        style={{ display: isFav ? "block" : "none" }}
+        className="favourite__card"
+      >
         <Link className="post__more" to={`/articles/${postId}`}>
           <img src={`http://127.0.0.1:8000${image_urls[0]}`} />
           <div className="favourite__body">

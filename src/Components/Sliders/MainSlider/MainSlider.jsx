@@ -26,15 +26,21 @@ export default function Mainslider() {
     );
   };
 
+  window.addEventListener("touchstart", function (event) {
+    // some logic
+    event.preventDefault(); // <-- that should not be used in passive
+    // some other magic
+  });
+
   const [imageIndex, setImageIndex] = useState(0);
 
   const settings = {
     centerMode: true,
     infinite: true,
     slidesToShow: 1,
-    swipeToSlide: false,
-    draggable: false,
-    swipe: false,
+    // swipeToSlide: false,
+    // draggable: false,
+    // swipe: false,
     autoplay: true,
     focusOnSelect: true,
     autoplaySpeed: 3000,
