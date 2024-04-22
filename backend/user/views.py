@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
@@ -13,9 +14,11 @@ from api.schemas import swagger_auth_token_response, swagger_password_restore_re
 from user.models import User
 from user.schemas import swagger_reset_password_confirm_response
 from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer, \
-    UserUpdatePasswordSerializer
+    UserUpdatePasswordSerializer, UserVerifySerializer, StatusSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.utils import send_otp_mail, generate_otp
+import uuid
+from django.utils.translation import gettext as _
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -26,14 +29,16 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
-    throttle_scope = 'email_auth'   
+    throttle_scope = 'email_auth'
 
-    @swagger_auto_schema(responses=swagger_register_token_response,
-                         operation_description="Use this endpoint to register and authenticate via email",
-                         operation_summary="Sign up new user using email", request_body=RegisterSerializer)
+    @extend_schema(
+        description="Register a new user",
+        summary="Register a new user",
+        responses=RegisterSerializer
+    )
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-    
+
         user = User.objects.get(email=request.data['email'])
         token = MyTokenObtainPairSerializer.get_token(user)
 
@@ -50,50 +55,29 @@ class RegisterView(generics.CreateAPIView):
 class EmailTokenObtainPairView(TokenObtainPairView):
     throttle_scope = 'email_token_auth'
 
-    @swagger_auto_schema(responses=swagger_auth_token_response,
-                         operation_description="Use this endpoint to authenticate via email",
-                         operation_summary="Authenticate using email (sign in/sign up)",
-                         request_body=MyTokenObtainPairSerializer)
+    @extend_schema(description="Use this endpoint to authenticate via email",
+                   summary="Authenticate using email (sign in/sign up)",
+                   responses=swagger_auth_token_response)
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
 
 # region Reset-password
-# region Documentation
-@method_decorator(
-    name="get",
-    decorator=swagger_auto_schema(
-        responses={
-            200: openapi.Schema(
-                title="PasswordResetConfirm",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'status': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
-                }
-            ),
-            404: openapi.Schema(
-                title="PasswordResetError",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255, description="User not found")
-                },
-            ),
-        },
-        operation_description="Use this endpoint to request a password reset",
-        operation_summary="Request a password reset",
-    ),
-)
-# endregion fo
+
 class PasswordResetRequestView(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserUpdatePasswordSerializer
     throttle_scope = 'password_reset_request'
 
-    def retrieve(self, request, *args, **kwargs):
+    @extend_schema(
+        description="Use this endpoint to request a password reset",
+        responses={200: StatusSerializer()},
+        summary="Request password reset")
+    def get(self, request, *args, **kwargs):
         email = self.kwargs.get('email')
         user = User.objects.get(email=email)
 
-        if user:
+        if user and not user.provider == 'email':
             otp = generate_otp()
 
             user.otp = otp
@@ -102,58 +86,60 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
             user.save()
             send_otp_mail(email, otp)
 
-            return Response({'message': 'OTP sent to your email'}, status=status.HTTP_200_OK)
+            return Response({'status': 'success', 'message': _('OTP sent to your email')}, status=status.HTTP_200_OK)
 
-        return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'status': 'failed', 'message': _('User not found')}, status=status.HTTP_404_NOT_FOUND)
 
 
-# region Documentation
-@method_decorator(
-    name="put",
-    decorator=swagger_auto_schema(
-        responses={
-            200: openapi.Schema(
-                title="PasswordResetConfirm",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255)
-                }
-            ),
-            406: openapi.Schema(
-                title="PasswordResetError",
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, max_length=255, description="Invalid OTP")
-                },
-            ),
-        },
-        operation_description="Use this endpoint to confirm a password reset",
-        operation_summary="Confirm a password reset using OTP",
-    ),
-)
-# endregion
 class PasswordResetConfirmView(generics.UpdateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserUpdatePasswordSerializer
     permission_classes = (AllowAny,)
     lookup_field = 'email'
     throttle_scope = 'password_reset_confirm'
+    http_method_names = ['put']
 
-    def update(self, request, *args, **kwargs):
+    @extend_schema(
+        description="Use this endpoint two update password",
+        responses=StatusSerializer(),
+        summary="Update password using restore_token",
+    )
+    def put(self, request, *args, **kwargs):
         user = User.objects.get(email=request.data.get('email'))
+        print(user.email)
+        restore_token = request.data.get('restore_token')
+        if (user.restore_token and user.restore_token == restore_token and user.otp_expiry > timezone.now()):
+            user.restore_token = None
 
-        if user.otp == request.data.get('otp') and user.otp_expiry > timezone.now():
-            user.otp = None
             user.set_password(request.data.get('password'))
             user.save()
-            # return super().update(request, *args, **kwargs)
-            return Response({'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
-        else:
-            return Response({'message': 'Invalid OTP'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-    # region Documentation
-    @swagger_auto_schema(deprecated=True)
-    # endregion
-    def patch(self, request, *args, **kwargs):
-        pass
-# endregion
+            return Response({'status': 'Success', 'message': 'Password reset successfully'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'status': 'Failed', 'message': 'Invalid restore_token'},
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class CheckOTPView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserVerifySerializer
+    permission_classes = (AllowAny,)
+
+    # search_fields = ['otp', 'email']
+
+    @extend_schema(
+        description="Check OTP",
+        summary="Check OTP",
+        responses=UserVerifySerializer
+    )
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(email=kwargs.get('email'))
+        print(kwargs.get('otp'))
+        if user.otp == kwargs.get('otp') and user.otp_expiry > timezone.now():
+            user.otp = None
+            user.restore_token = uuid.uuid4()
+            user.otp_expiry = timezone.now() + timezone.timedelta(minutes=30)
+            user.save()
+            return Response({'status': 'success', "restore_token": user.restore_token}, status=status.HTTP_200_OK)
+        else:
+            return Response({'status': 'Failed', 'message': "OTP is not valid or expired"},
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
