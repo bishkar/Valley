@@ -10,6 +10,8 @@ import authFacebookSlice from './auth.slice/facebook.slice';
 import restorePasswordSlice from './auth.slice/restorePassword.slice';
 import getCategorySlice from './category.slice/getCategory.slice';
 import newPostSlice from './posts.slice/newpost.slice';
+import pushPostSlice from './posts.slice/pushpost.slice';
+import translateSlice from './posts.slice/translate.slice';
 
 export const store = configureStore({
   reducer: {
@@ -22,7 +24,11 @@ export const store = configureStore({
     restorePassword: restorePasswordSlice,
     category: getCategorySlice,
     newpost: newPostSlice,
+    pushpost: pushPostSlice,
+    translate: translateSlice,
     [imagesApi.reducerPath]: imagesApi.reducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(imagesApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  }).concat(imagesApi.middleware)
 });
