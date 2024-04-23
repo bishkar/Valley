@@ -22,12 +22,29 @@ const Navbar = () => {
   const [showRightHeader, setShowRightHeader] = useState(false);
 
   let loggedIn = useAuth();
+  let currentLanguage = localStorage.getItem("i18nextLng");
+
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchCategory());
-  }, [dispatch]);
+    const handleDocumentClick = (event) => {
+      if (
+        (!event.target.closest(".hamburger") &&
+          !event.target.closest(".right-header")) ||
+        event.target.closest(".right-header")
+      ) {
+        setShowRightHeader(false);
+        setIsChecked(false);
+      }
+    };
+    document.addEventListener("click", handleDocumentClick);
+    return () => document.removeEventListener("click", handleDocumentClick);
+  }, []);
 
-  let currentLanguage = localStorage.getItem("i18nextLng");
+  const handleToggleRightHeader = () => {
+    setShowRightHeader(!showRightHeader);
+    setIsChecked(!isChecked);
+  };
   useEffect(() => {
     dispatch(fetchCategory());
   }, [dispatch]);
@@ -58,7 +75,8 @@ const Navbar = () => {
                 <input
                   type="checkbox"
                   id="toggleRightHeader"
-                  onChange={() => setShowRightHeader(!showRightHeader)}
+                  checked={isChecked}
+                  onChange={handleToggleRightHeader}
                 />
                 <svg viewBox="0 0 32 32">
                   <path

@@ -5,12 +5,12 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
-  const { image_urls, tags_name } = postId.article;
+  const { pk, image_urls, tags_name } = postId;
   const { t } = useTranslation();
   const [isFav, setIsFav] = useState(true);
 
   const handleRemoveClick = () => {
-    handleRemoveFromFavorites(postId.article);
+    handleRemoveFromFavorites(postId);
     setIsFav(false);
   };
 
@@ -20,10 +20,10 @@ export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
         style={{ display: isFav ? "block" : "none" }}
         className="favourite__card"
       >
-        <Link className="post__more" to={`/articles/${postId}`}>
+        <Link className="post__more" to={`/articles/${pk}`}>
           <img src={`http://127.0.0.1:8000${image_urls[0]}`} />
           <div className="favourite__body">
-            <h4>{t("parameters.postTitle", { data: postId.article })} </h4>
+            <h4>{t("parameters.postTitle", { data: postId })} </h4>
           </div>
         </Link>
         <ul className="postItem__tagList">

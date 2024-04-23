@@ -58,7 +58,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 10px 10px;
   text-transform: uppercase;
 }
 
@@ -127,6 +126,7 @@
 
 @media only screen and (max-width: 600px) {
 
+
   .post__cart{
     max-width: 350px;
     width: auto;
@@ -141,7 +141,6 @@
   }
 
   .post__body{
-    height: 50px;
   
     & h4{
       margin: 0;
@@ -150,15 +149,38 @@
     }
   }
 
+  .arrowBackPage{
+    position: absolute;
+    z-index: 5;
+    top: 7px;
+    left: 0;
+    font-size: 70px;
+  }
+
+  .itemPage__body{
+    position: relative;
+    z-index: 5;
+    width: auto;
+    padding: 0 15px;
+    background-color: #fff;
+    margin-top: 270px;
+    border-radius: 0;
+    transition: border-radius 0.3s ease;
+  }
+
+  .itemPage__body.down {
+    border-radius: 50px; 
+  }
+
   .itemPage__container{
     width: auto;
     max-width: 500px;
-    margin: 0 15px;
   }
 
   .itemPage__title{
     margin: 40px 0 15px;
     font-size: 46px;
+    padding-top: 20px;
   }
 
   .link__to__product{

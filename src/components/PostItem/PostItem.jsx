@@ -9,16 +9,17 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function PostItem({ post }) {
+export default function PostItem({ post, isFavourite }) {
   const dispatch = useDispatch();
-  const { pk, image_urls, tags_name, is_favourite } = post;
-  const [isFav, setIsFav] = useState(is_favourite);
+  const { pk, image_urls, tags_name } = post;
+  const [isFav, setIsFav] = useState(isFavourite);
   const { t } = useTranslation();
 
   let loggedIn = localStorage.getItem("loggedIn");
   if (loggedIn === null || loggedIn === "false" || loggedIn === false) {
     loggedIn = false;
   }
+
   const handleAddToFavorites = () => {
     if (isFav) {
       dispatch(removeFromFavorites(post));

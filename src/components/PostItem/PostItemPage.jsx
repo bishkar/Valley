@@ -9,20 +9,42 @@ import { useEffect } from "react";
 import { fetchStats, makeClick } from "../../redux/posts.slice/clicks.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
-
+import { TiArrowBack } from "react-icons/ti";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
+import { useNavigate } from "react-router-dom";
+
 const PostItemPage = () => {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
   const { postId } = useParams();
   const { t } = useTranslation();
   const admin = isAdminUser();
   const { clicks } = useSelector((state) => state.clicks);
   const isFetching = useRef(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState("down");
 
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/${postId}`
   );
+
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        setScrollDirection("down");
+      } else {
+        setScrollDirection("up");
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (admin) {
@@ -36,6 +58,20 @@ const PostItemPage = () => {
       isFetching.current = true;
     }
   }
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const NextArrow = ({ onClick }) => {
     return (
@@ -80,6 +116,20 @@ const PostItemPage = () => {
       ) : (
         <>
           <div className="postSlider__container">
+            {isMobile && (
+              <>
+                <img
+                  src={`http://127.0.0.1:8000${data?.image_urls[0]}`}
+                  className="slide__image"
+                />
+                {/* <button onClick={() => navigate(-1)}> */}
+                <TiArrowBack
+                  className="arrowBackPage"
+                  onClick={() => navigate(-1)}
+                />
+                {/* </button> */}
+              </>
+            )}
             <Slider {...settings}>
               {data?.image_urls.map((image, idx) => (
                 <div
@@ -98,34 +148,36 @@ const PostItemPage = () => {
               ))}
             </Slider>
           </div>
-          <h2 className="itemPage__title">
-            {t("parameters.postTitle", { data })}
-            {admin && <span>({clicks})</span>}
-          </h2>
-          <ul className="itemPage__tagList">
-            {data?.tags_name.map((tag, index) => (
-              <li key={index}>
-                <Link className="post__more" to={`/search/tags/${tag}`}>
-                  <p>{tag}</p>
+          <div className={`itemPage__body ${scrollDirection}`}>
+            <h2 className="itemPage__title">
+              {t("parameters.postTitle", { data })}
+              {admin && <span>({clicks})</span>}
+            </h2>
+            <ul className="itemPage__tagList">
+              {data?.tags_name.map((tag, index) => (
+                <li key={index}>
+                  <Link className="post__more" to={`/search/tags/${tag}`}>
+                    <p>{tag}</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="link__to__product">
+              <p>
+                {t("Link to the product: ")}
+                <Link
+                  to={data.link_to_product}
+                  target="_blank"
+                  onClick={handleClcik}
+                >
+                  {data.link_to_product}
                 </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="link__to__product">
-            <p>
-              {t("Link to the product: ")}
-              <Link
-                to={data.link_to_product}
-                target="_blank"
-                onClick={handleClcik}
-              >
-                {data.link_to_product}
-              </Link>
+              </p>
+            </div>
+            <p className="itemPage__content">
+              {t("parameters.postContent", { data })}
             </p>
           </div>
-          <p className="itemPage__content">
-            {t("parameters.postContent", { data })}
-          </p>
         </>
       )}
     </div>

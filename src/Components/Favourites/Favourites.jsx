@@ -59,7 +59,7 @@ export default function Favourites() {
             {filteredFavorites?.slice(0, next)?.map((favPost, index) => (
               <FavouriteItem
                 key={index}
-                postId={favPost}
+                postId={favPost.article}
                 handleRemoveFromFavorites={handleRemoveFromFavorites}
               />
             ))}

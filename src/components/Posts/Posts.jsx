@@ -65,7 +65,13 @@ export default function Posts() {
         <div className="post__container">
           <div className="vl"></div>
           {allArticles?.slice(0, next)?.map((post, index) => {
-            return <PostItem key={index} post={post} />;
+            return (
+              <PostItem
+                key={index}
+                post={post}
+                isFavourite={post?.is_favourite}
+              />
+            );
           })}
         </div>
       </div>

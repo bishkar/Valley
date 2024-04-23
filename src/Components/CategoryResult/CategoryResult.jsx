@@ -64,19 +64,25 @@ export default function CategoryResult() {
   return (
     <>
       <Mainslider />
-      <div className="category__container">
-        <h1>{t("Posts")}</h1>
-        <div className="favourite__cards">
-          {allArticles?.slice(0, next)?.map((post, index) => (
-            <CategoryResultItem key={index} post={post} />
-          ))}
+      {articles?.count === 0 ? (
+        <div>
+          <h2>{t("This page is empty")}</h2>
         </div>
-        {next < articles?.count && (
-          <button className="loadMoreBtn" onClick={handleMorePosts}>
-            {t("more...")}
-          </button>
-        )}
-      </div>
+      ) : (
+        <div className="category__container">
+          <h1>{t("Posts")}</h1>
+          <div className="favourite__cards">
+            {allArticles?.slice(0, next)?.map((post, index) => (
+              <CategoryResultItem key={index} post={post} />
+            ))}
+          </div>
+          {next < articles?.count && (
+            <button className="loadMoreBtn" onClick={handleMorePosts}>
+              {t("more...")}
+            </button>
+          )}
+        </div>
+      )}
     </>
   );
 }
