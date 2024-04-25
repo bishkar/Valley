@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   fetchFavorites,
-//   selectFavorites,
-// } from "../../redux/favourites.slice/favourites.slice";
 import PostItem from "../PostItem/PostItem";
 import "./Posts.scss";
 import { useTranslation } from "react-i18next";
@@ -16,7 +12,6 @@ export default function Posts() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { articles, status } = useSelector(selectArticles);
-  // const favorites = useSelector(selectFavorites);
   const postPerRow = 4;
   const [next, setNext] = useState(postPerRow);
   const [currentPage, setCurrentPage] = useState(1);

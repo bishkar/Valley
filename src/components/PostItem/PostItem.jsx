@@ -6,19 +6,23 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../redux/favourites.slice/favourites.slice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function PostItem({ post, isFavourite }) {
   const dispatch = useDispatch();
   const { pk, image_urls, tags_name } = post;
-  const [isFav, setIsFav] = useState(isFavourite);
+  const [isFav, setIsFav] = useState();
   const { t } = useTranslation();
 
   let loggedIn = localStorage.getItem("loggedIn");
   if (loggedIn === null || loggedIn === "false" || loggedIn === false) {
     loggedIn = false;
   }
+
+  useEffect(() => {
+    setIsFav(isFavourite);
+  }, [isFavourite]);
 
   const handleAddToFavorites = () => {
     if (isFav) {
@@ -30,6 +34,7 @@ export default function PostItem({ post, isFavourite }) {
       setIsFav(true);
     }
   };
+
   return (
     <div className="post__cart">
       <Link className="post__more" to={`/articles/${pk}`}>

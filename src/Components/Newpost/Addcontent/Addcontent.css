@@ -20,3 +20,10 @@
     border: 1px solid rgb(0, 0, 0);
 }
 
+#editorjss {
+    width: 100%;
+    max-width: 990px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(0, 0, 0);
+}
+

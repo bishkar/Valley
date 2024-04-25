@@ -9,44 +9,49 @@ const initialState = {
 
 export const newPost = createAsyncThunk('newpost/newPost', async (postData) => {
     console.log(postData.images);
-    postData.images.forEach(async (image, index) => {
-        const formData = new FormData();
-        formData.append('image', image);
-        console.log(index)
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/image/upload/', formData, {
-            headers: {
-                Authorization: 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNDUxNTM5LCJpYXQiOjE3MTM0NDc5MzksImp0aSI6IjQ2MGViM2U5MDQyMTQwOTliZDc4ZGFjNTVjYTdiZGI1IiwidXNlcl9pZCI6MTB9.TkAVcZetn7iJ9lpjUSsTBUvIAYZRGdxC9DMu-CA3dog",
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-        postData.images[index] = response.url;
-    })
+    try {
+        const updatedImages = [];
+        for (const image of postData.images) {
+            const formData = new FormData();
+            formData.append('image', image);
+            console.log(image);
+            const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/image/upload', formData, {
+                headers: {
+                    Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQxMTgxLCJpYXQiOjE3MTM1Mzc1ODEsImp0aSI6ImQwYWY5NmMxMmZmYzQ4NjRiOWQ5YTdlYzA2MzRmMzE5IiwidXNlcl9pZCI6MSwiaXNfYWRtaW4iOnRydWV9.nr3pX6OnUP8An1KJNhfGDV2pqWQkuUxgpoovazhi8RQ",
+                }
+            });
+            console.log(response);
+            updatedImages.push(response.data.file.id);
+        }
 
-    console.log(postData);
-
-    const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', postData);
-    return response.data;
-})
+        const postDataWithUpdatedImages = { ...postData, images: updatedImages };
+        return postDataWithUpdatedImages; // Return the post response
+    } catch (error) {
+        console.log(error);
+        throw error; // Throw error for rejection
+    }
+});
 
 const newPostSlice = createSlice({
-    name: 'newpost',
+    name: 'newPost',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(newPost.pending, (state) => {
                 state.status = 'loading';
+                state.error = null;
             })
             .addCase(newPost.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.post = action.payload;
+                state.error = null;
             })
             .addCase(newPost.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
-            })
-    }
-})
+            });
+    },
+});
 
 export default newPostSlice.reducer;

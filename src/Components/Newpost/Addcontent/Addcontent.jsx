@@ -19,16 +19,19 @@ import InlineCode from '@editorjs/inline-code'
 import SimpleImage from '@editorjs/simple-image'
 import { createReactEditorJS } from 'react-editor-js'
 import { useEffect } from 'react';
+import { translate } from "../../../redux/posts.slice/translate.slice";
+import h from '@editorjs/simple-image';
+import { useState } from 'react';
 
 const EDITOR_JS_TOOLS = {
     header: Header,
 }
 
-const AddContent = ({setPostData}) => {
-    let editor = { isReady: false };
-
+const AddContent = ({setPostData, translatedBlocks}) => {
+    let [editor, setEditor] = useState(null);
+    
     useEffect(() => {
-        if (!editor.isReady) {
+        if (!editor) {
             editor = new EditorJS({
                 holder: "editorjs",
                 tools: {
@@ -65,7 +68,7 @@ const AddContent = ({setPostData}) => {
                                         byFile: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your backend file uploader endpoint
                                         byUrl: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your endpoint that provides uploading by Url
                                     },
-                                    additionalRequestHeaders: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNDQ3MDQ1LCJpYXQiOjE3MTM0NDM0NDUsImp0aSI6IjQzNTA5Zjg0ZjlmMTQ3YzM4MTNmYTdmOTI5ZWY3MmI0IiwidXNlcl9pZCI6MTB9.fLy78_7r14DgVjAh2_CWRprH3YTSKs5qbSQHRLaTdxA"},
+                                    additionalRequestHeaders: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQxMTgxLCJpYXQiOjE3MTM1Mzc1ODEsImp0aSI6ImQwYWY5NmMxMmZmYzQ4NjRiOWQ5YTdlYzA2MzRmMzE5IiwidXNlcl9pZCI6MSwiaXNfYWRtaW4iOnRydWV9.nr3pX6OnUP8An1KJNhfGDV2pqWQkuUxgpoovazhi8RQ"},
                                 }
                             },
                             raw: Raw,
@@ -123,9 +126,26 @@ const AddContent = ({setPostData}) => {
                                     console.log('Saving failed: ', error)
                                   });
                             }
-            });
+                        });
+                    setEditor(editor);
+                    }
+        }, []);
+
+    const pasteTranslatedBlocks = (translatedBlocks) => {
+        let blocks = translatedBlocks
+        console.log("editor", editor);
+        console.log("translatedBlocks", translatedBlocks);
+        editor.blocks.render({blocks: blocks});
+        console.log("pasted");
+    }
+
+    useEffect(() => {
+        if (translatedBlocks.length > 0) {
+            console.log("translatedBlocks", translatedBlocks)
+            pasteTranslatedBlocks(translatedBlocks);
+            translatedBlocks = [];
         }
-    }, []);
+    }, [pasteTranslatedBlocks]);
 
     return (
         <div className="addcontent">

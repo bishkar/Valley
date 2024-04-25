@@ -25,81 +25,12 @@ const EDITOR_JS_TOOLS = {
 };
 
 const AddContentIT = ({ setPostData }) => {
-  // const editor = new EditorJS({
-  //     holder: 'editorjs',
-  //     tools: {
-  //         header: {
-  //             class: Header,
-  //             inlineToolbar: ['link'],
-  //             config: {
-  //                 placeholder: 'Enter a header',
-  //                 levels: [2, 3, 4],
-  //                 defaultLevel: 3
-  //             },
-  //         },
-  //         embed: {
-  //             class: Embed,
-  //             inlineToolbar: true,
-  //             config: {
-  //                 services: {
-  //                     youtube: true,
-  //                     coub: true
-  //                 }
-  //             }
-  //         },
-  //         list: {
-  //             class: List,
-  //             inlineToolbar: true,
-  //         },
-  //         warning: Warning,
-  //         code: Code,
-  //         linkTool: LinkTool,
-  //         image: {
-  //             class: Image,
-  //             config: {
-  //                 endpoints: {
-  //                     byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
-  //                     byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
-  //                 }
-  //             }
-  //         },
-  //         raw: Raw,
-  //         paragraph: {
-  //             class: Paragraph,
-  //             inlineToolbar: true,
-  //         },
-  //         table: {
-  //             class: Table,
-  //             inlineToolbar: true,
-  //         },
-  //         quote: {
-  //             class: Quote,
-  //             inlineToolbar: true,
-  //             config: {
-  //                 quotePlaceholder: 'Enter a quote',
-  //                 captionPlaceholder: 'Quote\'s author',
-  //             },
-  //         },
-  //         marker: Marker,
-  //         checklist: {
-  //             class: CheckList,
-  //             inlineToolbar: true,
-  //         },
-  //         delimiter: Delimiter,
-  //         inlineCode: {
-  //             class: InlineCode,
-  //             inlineToolbar: true,
-  //         },
-  //         simpleImage: SimpleImage,
-  //     },
+  let editorit = { isReady: false };
 
-  // })
-
-  let editor = { isReady: false };
   useEffect(() => {
-    if (!editor.isReady) {
-      editor = new EditorJS({
-        holder: "editorjs",
+    if (!editorit.isReady) {
+      editorit = new EditorJS({
+        holder: "editorjss",
         tools: {
           header: {
             class: Header,
@@ -131,8 +62,12 @@ const AddContentIT = ({ setPostData }) => {
             class: Image,
             config: {
               endpoints: {
-                byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-                byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+                byFile: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your backend file uploader endpoint
+                byUrl: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
+              },
+              additionalRequestHeaders: {
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNDUyNzM4LCJpYXQiOjE3MTM0NDkxMzgsImp0aSI6IjY0YTc2YTgxZDRhNDQ0ODliNzIxNDE2YmIzMGMwZjVjIiwidXNlcl9pZCI6MTB9.sF6HvOseVkOsK574VOX1VCddW0S7oWCkImVS4AcovCc",
               },
             },
           },
@@ -183,7 +118,7 @@ const AddContentIT = ({ setPostData }) => {
           ],
         },
         onChange: (api, newData) => {
-          editor
+          editorit
             .save()
             .then((outputData) => {
               setPostData((prevData) => ({
@@ -202,7 +137,7 @@ const AddContentIT = ({ setPostData }) => {
   return (
     <div className="addcontent">
       <div className="addcontent-container">
-        <div id="editorjs"></div>
+        <div id="editorjss"></div>
       </div>
     </div>
   );
