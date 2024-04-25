@@ -253,8 +253,9 @@
     .header-element {
         margin: 15px 0;
         display: flex;
-        gap: 12px;
+        width: 90px;
         align-items: center;
+        justify-content: space-between;
 
         & span {
             display: block;
@@ -291,4 +292,45 @@
         background-color: transparent;
     }
 
+}
+
+
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+    .navbar {
+        margin: 32px 15px 0;
+        gap: 20px;
+        max-width: 100%;
+        width: auto;
+    }
+
+    .nav__top {
+        gap: 15px;
+    }
+
+    .header-element {
+        margin-left: 18px;
+    }
+
+    .nav-input {
+        width: 100%;
+    }
+
+    .search__icon {
+        top: 39%;
+        right: 40px;
+        transform: none;
+    }
+
+    .nav-header {
+        width: 290px;
+    }
+
+    .right-header {
+        width: 290px;
+    }
+
+    .nav-under {
+        gap: 170px;
+    }
 }

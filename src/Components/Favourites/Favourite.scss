@@ -29,6 +29,10 @@
 }
 
 .favourite__cards{
+  width: 100%;
+  max-width: 1300px;
+  border-top: 1px solid #000;
+  padding-top: 35px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -104,5 +108,28 @@
   .favourite__card{
     width: 330px;
     margin: 0 auto 36px;
+    & img{
+      height: 170px;
+    }
+  }
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+
+  .favourite__container{
+    max-width: 1100px;
+    width: auto;
+    margin: 0 15px;
+
+  }
+
+  .favourite__card{
+    width: 330px;
+    margin: 0 auto 36px;
+  
+    & img{
+      height: 170px;
+    }
   }
 }

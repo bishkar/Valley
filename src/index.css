@@ -64,3 +64,12 @@ button {
     box-sizing: border-box;
   }
 }
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+  .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+}
