@@ -25,8 +25,8 @@ class Article(models.Model):
 
     images = models.ManyToManyField('ArticleImage')
 
-    en_content = models.TextField()
-    it_content = models.TextField()
+    en_content = models.JSONField()
+    it_content = models.JSONField()
 
     link_to_product = models.URLField()
 
@@ -72,5 +72,6 @@ class Category(models.Model):
 
 
 class UserUrlViewer(models.Model):
-    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True, blank=True)
     article = models.ForeignKey('Article', on_delete=models.CASCADE)
+    ip = models.CharField(max_length=100)

@@ -13,6 +13,7 @@ from datetime import timedelta
 from pathlib import Path
 import environs
 from datetime import timedelta
+# from django.utils.translation import gettext as _
 
 env = environs.Env()
 env.read_env()
@@ -80,7 +81,7 @@ CACHES = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 # SWAGGER_SETTINGS: dict[str, any] = {
@@ -115,14 +116,14 @@ REST_FRAMEWORK = {
         
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'refresh_token': '5/h',
-        'article': '1000/m',
-        'facebook_auth': '5/m',
-        'favourite': '200/m',
-        'email_auth': '5/m',
-        'email_token_auth': '5/m',
-        'password_reset_request': '20/d',
-        'password_reset_confirm': '10/d',
+        'refresh_token': '500/h',
+        'article': '10000/m',
+        'facebook_auth': '5000/m',
+        'favourite': '200000/m',
+        'email_auth': '5000/m',
+        'email_token_auth': '5000/m',
+        'password_reset_request': '200/d',
+        'password_reset_confirm': '100/d',
         'url_view_count': '1/y',
     }
 }
@@ -134,6 +135,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -142,7 +144,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+LANGUAGE_CODE = 'it'
+# LANGUAGES = [
+#     ('it', 'Italian'),
+#     ('en', 'English'),
+# ]
+
 CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = 'user.User'
 ROOT_URLCONF = 'backend.urls'
@@ -206,15 +216,18 @@ AUTH_PASSWORD_VALIDATORS = [
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "TOKEN_OBTAIN_SERIALIZER": "api.serializers.CustomTokenObtainPairSerializer",
+    "ROTATE_REFRESH_TOKENS": True,
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
-
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 USE_I18N = True
 
 USE_TZ = True
