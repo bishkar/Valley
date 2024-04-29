@@ -11,6 +11,7 @@ from drf_spectacular.utils import extend_schema
 translator = Translator(to_lang='en', from_lang='it')
 fields_to_translate = ["title", "caption", "message", "text"]
 
+
 @extend_schema(
     request=TranslateSerializer,
     responses={200: TranslateSerializer}

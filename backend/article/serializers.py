@@ -18,6 +18,13 @@ class ShortArticleSerializer(serializers.ModelSerializer):
         return [image.image.url for image in images]
 
 
+class ShortArticleSerializerWithFavorite(ShortArticleSerializer):
+    is_favourite = serializers.BooleanField()
+
+    class Meta(ShortArticleSerializer.Meta):
+        fields = ShortArticleSerializer.Meta.fields + ['is_favourite']
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     image_urls = serializers.SerializerMethodField('get_image_urls')
 
@@ -36,6 +43,18 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_image_urls(self, obj):
         images = obj.images.all()
         return [image.image.url for image in images]
+
+
+class ArticleSerializerAdmin(ArticleSerializer):
+
+    class Meta(ArticleSerializer.Meta):
+        fields = ArticleSerializer.Meta.fields
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_image_urls(self, obj):
+        images = obj.images.all()
+        return [{image.id: image.image.url} for image in images]
+
 
 class UploadArticleImageSerializer(serializers.ModelSerializer):
     image = serializers.ImageField()

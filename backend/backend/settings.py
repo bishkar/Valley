@@ -28,8 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y-npw7(ya$!0l&v0+^f9qwjygi#^4z$)zi0fu#v&pafx_f86&^'
+SECRET_KEY = env.str("SECRET_KEY")
+# To generate a new secret key, you can use the following command:
+# python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -59,7 +60,6 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    # 'drf_yasg',
     'drf_spectacular_sidecar',
     'drf_spectacular',
     'django_filters'
@@ -70,18 +70,18 @@ REDIS_PORT = env.str("REDIS_PORT")
 REDIS_DB = env.str("REDIS_DB")
 REDIS_PASSWORD = env.str("REDIS_PASSWORD")
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-#         "LOCATION": "redis://{}:{}".format(REDIS_HOST, REDIS_PORT),
-#         "OPTIONS": {
-#             "db": REDIS_DB,
-#         }
-#     }
-# }
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://{}:{}".format(REDIS_HOST, REDIS_PORT),
+        "OPTIONS": {
+            "db": REDIS_DB,
+        }
+    }
+}
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 # SWAGGER_SETTINGS: dict[str, any] = {
@@ -116,23 +116,25 @@ REST_FRAMEWORK = {
         
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'refresh_token': '500/h',
-        'article': '10000/m',
-        'facebook_auth': '5000/m',
-        'favourite': '200000/m',
-        'email_auth': '5000/m',
-        'email_token_auth': '5000/m',
-        'password_reset_request': '200/d',
+        'refresh_token': '20/h',
+        'article': '100/m',
+        'facebook_auth': '50/m',
+        'favourite': '200/m',
+        'email_auth': '200/m',
+        'email_token_auth': '200/m',
+        'password_reset_request': '15/d',
         'password_reset_confirm': '100/d',
-        'url_view_count': '1/y',
+        'url_view_count': '100/m',
     }
 }
 
-
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
+    "http://109.107.157.206",
+    "https://api.solyver.com",
     "http://127.0.0.1:5173",
+    "https://solyver.com"
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
@@ -178,23 +180,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
