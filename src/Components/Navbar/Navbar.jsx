@@ -4,6 +4,7 @@ import profileImage from "./../../assets/Icons/Profile/Profile.svg";
 import savedImage from "./../../assets/Icons/Saved/Saved.svg";
 import loginImage from "./../../assets/Icons/Profile/Login.svg";
 import logoutImage from "./../../assets/Icons/Profile/Logout.svg";
+import addImage from "./../../assets/Icons/Add/add.svg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +15,7 @@ import CategoryItem from "../Category/CategoryItem";
 import { Link } from "react-router-dom";
 import i18n from "../../../i18n";
 import useAuth from "../../hooks/useAuth";
+import { isAdminUser } from "../../redux/auth.slice/token.slice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -115,6 +117,14 @@ const Navbar = () => {
             <div
               className={`right-header ${showRightHeader ? "show" : "hide"}`}
             >
+              {isAdminUser() && (
+                <Link to="/new-post">
+                  <div className="header-element">
+                    <img src={addImage} alt="" />
+                    <span>Add Post</span>
+                  </div>
+                </Link>
+              )}
               <a
                 className="header-element language"
                 onClick={getCurrentLanguage}

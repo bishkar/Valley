@@ -18,8 +18,11 @@ import { pushPost } from "../redux/posts.slice/pushpost.slice.js";
 import { translate } from "../redux/posts.slice/translate.slice.js";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
+import { useParams } from "react-router-dom";
+import useFetch from "../hooks/useFetch.js"
+import { useEffect } from "react";
 
-const NewPostPage = () => {
+const EditPostPage = () => {
   const dispatch = useDispatch();
 
   const [translatedBlocks, setTranslatedBlocks] = useState([]);
@@ -35,6 +38,31 @@ const NewPostPage = () => {
     article_tags: [],
     on_top: false,
   });
+
+  const { postId } = useParams();
+  
+  const { data, error, loading } = useFetch(
+    `http://127.0.0.1:8000/api/v1/articles/${postId}`
+  );
+
+    useEffect(() => {
+        if (data) {
+            setPostData({
+                en_title: data.en_title,
+                it_title: data.it_title,
+                en_content: data.en_content,
+                it_content: data.it_content,
+                link_to_product: data.link_to_product,
+                images: data.image_urls,
+                category: data.category,
+                article_tags: data.tags_name,
+                on_top: data.on_top,
+            });
+        }
+    }, [data]);
+    console.log(data, "data")
+    console.log(postData)
+
 
   const handlePostDataChange = (updatedData) => {
     setPostData(updatedData);
@@ -76,42 +104,43 @@ const NewPostPage = () => {
       const translatedData = await dispatch(translate(translateData)).then(
         (res) => {
           setTranslatedBlocks(res.payload);
-          console.log("rs.payload", res.payload);
-          console.log("postData", postData);
         }
-      );
+      )
     } catch (error) {
-      console.error("Error:", error);
+      alert("Error:", error);
     }
   };
 
   return (
     <div>
-      <h1>New Post</h1>
-      <AddImage setPostData={handlePostDataChange} />
+      <h1>Edit Post</h1>
+      <AddImage setPostData={handlePostDataChange} oldImages={postData.images}/>
       <AddTitle
         setPostData={handlePostDataChange}
         placeholder={"Title"}
         language={"en"}
+        oldTitle={postData.en_title}
       />
       <AddTitle
         setPostData={handlePostDataChange}
         placeholder={"Titolo"}
         language={"it"}
+        oldTitle={postData.it_title}
       />
-      <Tags setPostData={handlePostDataChange} />
-      <Addcategory setPostData={handlePostDataChange} />
-      <AddLink setPostData={handlePostDataChange} />
-      <AddContentIT setPostData={handlePostDataChange} />
+      <Tags setPostData={handlePostDataChange} tags={postData.article_tags}/>
+      <Addcategory setPostData={handlePostDataChange} category={postData.category}/>
+      <AddLink setPostData={handlePostDataChange} oldLink={postData.link_to_product}/>
+      <AddContentIT setPostData={handlePostDataChange} blocks={postData.it_content}/>
       <TranslateButton handleTranslate={handleTranslateClick} />
       <AddContent
         setPostData={handlePostDataChange}
         translatedBlocks={translatedBlocks}
+        blocks={postData.en_content}
       />
-      <AddOnTop setPostData={handlePostDataChange} />
+      <AddOnTop setPostData={handlePostDataChange} onTop={postData.on_top}/>
       <Postbutton handlePost={handlePost} />
     </div>
   );
 };
 
-export default NewPostPage;
+export default EditPostPage;

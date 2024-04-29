@@ -2,7 +2,7 @@
 import './Addtitle.css';
 import { useState } from 'react';
 
-const AddTitle = ({ placeholder, setPostData, language }) => { // Додайте setPostData до параметрів компонента
+const AddTitle = ({ placeholder, setPostData, language, oldTitle}) => {
     const [title, setTitle] = useState('');
 
     const handleTitleChange = (e) => {
@@ -19,6 +19,10 @@ const AddTitle = ({ placeholder, setPostData, language }) => { // Додайте
             }));
         }
     };
+
+    if (oldTitle && title === '') {
+        setTitle(oldTitle);
+    }
 
     return (
         <div className="add-title-container">

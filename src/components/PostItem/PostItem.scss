@@ -26,6 +26,17 @@
   }
 }
 
+.itemPage__editor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+}
+
 .postItem__tagList{
   display: flex;
   width: auto;
@@ -104,6 +115,32 @@
     font-size: 20px;
     margin: 0;
   }
+}
+
+.itemPage__admin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.admin__button {
+  color: #FF1088;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #BF80FB33;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.admin__button:hover {
+  background-color: #FF1088;
+  color: #ffffff;
 }
 
 

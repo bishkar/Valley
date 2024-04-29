@@ -19,16 +19,17 @@ import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
 import { createReactEditorJS } from "react-editor-js";
 import { useEffect } from "react";
+import { useState } from "react";
 
 const EDITOR_JS_TOOLS = {
   header: Header,
 };
 
-const AddContentIT = ({ setPostData }) => {
-  let editorit = { isReady: false };
+const AddContentIT = ({ setPostData, blocks }) => {
+  let [editorit, setEditor] = useState(null);
 
   useEffect(() => {
-    if (!editorit.isReady) {
+    if (!editorit) {
       editorit = new EditorJS({
         holder: "editorjss",
         tools: {
@@ -65,10 +66,7 @@ const AddContentIT = ({ setPostData }) => {
                 byFile: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your backend file uploader endpoint
                 byUrl: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
               },
-              additionalRequestHeaders: {
-                Authorization:
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNDUyNzM4LCJpYXQiOjE3MTM0NDkxMzgsImp0aSI6IjY0YTc2YTgxZDRhNDQ0ODliNzIxNDE2YmIzMGMwZjVjIiwidXNlcl9pZCI6MTB9.sF6HvOseVkOsK574VOX1VCddW0S7oWCkImVS4AcovCc",
-              },
+              additionalRequestHeaders: {Authorization: "Bearer " + localStorage.getItem("accessToken")},
             },
           },
           raw: Raw,
@@ -127,12 +125,21 @@ const AddContentIT = ({ setPostData }) => {
               }));
             })
             .catch((error) => {
-              console.log("Saving failed: ", error);
+              alert("Saving failed: ", error);
             });
         },
       });
+      setEditor(editorit);
     }
   }, []);
+
+  let [rendered, setRendered] = useState(false);
+  useEffect(() => {
+    if (blocks && !rendered) {
+      editorit.render({ blocks: blocks.blocks });
+      setRendered(true);
+    }
+  })
 
   return (
     <div className="addcontent">

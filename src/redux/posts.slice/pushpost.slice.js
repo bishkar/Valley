@@ -11,7 +11,7 @@ export const pushPost = createAsyncThunk('newpost/pushPost', async (postData) =>
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', postData, {
             headers: {
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQxMTgxLCJpYXQiOjE3MTM1Mzc1ODEsImp0aSI6ImQwYWY5NmMxMmZmYzQ4NjRiOWQ5YTdlYzA2MzRmMzE5IiwidXNlcl9pZCI6MSwiaXNfYWRtaW4iOnRydWV9.nr3pX6OnUP8An1KJNhfGDV2pqWQkuUxgpoovazhi8RQ",
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
         console.log(postData)

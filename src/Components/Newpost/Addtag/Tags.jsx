@@ -1,8 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddTag from './Addtag';
 
-function Tags({setPostData}) {
+function Tags({ setPostData, tags }) {
     const [article_tags, setTags] = useState([]);
+    const [rendered, setRendered] = useState(false);
+
+    useEffect(() => {
+        if (tags && tags.length > 0 && !rendered) {
+            setTags(tags);
+            setRendered(true);
+        }
+    }, [tags, rendered]);
 
     const handleTagsChange = (updatedTags) => {
         setTags(updatedTags);
@@ -10,7 +18,7 @@ function Tags({setPostData}) {
             ...prevData,
             article_tags: updatedTags
         }));
-    }
+    };
 
     return (
         <div className='tags-container'>

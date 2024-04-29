@@ -2,7 +2,7 @@ import "./Addontop.css";
 
 import React, { useState } from "react";
 
-const AddOnTop = ({ setPostData }) => {
+const AddOnTop = ({ setPostData, onTop }) => {
     const [top, setTop] = useState("");
 
     const handleTopChange = (e) => {
@@ -15,6 +15,12 @@ const AddOnTop = ({ setPostData }) => {
         console.log(newTop);
     }
 
+    let [rendered, setRendered] = useState(false);
+    if (onTop && !rendered) {
+        setTop(onTop);
+        setRendered(true);
+    }
+
     return (
         <div className="add-on-top-container">
             <div className="add-on-top">
@@ -25,6 +31,7 @@ const AddOnTop = ({ setPostData }) => {
                     name="top"
                     value={top}
                     onChange={handleTopChange}
+                    checked={top}
                 />
             </div>
         </div>

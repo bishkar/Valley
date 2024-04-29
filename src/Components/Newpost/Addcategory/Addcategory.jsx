@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import "./Addcategory.css";
 import { getCategory } from "../../../redux/category.slice/getCategory.slice";
 import { useDispatch } from "react-redux";
+import { use } from "i18next";
+import s from "@editorjs/marker";
 
-const Addcategory = ({ setPostData }) => {
+const Addcategory = ({ setPostData, category }) => {
   const [categories, setCategories] = useState([]);
   const dispatch = useDispatch();
 
@@ -25,10 +27,21 @@ const Addcategory = ({ setPostData }) => {
     }));
   };
 
+  let [rendered, setRendered] = useState(false);
+  useEffect(() => {
+    if (category && !rendered) {
+      setPostData((prevData) => ({
+        ...prevData,
+        category: category,
+      }));
+      setRendered(true);
+    }
+  })
+
   return (
     <div className="addcategory">
       <select onChange={handleCategoryChange}>
-        <option value="1000000">Select category</option>
+        <option value={category}>{category && categories.find(item => item.pk === category)?.en_category}</option>
         {categories.map((item, index) => (
           <option key={index} value={item.pk}>
             {item.en_category}

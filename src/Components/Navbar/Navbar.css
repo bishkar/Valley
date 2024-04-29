@@ -137,6 +137,12 @@
     background-color: #51cdfd;
 }
 
+.add-post {
+    cursor: pointer;
+    font-size: 36px;
+    font-weight: 800;
+}
+
 .hamburger {
     display: none;
     cursor: pointer;
