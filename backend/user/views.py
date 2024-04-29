@@ -2,17 +2,13 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema_view, extend_schema
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, schema
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from api.schemas import swagger_auth_token_response, swagger_password_restore_request, swagger_register_token_response
 from user.models import User
-from user.schemas import swagger_reset_password_confirm_response
 from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer, \
     UserUpdatePasswordSerializer, UserVerifySerializer, StatusSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -55,9 +51,9 @@ class RegisterView(generics.CreateAPIView):
 class EmailTokenObtainPairView(TokenObtainPairView):
     throttle_scope = 'email_token_auth'
 
-    @extend_schema(description="Use this endpoint to authenticate via email",
-                   summary="Authenticate using email (sign in/sign up)",
-                   responses=swagger_auth_token_response)
+    # @extend_schema(description="Use this endpoint to authenticate via email",
+    #                summary="Authenticate using email (sign in/sign up)",
+    #                responses=swagger_auth_token_response)
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
