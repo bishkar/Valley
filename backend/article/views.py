@@ -1,23 +1,16 @@
-from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import OuterRef, Exists
-from django.shortcuts import render
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view, parser_classes, action
+from rest_framework.decorators import parser_classes, action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.mixins import DestroyModelMixin
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
+from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.utils.translation import gettext as _
-
-from rest_framework import generics, mixins
 
 
 from article.models import Article, Slider, Category, Tag, UserUrlViewer
@@ -65,8 +58,6 @@ from .utils import get_client_ip
 # endregion
 class ArticleViewSet(viewsets.ModelViewSet):
     pagination_class = ArticlesResultsSetPagination
-
-     # serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
     search_fields = ['en_title', 'it_title', 'en_content', 'it_content']
 
@@ -233,7 +224,6 @@ class UrlViewCountView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post'] 
 
     def retrieve(self, request, *args, **kwargs):
-        print(get_client_ip(request))
         article_id = kwargs.get('pk')
         articles_count = UserUrlViewer.objects.filter(article=article_id).count()
 

@@ -1,15 +1,11 @@
-from django.shortcuts import render
 from django.utils import timezone
-from django.utils.decorators import method_decorator
-from drf_spectacular.utils import extend_schema_view, extend_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
-from rest_framework.decorators import api_view, schema
-from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user.models import User
-from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer, \
+from user.serializers import MyTokenObtainPairSerializer, RegisterSerializer, \
     UserUpdatePasswordSerializer, UserVerifySerializer, StatusSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.utils import send_otp_mail, generate_otp
