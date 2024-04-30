@@ -14,6 +14,7 @@ import NewPostPage from "./pages/NewPostPage.jsx";
 import SearchResults from "./components/SearchResults/SearchResults.jsx";
 import TagsSearch from "./components/TagsSearch/TagsSearch.jsx";
 import EditPostPage from "./pages/EditPostPage.jsx";
+import DeletePostPage from "./pages/DeletePostPage.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/articles/:postId" element={<PostItemPage />} />
         <Route path="/edit/:postId" element={<EditPostPage />} />
+        <Route path="/delete/:postId" element={<DeletePostPage />} />
         <Route path="/favourites" element={<FavouritePage />} />
         <Route path="/category/:categoryId" element={<CategoryResult />} />
         <Route path="/register" element={<RegisterPage />} />

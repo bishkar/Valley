@@ -1,11 +1,11 @@
 .form-container {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
-    padding: 0 20px;
     margin-bottom: 200px;
 }
 
@@ -217,4 +217,156 @@
 
 .error-message p {
     margin: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .auth-form {
+        padding: 20px;
+        border-radius: 30px;
+        width: calc(100% - 40px); /* Adjusting width to fit screen */
+        max-width: none;
+        overflow-x: hidden; /* Hiding horizontal overflow */
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .form-input,
+    .form-button,
+    .form-button-send {
+        width: 100%;
+        max-width: none;
+        height: 60px;
+    }
+
+    .facebook-button {
+        max-width: 525px;
+        height: 60px;
+    }
+
+    .input-mail-div {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mail-send-input {
+        border-radius: 10px;
+    }
+
+    .form-button-send {
+        width: 100%;
+        border-radius: 10px;
+        border-left: 1px solid #000000;
+    }
+
+    .form-input {
+        max-width: none;
+        height: 60px;
+        margin-bottom: 20px;
+        font-size: 1.6rem;
+    }
+
+    .form-label {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .form-button,
+    .form-button-send,
+    .facebook-button {
+        height: 60px;
+        font-size: 18px;
+    }
+
+    .checkbox-container,
+    .social-media-container,
+    .link-container {
+        margin-bottom: 20px;
+    }
+
+    .content-container,
+    .logout-form-container {
+        padding: 0 10px;
+    }
+
+    .error-message {
+        font-size: 16px;
+    }
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+    .auth-form {
+        padding: 20px;
+        border-radius: 30px;
+        width: 80%; /* Adjusting width to fit screen */
+        max-width: none;
+        overflow-x: hidden; /* Hiding horizontal overflow */
+    }
+
+    .form-input,
+    .form-button,
+    .form-button-send,
+    .facebook-button {
+        width: 100%;
+        max-width: none;
+        height: 60px;
+    }
+
+    .input-mail-div {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mail-send-input {
+        border-radius: 10px;
+    }
+
+    .form-button-send {
+        width: 100%;
+        border-radius: 10px;
+        border-left: 1px solid #000000;
+    }
+
+    .form-input {
+        max-width: none;
+        height: 60px;
+        margin-bottom: 20px;
+        font-size: 1.6rem;
+    }
+
+    .form-label {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .form-button,
+    .form-button-send {
+        height: 60px;
+        font-size: 18px;
+    }
+
+    .facebook-button {
+        height: 60px;
+        font-size: 18px;
+        width: 500px;
+    }
+
+    .checkbox-container,
+    .social-media-container,
+    .link-container {
+        margin-bottom: 20px;
+    }
+
+    .content-container,
+    .logout-form-container {
+        padding: 0 10px;
+    }
+
+    .error-message {
+        font-size: 16px;
+    }
 }

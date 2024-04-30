@@ -13,7 +13,6 @@ import TranslateButton from "../components/Newpost/TranslateButton/Translatebutt
 
 import { useState } from "react";
 
-import { newPost } from "../redux/posts.slice/newpost.slice.js";
 import { pushPost } from "../redux/posts.slice/pushpost.slice.js";
 import { translate } from "../redux/posts.slice/translate.slice.js";
 import { useDispatch } from "react-redux";
@@ -41,14 +40,6 @@ const NewPostPage = () => {
   };
 
   const handlePost = async () => {
-    const nonSerializableImage = postData.images.find(
-      (image) => !(image instanceof File)
-    );
-    if (nonSerializableImage) {
-      alert("Images must be serializable (File objects)");
-      return;
-    }
-
     if (
       postData.en_title === "" ||
       postData.it_title === "" ||
@@ -60,9 +51,7 @@ const NewPostPage = () => {
     }
 
     try {
-      const newPostData = await dispatch(newPost(postData));
-      console.log(newPostData);
-      dispatch(pushPost(newPostData.payload));
+      dispatch(pushPost(postData));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -109,7 +98,7 @@ const NewPostPage = () => {
         translatedBlocks={translatedBlocks}
       />
       <AddOnTop setPostData={handlePostDataChange} />
-      <Postbutton handlePost={handlePost} />
+      <Postbutton handlePost={handlePost} postData={postData} />
     </div>
   );
 };

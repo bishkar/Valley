@@ -66,7 +66,7 @@ const PasswordOtpForm = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button type="submit" className="form-button-send">
-              ${t("Send")}
+              {t("Send")}
             </button>
           </div>
           {errors.email && <ErrorMessage message={errors.email} />}

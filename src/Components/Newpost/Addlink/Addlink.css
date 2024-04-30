@@ -28,3 +28,25 @@
     background: rgba(75, 187, 231, 0.2);
     padding-left: 20px;
 }
+
+@media only screen and (max-width: 600px) {
+    .add-link {
+        width: 99%;
+        height: 160px;
+    }
+
+    .add-link-input {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+    .add-link {
+        max-width: 1100px;
+        height: 160px;
+    }
+
+    .add-link-input {
+        width: 100%;
+    }
+}

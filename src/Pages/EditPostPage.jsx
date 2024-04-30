@@ -13,8 +13,7 @@ import TranslateButton from "../components/Newpost/TranslateButton/Translatebutt
 
 import { useState } from "react";
 
-import { newPost } from "../redux/posts.slice/newpost.slice.js";
-import { pushPost } from "../redux/posts.slice/pushpost.slice.js";
+import { editPost } from "../redux/posts.slice/edit.slice.js";
 import { translate } from "../redux/posts.slice/translate.slice.js";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
@@ -42,12 +41,14 @@ const EditPostPage = () => {
   const { postId } = useParams();
   
   const { data, error, loading } = useFetch(
-    `http://127.0.0.1:8000/api/v1/articles/${postId}`
+    `http://127.0.0.1:8000/api/v1/articles/${postId}/`
   );
 
     useEffect(() => {
         if (data) {
+          console.log(data, "data")
             setPostData({
+                id: data.pk,
                 en_title: data.en_title,
                 it_title: data.it_title,
                 en_content: data.en_content,
@@ -60,23 +61,13 @@ const EditPostPage = () => {
             });
         }
     }, [data]);
-    console.log(data, "data")
-    console.log(postData)
-
 
   const handlePostDataChange = (updatedData) => {
     setPostData(updatedData);
+    console.log(postData, "postData")
   };
 
   const handlePost = async () => {
-    const nonSerializableImage = postData.images.find(
-      (image) => !(image instanceof File)
-    );
-    if (nonSerializableImage) {
-      alert("Images must be serializable (File objects)");
-      return;
-    }
-
     if (
       postData.en_title === "" ||
       postData.it_title === "" ||
@@ -88,9 +79,9 @@ const EditPostPage = () => {
     }
 
     try {
-      const newPostData = await dispatch(newPost(postData));
-      console.log(newPostData);
-      dispatch(pushPost(newPostData.payload));
+      dispatch(editPost(postData));
+      alert("Post edited successfully");
+      // window.location.href = `/`;
     } catch (error) {
       console.error("Error:", error);
     }

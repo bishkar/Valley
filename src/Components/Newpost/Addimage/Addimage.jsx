@@ -1,39 +1,57 @@
 import './Addimage.css'
-
-import { useState } from 'react';
-import { useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import addImg from '../../../assets/Icons/Add/add.svg';
 import deleteImg from '../../../assets/Icons/Delete/delete.svg';
+import { uploadImages } from '../../../redux/posts.slice/uploadImages.slice';
+import s from '@editorjs/marker';
 
-const AddImage = ({setPostData, oldImages}) => {
+const AddImage = ({ setPostData, oldImages }) => {
     const [images, setImages] = useState([]);
+    const dispatch = useDispatch();
 
-    const handleImageUpload = (e) => {
-        const files = e.target.files;
-        if (files.length > 0) {
-            setImages([...images, files[0]]);
+    console.log(oldImages);
+    useEffect(() => {
+        if (oldImages) {
+            setImages(oldImages);
+        }
+    }, [oldImages]);
+
+    const handleImageUpload = async (e) => {
+        try {
+            const files = e.target.files;
+            const formData = new FormData();
+            formData.append('image', files);
+            const uploadedImages = await dispatch(uploadImages(files));
+            if (images.length > 0) {
+                setImages(prevImages => [...prevImages, ...uploadedImages.payload]);
+            } else {
+                setImages(uploadedImages.payload);
+            }
+            
             setPostData((prevData) => ({
                 ...prevData,
-                images: [...images, files[0]]
+                images: [...prevData.images, ...uploadedImages.payload]
             }));
+            
+            console.log("Uploaded images:", images);
+        } catch (error) {
+            console.error("Error uploading images:", error);
         }
-    };
+    };    
 
     const handlePlusClick = () => {
         const inputElement = document.getElementById('imageInput');
         inputElement.click();
     };
 
-    let [rendered, setRendered] = useState(false);
-    useEffect(() => {
-        if (oldImages && oldImages.length > 0 && !rendered) {
-            setImages(oldImages);
-            setRendered(true);
-        }
-    }, [oldImages, rendered]);
-
-    console.log(images)
+    const handleDeleteImage = (index) => {
+        setImages(images.filter((_, i) => i !== index));
+        setPostData((prevData) => ({
+            ...prevData,
+            images: prevData.images.filter((_, i) => i !== index)
+        }));
+    }
 
     return (
         <div className="add-image-container">
@@ -53,15 +71,15 @@ const AddImage = ({setPostData, oldImages}) => {
             <div className="added__images">
                 {images.map((image, index) => (
                     <div key={index} className="image">
-                        <img src={"http://127.0.0.1:8000" + image} alt="" />
-                        <button className="delete-image" onClick={() => setImages(images.filter((_, i) => i !== index))}>
+                        <img src={Object.values(image)[0].startsWith('http') ? Object.values(image)[0] : "http://127.0.0.1:8000" + Object.values(image)[0]} alt="" />
+                        <button className="delete-image" onClick={() => handleDeleteImage(index)}>
                             <img src={deleteImg} alt="" />
                         </button>
                     </div>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AddImage;
