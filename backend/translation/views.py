@@ -33,7 +33,7 @@ class TranslateView(CreateAPIView):
                         translated_parts = [translator.translate(part) for part in parts]
                         data_to_translate[field] = "".join(translated_parts)
                         continue
-                    
+
                     data_to_translate[field] = translator.translate(value)
             item["data"] = data_to_translate
 
