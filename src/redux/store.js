@@ -16,6 +16,8 @@ import translateSlice from './posts.slice/translate.slice';
 import deletePostSlice from './posts.slice/delete.slice';
 import editPostSlice from "./posts.slice/edit.slice";
 import addCategorySlice from "./posts.slice/addcategory.slice";
+import deleteCategorySlice from "./posts.slice/deletecategory.slice";
+import addSlideSlice from "./posts.slice/addtoslider.slice";
 
 export const store = configureStore({
   reducer: {
@@ -33,7 +35,11 @@ export const store = configureStore({
     uploadImages: uploadImagesSlice,
     clicks: clicksSlice,
     devTools: true,
+    addSlide: addSlideSlice,
+
     addcategory: addCategorySlice,
+    deletecategory: deleteCategorySlice,
+
     pushpost: pushPostSlice,
     editpost: editPostSlice,
     deletePost: deletePostSlice,

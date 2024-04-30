@@ -6,6 +6,7 @@ import { use } from "i18next";
 import s from "@editorjs/marker";
 
 import { addCategory } from "../../../redux/posts.slice/addcategory.slice";
+import { deleteCategory } from "../../../redux/posts.slice/deletecategory.slice";
 
 
 
@@ -52,8 +53,13 @@ const Addcategory = ({ setPostData, category }) => {
     }
 
     dispatch(addCategory(postCategory))
-
   }
+
+  const handleDeleteCategory = () => {
+    dispatch(deleteCategory(category))
+    console.log(category)
+  }
+
 
     useEffect(() => {
       if (dispatch(getCategory()) !== categories) {
@@ -91,6 +97,7 @@ const Addcategory = ({ setPostData, category }) => {
         onChange={(e) => setItCategory(e.target.value)}
       />
       <button className="add-link-button" onClick={() => handleAddCategory()}>Add</button>
+      <button className="add-link-button" onClick={() => handleDeleteCategory()}>Delete</button>
     </div>
   );
 };
