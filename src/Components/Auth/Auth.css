@@ -294,6 +294,10 @@
     .error-message {
         font-size: 16px;
     }
+
+    .logout-form-container {
+        width: 100%;
+    }
 }
 
 
@@ -304,6 +308,10 @@
         width: 80%; /* Adjusting width to fit screen */
         max-width: none;
         overflow-x: hidden; /* Hiding horizontal overflow */
+    }
+
+    .logout-form-container {
+        width: 80%;
     }
 
     .form-input,
@@ -359,6 +367,10 @@
     .social-media-container,
     .link-container {
         margin-bottom: 20px;
+    }
+
+    .logout-form-container {
+        width: 100%;
     }
 
     .content-container,

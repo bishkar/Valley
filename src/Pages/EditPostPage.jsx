@@ -46,7 +46,6 @@ const EditPostPage = () => {
 
     useEffect(() => {
         if (data) {
-          console.log(data, "data")
             setPostData({
                 id: data.pk,
                 en_title: data.en_title,
@@ -64,7 +63,6 @@ const EditPostPage = () => {
 
   const handlePostDataChange = (updatedData) => {
     setPostData(updatedData);
-    console.log(postData, "postData")
   };
 
   const handlePost = async () => {
@@ -81,15 +79,18 @@ const EditPostPage = () => {
     try {
       dispatch(editPost(postData));
       alert("Post edited successfully");
-      // window.location.href = `/`;
+      window.location.href = `/`;
     } catch (error) {
-      console.error("Error:", error);
+      alert("Error:", error);
     }
   };
 
+  const handleSetTranslatedBlocks = () => {
+    setTranslatedBlocks([]);
+  }
+
   const handleTranslateClick = async () => {
     const translateData = postData.it_content.blocks;
-    console.log(translateData);
 
     try {
       const translatedData = await dispatch(translate(translateData)).then(
@@ -126,6 +127,7 @@ const EditPostPage = () => {
       <AddContent
         setPostData={handlePostDataChange}
         translatedBlocks={translatedBlocks}
+        handleSetTranslatedBlocks={handleSetTranslatedBlocks}
         blocks={postData.en_content}
       />
       <AddOnTop setPostData={handlePostDataChange} onTop={postData.on_top}/>

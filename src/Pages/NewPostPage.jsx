@@ -53,24 +53,21 @@ const NewPostPage = () => {
     try {
       dispatch(pushPost(postData));
     } catch (error) {
-      console.error("Error:", error);
+      alert("Error:", error);
     }
   };
 
   const handleTranslateClick = async () => {
     const translateData = postData.it_content.blocks;
-    console.log(translateData);
 
     try {
       const translatedData = await dispatch(translate(translateData)).then(
         (res) => {
           setTranslatedBlocks(res.payload);
-          console.log("rs.payload", res.payload);
-          console.log("postData", postData);
         }
       );
     } catch (error) {
-      console.error("Error:", error);
+      alert("Error:", error);
     }
   };
 

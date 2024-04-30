@@ -4,7 +4,6 @@ import "./Postbutton.css";
 
 const Postbutton = ({ handlePost, postData }) => {
     const handleClick = () => {
-        console.log("Post", postData);
         handlePost();
     };
 

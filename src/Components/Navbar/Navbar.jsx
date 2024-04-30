@@ -119,7 +119,7 @@ const Navbar = () => {
             >
               {isAdminUser() && (
                 <Link to="/new-post">
-                  <div className="header-element">
+                  <div className="header-element plus-element">
                     <img src={addImage} alt="" />
                     <span>Add Post</span>
                   </div>
@@ -131,12 +131,6 @@ const Navbar = () => {
               >
                 {language == "it" ? "Italian" : "English"}
               </a>
-              <Link to="/">
-                <div className="header-element">
-                  <img src={profileImage} alt="" />
-                  <span>Home</span>
-                </div>
-              </Link>
               {loggedIn ? (
                 <>
                   <Link to="/favourites">

@@ -12,7 +12,6 @@ const AddOnTop = ({ setPostData, onTop }) => {
             ...prevData,
             top: newTop,
         }));
-        console.log(newTop);
     }
 
     let [rendered, setRendered] = useState(false);

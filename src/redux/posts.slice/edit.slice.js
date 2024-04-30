@@ -20,17 +20,13 @@ export const editPost = createAsyncThunk('edit/editPost', async (postData) => {
         });
     });
     postData.images = imageIds;
-    
-    // postData.tags = postData.article_tags
 
-    console.log(postData, "editPostData")
     try {
         const response = await axios.put(`http://127.0.0.1:8000/api/v1/articles/${postData.id}/`, postData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         })
-        console.log(response.data, "editPostResponse")
         return response.data;
     } catch (error) {
         throw error;

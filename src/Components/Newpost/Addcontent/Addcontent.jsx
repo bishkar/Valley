@@ -27,7 +27,7 @@ const EDITOR_JS_TOOLS = {
     header: Header,
 }
 
-const AddContent = ({setPostData, translatedBlocks, blocks}) => {
+const AddContent = ({setPostData, translatedBlocks, blocks, handleSetTranslatedBlocks}) => {
     let [editor, setEditor] = useState(null);
     
     useEffect(() => {
@@ -123,7 +123,7 @@ const AddContent = ({setPostData, translatedBlocks, blocks}) => {
                                         en_content: outputData,
                                     }));
                                   }).catch((error) => {
-                                    console.log('Saving failed: ', error)
+                                    alert("Error: ", error);
                                   });
                             }
                         });
@@ -134,14 +134,12 @@ const AddContent = ({setPostData, translatedBlocks, blocks}) => {
     const pasteTranslatedBlocks = (translatedBlocks) => {
         let blocks = translatedBlocks
         editor.blocks.render({blocks: blocks});
-        console.log("translating")
     }
 
     useEffect(() => {
-        
         if (translatedBlocks.length > 0) {
             pasteTranslatedBlocks(translatedBlocks);
-            translatedBlocks = [];
+            handleSetTranslatedBlocks()
         }
     });
 
@@ -150,7 +148,6 @@ const AddContent = ({setPostData, translatedBlocks, blocks}) => {
         if (blocks && !rendered) {
           editor.render({ blocks: blocks.blocks });
           setRendered(true);
-          console.log("rendered", rendered)
         }
       })
 

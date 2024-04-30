@@ -241,7 +241,10 @@ const PostItemPage = () => {
               </>
             )}
             <Slider {...settings}>
-              {data?.image_urls.map((image, idx) => (
+            {data?.image_urls.map((imageObj, idx) => {
+              const key = Object.keys(imageObj)[0]; // Отримуємо ключ об'єкта
+              const url = imageObj[key]; // Отримуємо URL за ключем
+              return (
                 <div
                   key={idx}
                   className={
@@ -251,11 +254,12 @@ const PostItemPage = () => {
                   }
                 >
                   <img
-                    src={`http://127.0.0.1:8000${image}`}
+                    src={`http://127.0.0.1:8000${url}`}
                     className="slide__image"
                   />
                 </div>
-              ))}
+              );
+              })}
             </Slider>
           </div>
           <div className={`itemPage__body ${scrollDirection}`}>

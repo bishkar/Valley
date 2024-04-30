@@ -10,7 +10,6 @@ const AddImage = ({ setPostData, oldImages }) => {
     const [images, setImages] = useState([]);
     const dispatch = useDispatch();
 
-    console.log(oldImages);
     useEffect(() => {
         if (oldImages) {
             setImages(oldImages);
@@ -33,10 +32,7 @@ const AddImage = ({ setPostData, oldImages }) => {
                 ...prevData,
                 images: [...prevData.images, ...uploadedImages.payload]
             }));
-            
-            console.log("Uploaded images:", images);
         } catch (error) {
-            console.error("Error uploading images:", error);
         }
     };    
 

@@ -21,19 +21,14 @@ export const pushPost = createAsyncThunk('newpost/pushPost', async (postData) =>
             });
         });
         postData.images = imageIds;
-        console.log(postData, "pushPost")
-
 
         const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', postData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
-        console.log(postData)
-        console.log(response);
         return response.data;
     } catch (error) {
-        console.log(error);
         throw error; 
     }
 });

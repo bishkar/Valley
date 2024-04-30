@@ -22,7 +22,7 @@ const Addcategory = ({ setPostData, category }) => {
         setCategories(response.payload);
       })
       .catch((error) => {
-        console.log(error);
+        alert("Error: ", error);
       });
   }, [dispatch]);
 
@@ -52,8 +52,20 @@ const Addcategory = ({ setPostData, category }) => {
     }
 
     dispatch(addCategory(postCategory))
-    
+
   }
+
+    useEffect(() => {
+      if (dispatch(getCategory()) !== categories) {
+        dispatch(getCategory())
+          .then((response) => {
+            setCategories(response.payload);
+          })
+          .catch((error) => {
+            alert("Error: ", error);
+          });
+      }
+    })
 
 
   return (
