@@ -1,12 +1,11 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
-from rest_framework import mixins, viewsets, generics
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import NotFound, NotAcceptable
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from favourite.models import Favourite
 from favourite.serializers import FavouriteSerializer, InfoSerializer
+from django.utils.translation import gettext as _
 
 
 @extend_schema_view(
@@ -54,14 +53,18 @@ class FavouriteViewSet(mixins.CreateModelMixin,
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
+        print(kwargs)
         article_id = request.data.get('id')
+        print(article_id)
         user_id = request.user.id
 
         if not Favourite.objects.filter(article_id=article_id, user_id=user_id).exists():
-            return Response(InfoSerializer({'status': 'failed', 'message': 'Favourite not found'}).data)
+            return Response(InfoSerializer({'status': 'failed', 'message': _('Favourite not found')}).data)
 
         favourite = Favourite.objects.get(article_id=article_id, user_id=user_id)
         favourite.delete()
+
+        return Response(InfoSerializer({'status': 'success', 'message': _('Favourite deleted')}).data)
 
     @action(detail=False, methods=['GET'], url_path='tag/(?P<tag_name>.+)')
     def get_favourites_by_tag(self, request, tag_name):

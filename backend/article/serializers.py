@@ -5,10 +5,24 @@ from article.models import Article, Slider, ArticleImage, Category, Tag, UserUrl
 
 
 class ShortArticleSerializer(serializers.ModelSerializer):
+    image_urls = serializers.SerializerMethodField('get_image_urls')
+
     class Meta:
         model = Article
-        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name']
-        read_only_fields = ['created_at', 'pk', 'tags_name']
+        fields = ['pk', 'en_title', 'it_title', 'created_at', 'category', 'tags_name', 'on_top', 'image_urls']
+        read_only_fields = ['created_at', 'pk', 'tags_name', 'image_urls']
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_image_urls(self, obj):
+        images = obj.images.all()
+        return [image.image.url for image in images]
+
+
+class ShortArticleSerializerWithFavorite(ShortArticleSerializer):
+    is_favourite = serializers.BooleanField()
+
+    class Meta(ShortArticleSerializer.Meta):
+        fields = ShortArticleSerializer.Meta.fields + ['is_favourite']
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -16,8 +30,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content',
-                  'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name',]
+        fields = ['pk', 'en_title', 'it_title', 'en_content', 'it_content', 'link_to_product', 'created_at', 'image_urls', 'images', 'category', 'tags', 'tags_name', 'on_top']
+
         extra_kwargs = {
             'images': {'write_only': True},
             'tags': {'write_only': True, 'required': False},
@@ -31,6 +45,17 @@ class ArticleSerializer(serializers.ModelSerializer):
         return [image.image.url for image in images]
 
 
+class ArticleSerializerAdmin(ArticleSerializer):
+
+    class Meta(ArticleSerializer.Meta):
+        fields = ArticleSerializer.Meta.fields
+
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
+    def get_image_urls(self, obj):
+        images = obj.images.all()
+        return [{image.id: image.image.url} for image in images]
+
+
 class UploadArticleImageSerializer(serializers.ModelSerializer):
     image = serializers.ImageField()
     pk = serializers.IntegerField(read_only=True)
@@ -38,6 +63,7 @@ class UploadArticleImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleImage
         fields = ['image', 'pk']
+        read_only_fields = ['pk']
 
 
 class UrlViewCountSerializer(serializers.ModelSerializer):

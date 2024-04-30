@@ -1,27 +1,24 @@
-from django.contrib.postgres.search import SearchQuery, SearchVector
-from django.shortcuts import render
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.db.models import OuterRef, Exists
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view, parser_classes, action
+from rest_framework.decorators import parser_classes, action
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.mixins import DestroyModelMixin
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework import serializers
-from rest_framework import generics, mixins
+from django.utils.translation import gettext as _
+
 
 from article.models import Article, Slider, Category, Tag, UserUrlViewer
 from article.permissions import IsAccountAdminOrReadOnly, IsUserPostAdminGet
 from article.serializers import ArticleSerializer, ErrorResponseSerializer, SliderSerializer, \
-    UploadArticleImageSerializer, CategorySerializer, TagSerializer, UrlViewCountSerializer, ShortArticleSerializer
+    UploadArticleImageSerializer, CategorySerializer, TagSerializer, UrlViewCountSerializer, ShortArticleSerializer, \
+    ShortArticleSerializerWithFavorite, ArticleSerializerAdmin
+from favourite.models import Favourite
 
 from .filters import ArticleFilter
 from article.filters import ArticleFilter
@@ -61,9 +58,6 @@ from .utils import get_client_ip
 # endregion
 class ArticleViewSet(viewsets.ModelViewSet):
     pagination_class = ArticlesResultsSetPagination
-
-    queryset = Article.objects.filter(visible=True).order_by('created_at')
-    # serializer_class = ArticleSerializer
     permission_classes = [IsAccountAdminOrReadOnly]
     search_fields = ['en_title', 'it_title', 'en_content', 'it_content']
 
@@ -74,8 +68,23 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'list':
+            if self.request.user.is_authenticated:
+                return ShortArticleSerializerWithFavorite
             return ShortArticleSerializer
+
+        if self.action == "retrieve" and self.request.user.is_staff:
+            return ArticleSerializerAdmin
         return ArticleSerializer
+
+    def get_queryset(self):
+        queryset = Article.objects.filter(visible=True).order_by('created_at')
+
+        if self.request.user.is_authenticated:
+            user_favourites = Favourite.objects.filter(user=self.request.user, article=OuterRef('pk'))
+
+            queryset = queryset.annotate(is_favourite=Exists(user_favourites))
+
+        return queryset
 
     def perform_create(self, serializer):
         new_tags = []
@@ -107,6 +116,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
     
 
     def retrieve(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            article = Article.objects.get(pk=kwargs.get('pk'))
         return super().retrieve(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
@@ -115,17 +126,15 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @method_decorator(cache_page(60 * 15 ))
+    # @method_decorator(cache_page(60 * 15 ))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
-    # @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated], url_path='user/tag',
-    #         url_name='user/tag')
-    # def get_favourites_by_tag(self, request, pk=None):
-    #     print(pk)
-    #     tag = request.query_params.get('tag')
-    #     articles = Article.objects.filter(tags__slug=tag)
-    #     serializer = ArticleSerializer(articles, many=True)
-    #     return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny], url_path='on_top')
+    def get_on_top(self, request):
+        articles = Article.objects.filter(on_top=True)
+        serializer = ShortArticleSerializer(articles, many=True)
+        return Response(serializer.data)
 
 
 @parser_classes((MultiPartParser,))
@@ -194,8 +203,13 @@ class UploadArticleImageView(CreateAPIView, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         image = serializer.save()
 
-        return Response({'image': image.image.url,
-                         'pk': image.pk}, status=status.HTTP_201_CREATED)
+        return Response({
+            "success": 1,
+            "file": {
+                "url": "http://127.0.0.1:8000/" + image.image.url,
+                "id": image.pk
+
+            }}, status=status.HTTP_201_CREATED)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -205,7 +219,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         if Category.objects.filter(en_category=serializer.validated_data['en_category']).exists():
-            raise serializers.ValidationError({'detail': 'Category already exists'})
+            raise serializers.ValidationError({'detail': _('Category already exists')})
 
         serializer.save()
 
@@ -219,6 +233,7 @@ class TagViewSet(viewsets.ModelViewSet):
 class UrlViewCountView(viewsets.ModelViewSet):
     queryset = UserUrlViewer.objects.all()
     serializer_class = UrlViewCountSerializer
+
     permission_classes = [IsUserPostAdminGet]
     http_method_names = ['get', 'post'] 
 
@@ -226,33 +241,32 @@ class UrlViewCountView(viewsets.ModelViewSet):
         article_id = kwargs.get('pk')
         articles_count = UserUrlViewer.objects.filter(article=article_id).count()
 
-        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)  
+        return Response({'clicks_count': articles_count}, status=status.HTTP_200_OK)
 
-    
     def create(self, request, *args, **kwargs):
         pk = request.data.get('article')
 
         try:
             article = Article.objects.get(pk=pk)
             ip = get_client_ip(request)
-            user_id = request.user.id
+            user_id = request.user
 
             if request.user.is_anonymous:
                 user_id = None
 
             if UserUrlViewer.objects.filter(user=user_id, article=article, ip=ip).exists():
                 return Response({'detail': 'Already viewed'}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             UserUrlViewer.objects.create(user=user_id, article=article, ip=ip)
 
             return Response({'detail': 'View count updated'}, status=status.HTTP_200_OK)
-        
+
         except Article.DoesNotExist:
             return Response({'detail': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
     def list(self, request, *args, **kwargs):
         return Response({'detail': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     

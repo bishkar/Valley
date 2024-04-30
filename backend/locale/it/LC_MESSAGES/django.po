@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-17 20:04+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\api\views.py:23
+msgid "Something went wrong"
+msgstr "Qualcosa è andato storto"
+
+#: .\article\views.py:180
+msgid "Category already exists"
+msgstr "La categoria esiste già"
+
+#: .\favourite\views.py:62
+msgid "Favourite not found"
+msgstr "Preferito non trovato"
+
+#: .\favourite\views.py:66
+msgid "Favourite deleted"
+msgstr "Preferito non trovato"
+
+#: .\grading\views.py:23
+msgid "You have already graded this article"
+msgstr "Avete già valutato questo articolo"
+
+#: .\user\views.py:89
+msgid "OTP sent to your email"
+msgstr "OTP inviato al vostro indirizzo e-mail"
+
+#: .\user\views.py:91
+msgid "User not found"
+msgstr "Utente non trovato"
