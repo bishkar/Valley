@@ -9,7 +9,7 @@ const initialState = {
 
 export const deletePost = createAsyncThunk('delete/deletePost', async (postId) => {
     try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/v1/articles/${postId}`, {
+        const response = await axios.delete(`https://api.solyver.com/api/v1/articles/${postId}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }

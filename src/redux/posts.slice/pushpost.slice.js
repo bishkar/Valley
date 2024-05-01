@@ -22,14 +22,14 @@ export const pushPost = createAsyncThunk('newpost/pushPost', async (postData) =>
         });
         postData.images = imageIds;
 
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', postData, {
+        const response = await axios.post('https://api.solyver.com/api/v1/articles/', postData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
         return response.data;
     } catch (error) {
-        throw error; 
+        throw error;
     }
 });
 

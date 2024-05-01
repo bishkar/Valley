@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import "./Addcategory.css";
-import { getCategory } from "../../../redux/category.slice/getCategory.slice";
+// import { fetchCategory } from "../../../redux/category.slice/fetchCategory.slice";
+import { fetchCategory } from "../../../redux/category.slice/category.slice";
 import { useDispatch } from "react-redux";
 import { use } from "i18next";
 import s from "@editorjs/marker";
 
 import { addCategory } from "../../../redux/posts.slice/addcategory.slice";
 import { deleteCategory } from "../../../redux/posts.slice/deletecategory.slice";
-
-
 
 const Addcategory = ({ setPostData, category }) => {
   const [categories, setCategories] = useState([]);
@@ -18,7 +17,7 @@ const Addcategory = ({ setPostData, category }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCategory())
+    dispatch(fetchCategory())
       .then((response) => {
         setCategories(response.payload);
       })
@@ -44,40 +43,41 @@ const Addcategory = ({ setPostData, category }) => {
       }));
       setRendered(true);
     }
-  })
+  });
 
   const handleAddCategory = () => {
     const postCategory = {
       en_category: en_category,
       it_category: it_category,
-    }
+    };
 
-    dispatch(addCategory(postCategory))
-  }
+    dispatch(addCategory(postCategory));
+  };
 
   const handleDeleteCategory = () => {
-    dispatch(deleteCategory(category))
-    console.log(category)
-  }
+    dispatch(deleteCategory(category));
+    console.log(category);
+  };
 
-
-    useEffect(() => {
-      if (dispatch(getCategory()) !== categories) {
-        dispatch(getCategory())
-          .then((response) => {
-            setCategories(response.payload);
-          })
-          .catch((error) => {
-            alert("Error: ", error);
-          });
-      }
-    })
-
+  useEffect(() => {
+    if (dispatch(fetchCategory()) !== categories) {
+      dispatch(fetchCategory())
+        .then((response) => {
+          setCategories(response.payload);
+        })
+        .catch((error) => {
+          alert("Error: ", error);
+        });
+    }
+  });
 
   return (
     <div className="addcategory">
       <select onChange={handleCategoryChange}>
-        <option value={category}>{category && categories.find(item => item.pk === category)?.en_category}</option>
+        <option value={category}>
+          {category &&
+            categories.find((item) => item.pk === category)?.en_category}
+        </option>
         {categories.map((item, index) => (
           <option key={index} value={item.pk}>
             {item.en_category} / {item.it_category}
@@ -96,8 +96,15 @@ const Addcategory = ({ setPostData, category }) => {
         placeholder="Write here new italian category"
         onChange={(e) => setItCategory(e.target.value)}
       />
-      <button className="add-link-button" onClick={() => handleAddCategory()}>Add</button>
-      <button className="add-link-button" onClick={() => handleDeleteCategory()}>Delete</button>
+      <button className="add-link-button" onClick={() => handleAddCategory()}>
+        Add
+      </button>
+      <button
+        className="add-link-button"
+        onClick={() => handleDeleteCategory()}
+      >
+        Delete
+      </button>
     </div>
   );
 };

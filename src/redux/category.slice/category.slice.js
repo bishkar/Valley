@@ -7,7 +7,7 @@ const initialState = {
 }
 
 export const fetchCategory = createAsyncThunk('category/fetchCategory', async () => {
-  const data = await fetch("http://127.0.0.1:8000/api/v1/category/",)
+  const data = await fetch("https://api.solyver.com/api/v1/category/",)
     .then((res) => res.json())
 
   return data;

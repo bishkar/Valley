@@ -12,7 +12,7 @@ import { useRef } from "react";
 import { TiArrowBack } from "react-icons/ti";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
 import { useNavigate } from "react-router-dom";
-import { use } from "i18next";
+// import { use } from "i18next";
 
 import EditorJS from "@editorjs/editorjs";
 import Embed from "@editorjs/embed";
@@ -44,7 +44,7 @@ const PostItemPage = () => {
   const [scrollDirection, setScrollDirection] = useState("down");
 
   const { data, error, loading } = useFetch(
-    `http://127.0.0.1:8000/api/v1/articles/${postId}`
+    `https://api.solyver.com/api/v1/articles/${postId}`
   );
 
   useEffect(() => {
@@ -173,15 +173,17 @@ const PostItemPage = () => {
           image: {
             class: Image,
             config: {
-                endpoints: {
-                    byFile: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your backend file uploader endpoint
-                    byUrl: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your endpoint that provides uploading by Url
-                },
-                additionalRequestHeaders: {Authorization: "Bearer " + localStorage.getItem("accessToken")},
-            }
-        },
-        raw: Raw,
-        paragraph: {
+              endpoints: {
+                byFile: "https://api.solyver.com/api/v1/articles/image/upload", // Your backend file uploader endpoint
+                byUrl: "https://api.solyver.com/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
+              },
+              additionalRequestHeaders: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+              },
+            },
+          },
+          raw: Raw,
+          paragraph: {
             class: Paragraph,
             inlineToolbar: true,
           },
@@ -226,7 +228,7 @@ const PostItemPage = () => {
             {isMobile && (
               <>
                 <img
-                  src={`http://127.0.0.1:8000${data?.image_urls[0]}`}
+                  src={`https://api.solyver.com${data?.image_urls[0]}`}
                   className="slide__image"
                 />
                 {/* <button onClick={() => navigate(-1)}> */}
@@ -238,24 +240,25 @@ const PostItemPage = () => {
               </>
             )}
             <Slider {...settings}>
-            {data?.image_urls.map((imageObj, idx) => {
-              const key = Object.keys(imageObj)[0]; // Отримуємо ключ об'єкта
-              const url = imageObj[key]; // Отримуємо URL за ключем
-              return (
-                <div
-                  key={idx}
-                  className={
-                    idx === imageIndex
-                      ? "slide activeSlide"
-                      : "slide deactiveSlide"
-                  }
-                >
-                  <img
-                    src={`http://127.0.0.1:8000${url}`}
-                    className="slide__image"
-                  />
-                </div>
-              );
+              {data?.image_urls.map((imageObj, idx) => {
+                const key = Object.keys(imageObj)[0]; // Отримуємо ключ об'єкта
+                const url = imageObj[key]; // Отримуємо URL за ключем
+                console.log("image_urls", imageObj, "url", url);
+                return (
+                  <div
+                    key={idx}
+                    className={
+                      idx === imageIndex
+                        ? "slide activeSlide"
+                        : "slide deactiveSlide"
+                    }
+                  >
+                    <img
+                      src={`https://api.solyver.com${url}`}
+                      className="slide__image"
+                    />
+                  </div>
+                );
               })}
             </Slider>
           </div>
@@ -275,9 +278,15 @@ const PostItemPage = () => {
             </ul>
             {admin && (
               <div className="itemPage__admin">
-                <Link className="admin__button" to={`/edit/${postId}`}>{t("Edit")}</Link>
-                <Link className="admin__button" to={`/delete/${postId}`}>{t("Delete")}</Link>
-                <Link className="admin__button" to={`/add-to-slider/${postId}`}>{t("Add to slider")}</Link>
+                <Link className="admin__button" to={`/edit/${postId}`}>
+                  {t("Edit")}
+                </Link>
+                <Link className="admin__button" to={`/delete/${postId}`}>
+                  {t("Delete")}
+                </Link>
+                <Link className="admin__button" to={`/add-to-slider/${postId}`}>
+                  {t("Add to slider")}
+                </Link>
               </div>
             )}
             <div className="link__to__product">

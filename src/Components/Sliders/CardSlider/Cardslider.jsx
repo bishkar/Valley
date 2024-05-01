@@ -7,7 +7,7 @@ import "./Cardslider.scss";
 
 export default function CardSlider() {
   const { data, error, loading } = useFetch(
-    `http://127.0.0.1:8000/api/v1/articles/on_top/`
+    `https://api.solyver.com/api/v1/articles/on_top/`
   );
 
   const [isMobile, setIsMobile] = useState(false);
@@ -68,7 +68,7 @@ export default function CardSlider() {
               <Link to={`/post/${item.pk}`}>
                 <img
                   className="card__img"
-                  src={`http://127.0.0.1:8000/${item.image_urls[0]}`}
+                  src={`http://api.solyver.com${item.image_urls[0]}`}
                   alt=""
                 />
                 <div className="card__body">

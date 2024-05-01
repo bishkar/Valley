@@ -7,7 +7,7 @@ import "./MainSlider.scss";
 
 export default function Mainslider() {
   const { data, error, loading } = useFetch(
-    `http://127.0.0.1:8000/api/v1/slider/`
+    `https://api.solyver.com/api/v1/slider/`
   );
 
   console.log(data);

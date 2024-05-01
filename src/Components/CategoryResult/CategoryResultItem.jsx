@@ -9,7 +9,7 @@ export default function CategoryResultItem({ post }) {
   return (
     <div className="category__card">
       <Link className="post__more" to={`/articles/${pk}`}>
-        <img src={`http://127.0.0.1:8000${image_urls[0]}`} alt="try" />
+        <img src={`https://api.solyver.com${image_urls[0]}`} alt="try" />
         <div className="category__body">
           <h4>{t("parameters.postTitle", { data: post })}</h4>
         </div>

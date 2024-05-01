@@ -18,7 +18,7 @@ import { translate } from "../redux/posts.slice/translate.slice.js";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch.js"
+import useFetch from "../hooks/useFetch.js";
 import { useEffect } from "react";
 
 const EditPostPage = () => {
@@ -39,27 +39,27 @@ const EditPostPage = () => {
   });
 
   const { postId } = useParams();
-  
+
   const { data, error, loading } = useFetch(
-    `http://127.0.0.1:8000/api/v1/articles/${postId}/`
+    `https://api.solyver.com/api/v1/articles/${postId}/`
   );
 
-    useEffect(() => {
-        if (data) {
-            setPostData({
-                id: data.pk,
-                en_title: data.en_title,
-                it_title: data.it_title,
-                en_content: data.en_content,
-                it_content: data.it_content,
-                link_to_product: data.link_to_product,
-                images: data.image_urls,
-                category: data.category,
-                article_tags: data.tags_name,
-                on_top: data.on_top,
-            });
-        }
-    }, [data]);
+  useEffect(() => {
+    if (data) {
+      setPostData({
+        id: data.pk,
+        en_title: data.en_title,
+        it_title: data.it_title,
+        en_content: data.en_content,
+        it_content: data.it_content,
+        link_to_product: data.link_to_product,
+        images: data.image_urls,
+        category: data.category,
+        article_tags: data.tags_name,
+        on_top: data.on_top,
+      });
+    }
+  }, [data]);
 
   const handlePostDataChange = (updatedData) => {
     setPostData(updatedData);
@@ -87,7 +87,7 @@ const EditPostPage = () => {
 
   const handleSetTranslatedBlocks = () => {
     setTranslatedBlocks([]);
-  }
+  };
 
   const handleTranslateClick = async () => {
     const translateData = postData.it_content.blocks;
@@ -97,7 +97,7 @@ const EditPostPage = () => {
         (res) => {
           setTranslatedBlocks(res.payload);
         }
-      )
+      );
     } catch (error) {
       alert("Error:", error);
     }
@@ -106,7 +106,10 @@ const EditPostPage = () => {
   return (
     <div>
       <h1>Edit Post</h1>
-      <AddImage setPostData={handlePostDataChange} oldImages={postData.images}/>
+      <AddImage
+        setPostData={handlePostDataChange}
+        oldImages={postData.images}
+      />
       <AddTitle
         setPostData={handlePostDataChange}
         placeholder={"Title"}
@@ -119,10 +122,19 @@ const EditPostPage = () => {
         language={"it"}
         oldTitle={postData.it_title}
       />
-      <Tags setPostData={handlePostDataChange} tags={postData.article_tags}/>
-      <Addcategory setPostData={handlePostDataChange} category={postData.category}/>
-      <AddLink setPostData={handlePostDataChange} oldLink={postData.link_to_product}/>
-      <AddContentIT setPostData={handlePostDataChange} blocks={postData.it_content}/>
+      <Tags setPostData={handlePostDataChange} tags={postData.article_tags} />
+      <Addcategory
+        setPostData={handlePostDataChange}
+        category={postData.category}
+      />
+      <AddLink
+        setPostData={handlePostDataChange}
+        oldLink={postData.link_to_product}
+      />
+      <AddContentIT
+        setPostData={handlePostDataChange}
+        blocks={postData.it_content}
+      />
       <TranslateButton handleTranslate={handleTranslateClick} />
       <AddContent
         setPostData={handlePostDataChange}
@@ -130,7 +142,7 @@ const EditPostPage = () => {
         handleSetTranslatedBlocks={handleSetTranslatedBlocks}
         blocks={postData.en_content}
       />
-      <AddOnTop setPostData={handlePostDataChange} onTop={postData.on_top}/>
+      <AddOnTop setPostData={handlePostDataChange} onTop={postData.on_top} />
       <Postbutton handlePost={handlePost} />
     </div>
   );

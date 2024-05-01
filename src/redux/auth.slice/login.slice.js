@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const loginUser = createAsyncThunk('auth/login', async ({ email, password, rejectWithValue }) => {
-  const response = await axios.post('http://127.0.0.1:8000/api/v1/token/email/', { email, password });
+  const response = await axios.post('https://api.solyver.com/api/v1/token/email/', { email, password });
   const { access, refresh } = response.data;
   localStorage.setItem('loggedIn', true)
   localStorage.setItem('accessToken', access);

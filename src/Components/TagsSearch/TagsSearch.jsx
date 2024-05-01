@@ -21,7 +21,7 @@ export default function TagsSearchj() {
   useEffect(() => {
     dispatch(
       searchArticles(
-        `http://127.0.0.1:8000/api/v1/articles/?page=${currentPage}&tag=${searchTags}`
+        `https://api.solyver.com/api/v1/articles/?page=${currentPage}&tag=${searchTags}`
       )
     );
   }, [dispatch, searchTags, currentPage]);

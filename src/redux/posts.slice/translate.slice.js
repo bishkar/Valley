@@ -9,9 +9,9 @@ const initialState = {
 
 export const translate = createAsyncThunk('translate/translate', async (translateData) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/translate/', translateData,
+        const response = await axios.post('https://api.solyver.com/api/v1/translate/', translateData,
             {
-                headers: { Authorization: "Bearer " + localStorage.getItem("accessToken")}
+                headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
             })
         return response.data; // Return the response data
     } catch (error) {

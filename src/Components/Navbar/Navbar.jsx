@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import logoImage from "./../../assets/Logo/logo.svg";
-import profileImage from "./../../assets/Icons/Profile/Profile.svg";
+// import profileImage from "./../../assets/Icons/Profile/Profile.svg";
 import savedImage from "./../../assets/Icons/Saved/Saved.svg";
 import loginImage from "./../../assets/Icons/Profile/Login.svg";
 import logoutImage from "./../../assets/Icons/Profile/Logout.svg";
@@ -47,6 +47,7 @@ const Navbar = () => {
     setShowRightHeader(!showRightHeader);
     setIsChecked(!isChecked);
   };
+
   useEffect(() => {
     dispatch(fetchCategory());
   }, [dispatch]);

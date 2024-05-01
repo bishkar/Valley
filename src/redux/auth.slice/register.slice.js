@@ -8,7 +8,7 @@ const initialState = {
 
 export const registerUser = createAsyncThunk('registration/registerUser', async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/v1/register/', userData);
+    const response = await axios.post('https://api.solyver.com/api/v1/register/', userData);
     const access = response.data.access;
     const refresh = response.data.refresh;
     localStorage.setItem('loggedIn', true)
@@ -24,7 +24,7 @@ export const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    
+
   },
   extraReducers: (builder) => {
     builder

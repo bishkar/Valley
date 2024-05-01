@@ -63,10 +63,12 @@ const AddContentIT = ({ setPostData, blocks }) => {
             class: Image,
             config: {
               endpoints: {
-                byFile: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your backend file uploader endpoint
-                byUrl: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
+                byFile: "https://api.solyver.com/api/v1/articles/image/upload", // Your backend file uploader endpoint
+                byUrl: "https://api.solyver.com/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
               },
-              additionalRequestHeaders: {Authorization: "Bearer " + localStorage.getItem("accessToken")},
+              additionalRequestHeaders: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+              },
             },
           },
           raw: Raw,
@@ -139,7 +141,7 @@ const AddContentIT = ({ setPostData, blocks }) => {
       editorit.render({ blocks: blocks.blocks });
       setRendered(true);
     }
-  })
+  });
 
   return (
     <div className="addcontent">

@@ -22,7 +22,7 @@ export const editPost = createAsyncThunk('edit/editPost', async (postData) => {
     postData.images = imageIds;
 
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/v1/articles/${postData.id}/`, postData, {
+        const response = await axios.put(`https://api.solyver.com/api/v1/articles/${postData.id}/`, postData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }

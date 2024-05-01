@@ -3,11 +3,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const token = localStorage.getItem("accessToken");
 
 const initialState = {
-  clicks: -1,
+  clicks: 0,
 };
 
 export const makeClick = createAsyncThunk("posts/makeClick", async (postId) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/v1/url-view-count/`, {
+  const response = await fetch(`https://api.solyver.com/api/v1/url-view-count/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ export const fetchStats = createAsyncThunk(
   "posts/fetchStats",
   async (postId) => {
     const response = await fetch(
-      `http://127.0.0.1:8000/api/v1/url-view-count/${postId}`,
+      `https://api.solyver.com/api/v1/url-view-count/${postId}`,
       {
         method: "GET",
         headers: {

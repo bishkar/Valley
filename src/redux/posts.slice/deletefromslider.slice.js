@@ -10,7 +10,7 @@ const initialState = {
 export const deleteSlide = createAsyncThunk('delete/deleteSlide', async (slideId) => {
     try {
         console.log(slideId)
-        const response = await axios.delete(`http://127.0.0.1:8000/api/v1/slider/${slideId}/`, {
+        const response = await axios.delete(`https://api.solyver.com/api/v1/slider/${slideId}/`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }

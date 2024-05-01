@@ -5,7 +5,7 @@ const token = localStorage.getItem("accessToken")
 export const addToFavorites = createAsyncThunk(
   'favorites/addToFavorites',
   async (payload) => {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/', {
+    const response = await fetch('https://api.solyver.com/api/v1/favourites/', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const addToFavorites = createAsyncThunk(
 export const removeFromFavorites = createAsyncThunk(
   'favorites/removeFromFavorites',
   async (payload) => {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/1/', {
+    const response = await fetch('https://api.solyver.com/api/v1/favourites/1/', {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const removeFromFavorites = createAsyncThunk(
 export const fetchFavorites = createAsyncThunk(
   'favorites/fetchFavorites',
   async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/v1/favourites/1/', {
+    const response = await fetch('https://api.solyver.com/api/v1/favourites/1/', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

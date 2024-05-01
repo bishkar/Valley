@@ -11,7 +11,7 @@ const initialState = {
 
 export const sendCode = createAsyncThunk('auth/sendCode', async (data, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/reset-password/request/${data}/`);
+        const response = await axios.get(`https://api.solyver.com/api/v1/reset-password/request/${data}/`);
         return response.data;
     } catch (error) {
         throw error;
@@ -20,7 +20,7 @@ export const sendCode = createAsyncThunk('auth/sendCode', async (data, { rejectW
 
 export const confirmCode = createAsyncThunk('auth/confirmCode', async (data, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/reset-password/verify/otp/${data.email}/${data.otp}/`);
+        const response = await axios.get(`https://api.solyver.com/api/v1/reset-password/verify/otp/${data.email}/${data.otp}/`);
         return response.data;
     } catch (error) {
         throw error;
@@ -30,7 +30,7 @@ export const confirmCode = createAsyncThunk('auth/confirmCode', async (data, { r
 
 export const changePassword = createAsyncThunk('auth/changePassword', async (data, { rejectWithValue }) => {
     try {
-        const response = await axios.put('http://127.0.0.1:8000/api/v1/reset-password/confirm/', data);
+        const response = await axios.put('https://api.solyver.com/api/v1/reset-password/confirm/', data);
         return response.data;
     } catch (error) {
         throw error;

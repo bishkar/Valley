@@ -5,7 +5,7 @@ const token = localStorage.getItem("accessToken")
 export const fetchTagsByKeyword = createAsyncThunk(
   'tags/fetchByKeyword',
   async (keyword) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/favourites/tag/${keyword}`, {
+    const response = await fetch(`https://api.solyver.com/api/v1/favourites/tag/${keyword}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',

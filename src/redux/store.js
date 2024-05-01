@@ -8,7 +8,6 @@ import tokenSlice from "./auth.slice/token.slice";
 import authFacebookSlice from "./auth.slice/facebook.slice";
 import restorePasswordSlice from "./auth.slice/restorePassword.slice";
 import articleSearchSliceReducer from "./articleSearch.slice/articleSearch.slice";
-// import getCategorySlice from './category.slice/getCategory.slice';
 import uploadImagesSlice from "./posts.slice/uploadImages.slice";
 import clicksSlice from "./posts.slice/clicks.slice";
 import pushPostSlice from './posts.slice/pushpost.slice';
@@ -32,7 +31,6 @@ export const store = configureStore({
     tokens: tokenSlice,
     authFacebook: authFacebookSlice,
     restorePassword: restorePasswordSlice,
-    // category: getCategorySlice,
     uploadImages: uploadImagesSlice,
     clicks: clicksSlice,
     devTools: true,

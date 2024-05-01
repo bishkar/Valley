@@ -9,7 +9,7 @@ const initialState = {
 
 export const deleteCategory = createAsyncThunk('deleteCategory/deleteCategory', async (categoryId) => {
     try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/v1/category/${categoryId}`, {
+        const response = await axios.delete(`https://api.solyver.com/api/v1/category/${categoryId}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }

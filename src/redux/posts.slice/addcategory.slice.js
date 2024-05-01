@@ -9,7 +9,7 @@ const initialState = {
 
 export const addCategory = createAsyncThunk('addCategory/addCategory', async (categoryData) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/category/', categoryData, {
+        const response = await axios.post('https://api.solyver.com/api/v1/category/', categoryData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }

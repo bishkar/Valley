@@ -10,7 +10,7 @@ const initialState = {
 export const addSlide = createAsyncThunk('slider/addSlide', async (postData) => {
     try {
         console.log(postData)
-        const response = await axios.post(`http://127.0.0.1:8000/api/v1/slider/`, postData, {
+        const response = await axios.post(`https://api.solyver.com/api/v1/slider/`, postData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
                 "Content-Type": "multipart/form-data"

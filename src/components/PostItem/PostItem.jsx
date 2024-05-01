@@ -38,7 +38,7 @@ export default function PostItem({ post, isFavourite }) {
   return (
     <div className="post__cart">
       <Link className="post__more" to={`/articles/${pk}`}>
-        <img src={`http://127.0.0.1:8000${image_urls[0]}`} alt="try" />
+        <img src={`https://api.solyver.com${image_urls[0]}`} alt="try" />
         <div className="post__body">
           <h4>{t("parameters.postNameTitle", { data: post })}</h4>
         </div>

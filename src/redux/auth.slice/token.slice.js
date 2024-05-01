@@ -16,7 +16,7 @@ export const refreshToken = createAsyncThunk(
   async (refreshToken, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v1/token/refresh/",
+        "https://api.solyver.com/api/v1/token/refresh/",
         { refresh: refreshToken }
       );
       const { access } = response.data;
@@ -66,7 +66,7 @@ export const setUser = createAsyncThunk("tokens/setUser", async () => {
   if (isAccessTokenExpired(access)) {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v1/token/refresh/",
+        "https://api.solyver.com/api/v1/token/refresh/",
         { refresh: refresh }
       );
       const data = response.data;

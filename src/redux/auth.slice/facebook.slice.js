@@ -14,7 +14,7 @@ export const loginUserFacebook = createAsyncThunk(
   async ({ auth_token }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/v1/token/facebook/",
+        "https://api.solyver.com/api/v1/token/facebook/",
         { auth_token }
       );
       const { access, refresh } = response.data;
