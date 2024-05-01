@@ -72,11 +72,7 @@ const AddImage = ({ setPostData, oldImages }) => {
           <div key={index} className="image">
             {console.log(image, index)}
             <img
-              src={
-                isObject(image)
-                  ? "https://api.solyver.com" + Object.values(image)[0]
-                  : "https://api.solyver.com" + image
-              }
+              src={"https://api.solyver.com" + Object.values(image)[0]}
               alt=""
             />
             <button

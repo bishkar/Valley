@@ -228,7 +228,9 @@ const PostItemPage = () => {
             {isMobile && (
               <>
                 <img
-                  src={`https://api.solyver.com${data?.image_urls[0]}`}
+                  src={`https://api.solyver.com${Object.values(
+                    data?.image_urls[0]
+                  )}`}
                   className="slide__image"
                 />
                 {/* <button onClick={() => navigate(-1)}> */}
@@ -254,7 +256,7 @@ const PostItemPage = () => {
                     }
                   >
                     <img
-                      src={`https://api.solyver.com${imageObj}`}
+                      src={`https://api.solyver.com${url}`}
                       className="slide__image"
                     />
                   </div>

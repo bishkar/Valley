@@ -20,7 +20,7 @@ export const uploadImages = createAsyncThunk('images/uploadImages', async (image
         console.log(response)
         updatedImages.push({
             // [response.data.file.pk]: response.data.file.url // Fixing the object creation
-            [response.data.pk]: response.data.url // Fixing the object creation
+            [response.data.file.id]: response.data.file.url // Fixing the object creation
         });
     }
     console.log(updatedImages)
