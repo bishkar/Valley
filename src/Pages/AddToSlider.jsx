@@ -9,6 +9,10 @@ import AddPostSlider from "../components/Sliders/AddPostSlider/AddPostSlider";
 import { addSlide } from "../redux/posts.slice/addtoslider.slice";
 
 const AddToSlider = () => {
+    if (!isAdminUser()) {
+        window.location.href = "/";
+    }
+
     const { postId } = useParams();
     const dispatch = useDispatch();
 

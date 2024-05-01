@@ -2,13 +2,9 @@ import { useState, useEffect } from "react";
 import "./Addcategory.css";
 import { getCategory } from "../../../redux/category.slice/getCategory.slice";
 import { useDispatch } from "react-redux";
-import { use } from "i18next";
-import s from "@editorjs/marker";
 
 import { addCategory } from "../../../redux/posts.slice/addcategory.slice";
 import { deleteCategory } from "../../../redux/posts.slice/deletecategory.slice";
-
-
 
 const Addcategory = ({ setPostData, category }) => {
   const [categories, setCategories] = useState([]);
@@ -17,22 +13,28 @@ const Addcategory = ({ setPostData, category }) => {
 
   const dispatch = useDispatch();
 
+  const [gotCategory, setGotCategory] = useState(false);
   useEffect(() => {
-    dispatch(getCategory())
-      .then((response) => {
-        setCategories(response.payload);
-      })
-      .catch((error) => {
-        alert("Error: ", error);
-      });
-  }, [dispatch]);
-
+    if (!gotCategory) {
+      dispatch(getCategory())
+        .then((response) => {
+          setCategories(response.payload);
+        })
+        .catch((error) => {
+          alert("Error: ", error);
+        });
+      setGotCategory(true);
+    }
+  }, []);
+  
+  const [tookCategory, setTookCategory] = useState("");
   const handleCategoryChange = (e) => {
     const newCategory = e.target.value;
     setPostData((prevData) => ({
       ...prevData,
       category: newCategory,
     }));
+    setTookCategory(newCategory);
   };
 
   let [rendered, setRendered] = useState(false);
@@ -43,8 +45,10 @@ const Addcategory = ({ setPostData, category }) => {
         category: category,
       }));
       setRendered(true);
+      setTookCategory(category);
     }
-  })
+  }, [category]);
+  
 
   const handleAddCategory = () => {
     const postCategory = {
@@ -52,27 +56,19 @@ const Addcategory = ({ setPostData, category }) => {
       it_category: it_category,
     }
 
-    dispatch(addCategory(postCategory))
+    dispatch(addCategory(postCategory)).then((response) => {
+      if (response.payload) {
+        window.location.reload();
+      }
+    })
   }
 
   const handleDeleteCategory = () => {
-    dispatch(deleteCategory(category))
-    console.log(category)
-  }
-
-
-    useEffect(() => {
-      if (dispatch(getCategory()) !== categories) {
-        dispatch(getCategory())
-          .then((response) => {
-            setCategories(response.payload);
-          })
-          .catch((error) => {
-            alert("Error: ", error);
-          });
-      }
+    dispatch(deleteCategory(tookCategory)).then((response) => {
+      console.log(response.payload)
+      window.location.reload();
     })
-
+  }
 
   return (
     <div className="addcategory">
@@ -97,7 +93,7 @@ const Addcategory = ({ setPostData, category }) => {
         onChange={(e) => setItCategory(e.target.value)}
       />
       <button className="add-link-button" onClick={() => handleAddCategory()}>Add</button>
-      <button className="add-link-button" onClick={() => handleDeleteCategory()}>Delete</button>
+      <button className="add-link-button" onClick={() => handleDeleteCategory(category)}>Delete</button>
     </div>
   );
 };

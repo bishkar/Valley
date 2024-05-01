@@ -9,7 +9,9 @@ import { Link } from "react-router-dom";
 import DeletePost from "../components/DeletePost/DeletePost.jsx";
 
 const DeletePostPage = () => {
-  const dispatch = useDispatch();
+  if (!isAdminUser()) {
+    window.location.href = "/";
+  }
 
   const { postId } = useParams();
   

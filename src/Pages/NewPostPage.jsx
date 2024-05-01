@@ -16,9 +16,14 @@ import { useState } from "react";
 import { pushPost } from "../redux/posts.slice/pushpost.slice.js";
 import { translate } from "../redux/posts.slice/translate.slice.js";
 import { useDispatch } from "react-redux";
-import { useRef } from "react";
+import { isAdminUser } from "../redux/auth.slice/token.slice.js";
+import { redirect } from "react-router-dom";
 
 const NewPostPage = () => {
+  if (!isAdminUser()) {
+    window.location.href = "/";
+  }
+
   const dispatch = useDispatch();
 
   const [translatedBlocks, setTranslatedBlocks] = useState([]);

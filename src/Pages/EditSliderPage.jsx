@@ -1,9 +1,9 @@
-import useFetch from "../hooks/useFetch";
-
 import DeletePostSlide from "../components/Sliders/DeletePostSlide/DeletePostSlide";
 
 const EditSliderPage = () => {
-
+    if (!isAdminUser()) {
+        window.location.href = "/";
+    }
 
     return (
         <div>
