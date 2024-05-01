@@ -13,10 +13,8 @@ export const translate = createAsyncThunk('translate/translate', async (translat
             {
                 headers: { Authorization: "Bearer " + localStorage.getItem("accessToken")}
             })
-        console.log(response);
         return response.data; // Return the response data
     } catch (error) {
-        console.log(error);
         throw error; // Throw error for rejection
     }
 })

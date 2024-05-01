@@ -10,6 +10,8 @@ export default function Mainslider() {
     `http://127.0.0.1:8000/api/v1/slider/`
   );
 
+  console.log(data);
+
   const NextArrow = ({ onClick }) => {
     return (
       <div className="arrow next" onClick={onClick}>

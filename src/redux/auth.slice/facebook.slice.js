@@ -13,13 +13,11 @@ export const loginUserFacebook = createAsyncThunk(
   "auth/loginFacebook",
   async ({ auth_token }, { rejectWithValue }) => {
     try {
-      console.log({ auth_token });
       const response = await axios.post(
         "http://127.0.0.1:8000/api/v1/token/facebook/",
         { auth_token }
       );
       const { access, refresh } = response.data;
-      console.log(response);
       localStorage.setItem("loggedIn", true);
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);

@@ -70,13 +70,11 @@ export const setUser = createAsyncThunk("tokens/setUser", async () => {
         { refresh: refresh }
       );
       const data = response.data;
-      console.log(data);
       localStorage.setItem("accessToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
       localStorage.setItem("loggedIn", true);
       return true;
     } catch (error) {
-      console.log(error);
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("loggedIn");

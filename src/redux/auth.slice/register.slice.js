@@ -8,9 +8,7 @@ const initialState = {
 
 export const registerUser = createAsyncThunk('registration/registerUser', async (userData, { rejectWithValue }) => {
   try {
-    console.log(userData)
     const response = await axios.post('http://127.0.0.1:8000/api/v1/register/', userData);
-    console.log(response.data);
     const access = response.data.access;
     const refresh = response.data.refresh;
     localStorage.setItem('loggedIn', true)

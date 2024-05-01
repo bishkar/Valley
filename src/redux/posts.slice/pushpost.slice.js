@@ -9,17 +9,27 @@ const initialState = {
 
 export const pushPost = createAsyncThunk('newpost/pushPost', async (postData) => {
     try {
+        let images = postData.images;
+        let imageIds = [];
+
+        images.forEach(image => {
+            let keys = Object.keys(image);
+            keys.forEach(key => {
+                if (key !== "id") {
+                    imageIds.push(key);
+                }
+            });
+        });
+        postData.images = imageIds;
+
         const response = await axios.post('http://127.0.0.1:8000/api/v1/articles/', postData, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
-        console.log(postData)
-        console.log(response);
-        return response.data; // Return the response data
+        return response.data;
     } catch (error) {
-        console.log(error);
-        throw error; // Throw error for rejection
+        throw error; 
     }
 });
 

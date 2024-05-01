@@ -8,7 +8,14 @@ export default function useFetch(url) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(url);
+        // added for the purpose of the project
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }); 
+
         if (!response.ok) {
           throw new Error("data fetching error")
         }

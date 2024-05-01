@@ -19,7 +19,6 @@ export const sendCode = createAsyncThunk('auth/sendCode', async (data, { rejectW
 })
 
 export const confirmCode = createAsyncThunk('auth/confirmCode', async (data, { rejectWithValue }) => {
-    console.log(`http://127.0.0.1:8000/api/v1/verify/otp/${data.email}/${data.otp}/`)
     try {
         const response = await axios.get(`http://127.0.0.1:8000/api/v1/reset-password/verify/otp/${data.email}/${data.otp}/`);
         return response.data;

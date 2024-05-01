@@ -91,6 +91,75 @@
     cursor: pointer;
 }
 
+@media only screen and (max-width: 600px) {
+    .add-image {
+        width: 80%;
+        height: 400px;
+    }
 
-/*     width: 990px;
-    height: 535px; */
+    .add-image-button {
+        width: 100px;
+        height: 100px;
+    }
+
+    .add-image-button img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .added__images {
+        flex-direction: column;
+    }
+
+    .added__images img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .delete-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .delete-image img {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+    .add-image {
+        width: 90%;
+        max-width: 800px;
+        height: 400px;
+    }
+
+    .add-image-button {
+        width: 100px;
+        height: 100px;
+    }
+
+    .add-image-button img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .added__images {
+        flex-direction: column;
+    }
+
+    .added__images img {
+        width: 250px;
+        height: 250px;
+    }
+
+    .delete-image {
+        width: 75px;
+        height: 75px;
+    }
+
+    .delete-image img {
+        width: 60px;
+        height: 60px;
+    }
+}

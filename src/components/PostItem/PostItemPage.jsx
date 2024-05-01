@@ -173,18 +173,15 @@ const PostItemPage = () => {
           image: {
             class: Image,
             config: {
-              endpoints: {
-                byFile: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your backend file uploader endpoint
-                byUrl: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
-              },
-              additionalRequestHeaders: {
-                Authorization:
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQxMTgxLCJpYXQiOjE3MTM1Mzc1ODEsImp0aSI6ImQwYWY5NmMxMmZmYzQ4NjRiOWQ5YTdlYzA2MzRmMzE5IiwidXNlcl9pZCI6MSwiaXNfYWRtaW4iOnRydWV9.nr3pX6OnUP8An1KJNhfGDV2pqWQkuUxgpoovazhi8RQ",
-              },
-            },
-          },
-          raw: Raw,
-          paragraph: {
+                endpoints: {
+                    byFile: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your backend file uploader endpoint
+                    byUrl: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your endpoint that provides uploading by Url
+                },
+                additionalRequestHeaders: {Authorization: "Bearer " + localStorage.getItem("accessToken")},
+            }
+        },
+        raw: Raw,
+        paragraph: {
             class: Paragraph,
             inlineToolbar: true,
           },
@@ -241,7 +238,10 @@ const PostItemPage = () => {
               </>
             )}
             <Slider {...settings}>
-              {data?.image_urls.map((image, idx) => (
+            {data?.image_urls.map((imageObj, idx) => {
+              const key = Object.keys(imageObj)[0]; // Отримуємо ключ об'єкта
+              const url = imageObj[key]; // Отримуємо URL за ключем
+              return (
                 <div
                   key={idx}
                   className={
@@ -251,11 +251,12 @@ const PostItemPage = () => {
                   }
                 >
                   <img
-                    src={`http://127.0.0.1:8000${image}`}
+                    src={`http://127.0.0.1:8000${url}`}
                     className="slide__image"
                   />
                 </div>
-              ))}
+              );
+              })}
             </Slider>
           </div>
           <div className={`itemPage__body ${scrollDirection}`}>
@@ -274,12 +275,9 @@ const PostItemPage = () => {
             </ul>
             {admin && (
               <div className="itemPage__admin">
-                <Link className="admin__button" to={`/edit/${postId}`}>
-                  {t("Edit")}
-                </Link>
-                <Link className="admin__button" to={`/delete/${postId}`}>
-                  {t("Delete")}
-                </Link>
+                <Link className="admin__button" to={`/edit/${postId}`}>{t("Edit")}</Link>
+                <Link className="admin__button" to={`/delete/${postId}`}>{t("Delete")}</Link>
+                <Link className="admin__button" to={`/add-to-slider/${postId}`}>{t("Add to slider")}</Link>
               </div>
             )}
             <div className="link__to__product">
