@@ -28,6 +28,8 @@ const AddToSlider = () => {
 
     const handleSave = () => {
         dispatch(addSlide(postData))
+        alert("Post added to slider")
+        window.location.href = "/"
     }
 
     return (

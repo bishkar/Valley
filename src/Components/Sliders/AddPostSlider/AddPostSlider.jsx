@@ -22,7 +22,9 @@ const AddPostSlider = ({ setPostData }) => {
                 ...prevData,
                 big_image: files[0],
             }));
+
         } catch (error) {
+            alert('Error uploading images');
         }
     };    
 

@@ -18,6 +18,7 @@ import editPostSlice from "./posts.slice/edit.slice";
 import addCategorySlice from "./posts.slice/addcategory.slice";
 import deleteCategorySlice from "./posts.slice/deletecategory.slice";
 import addSlideSlice from "./posts.slice/addtoslider.slice";
+import deleteSlideSlice from "./posts.slice/deletefromslider.slice";
 
 export const store = configureStore({
   reducer: {
@@ -36,6 +37,7 @@ export const store = configureStore({
     clicks: clicksSlice,
     devTools: true,
     addSlide: addSlideSlice,
+    deleteSlide: deleteSlideSlice,
 
     addcategory: addCategorySlice,
     deletecategory: deleteCategorySlice,

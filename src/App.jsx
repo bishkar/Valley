@@ -16,6 +16,7 @@ import TagsSearch from "./components/TagsSearch/TagsSearch.jsx";
 import EditPostPage from "./pages/EditPostPage.jsx";
 import DeletePostPage from "./pages/DeletePostPage.jsx";
 import AddToSlider from "./pages/AddToSlider.jsx";
+import EditSliderPage from "./pages/EditSliderPage.jsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/edit/:postId" element={<EditPostPage />} />
         <Route path="/delete/:postId" element={<DeletePostPage />} />
         <Route path="/add-to-slider/:postId" element={<AddToSlider />} />
+        <Route path="/edit-slider" element={<EditSliderPage />} />
         <Route path="/favourites" element={<FavouritePage />} />
         <Route path="/category/:categoryId" element={<CategoryResult />} />
         <Route path="/register" element={<RegisterPage />} />

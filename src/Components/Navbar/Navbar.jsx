@@ -125,6 +125,13 @@ const Navbar = () => {
                   </div>
                 </Link>
               )}
+              {isAdminUser() && (
+                <Link to="/edit-slider">
+                  <div className="header-element plus-element">
+                    <p>Edit slider</p>
+                  </div>
+                </Link>
+              )}
               <a
                 className="header-element language"
                 onClick={getCurrentLanguage}
