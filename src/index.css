@@ -5,8 +5,8 @@
   line-height: 1.5;
   font-weight: 400;
   text-align: center;
-  color: #000000;
-  background-color: #F3F3F34D;
+  color: #312D2D;
+  background-color: #F5F2F2;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,7 +15,7 @@
 
 a {
   font-weight: 500;
-  color: #000;
+  color: #312D2D;
   text-decoration: inherit;
 }
 

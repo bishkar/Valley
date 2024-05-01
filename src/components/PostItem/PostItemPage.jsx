@@ -14,23 +14,23 @@ import { isAdminUser } from "../../redux/auth.slice/token.slice";
 import { useNavigate } from "react-router-dom";
 import { use } from "i18next";
 
-import EditorJS from '@editorjs/editorjs';
-import Embed from '@editorjs/embed'
-import Table from '@editorjs/table'
-import Paragraph from '@editorjs/paragraph'
-import List from '@editorjs/list'
-import Warning from '@editorjs/warning'
-import Code from '@editorjs/code'
-import LinkTool from '@editorjs/link'
-import Image from '@editorjs/image'
-import Raw from '@editorjs/raw'
-import Header from '@editorjs/header'
-import Quote from '@editorjs/quote'
-import Marker from '@editorjs/marker'
-import CheckList from '@editorjs/checklist'
-import Delimiter from '@editorjs/delimiter'
-import InlineCode from '@editorjs/inline-code'
-import SimpleImage from '@editorjs/simple-image'
+import EditorJS from "@editorjs/editorjs";
+import Embed from "@editorjs/embed";
+import Table from "@editorjs/table";
+import Paragraph from "@editorjs/paragraph";
+import List from "@editorjs/list";
+import Warning from "@editorjs/warning";
+import Code from "@editorjs/code";
+import LinkTool from "@editorjs/link";
+import Image from "@editorjs/image";
+import Raw from "@editorjs/raw";
+import Header from "@editorjs/header";
+import Quote from "@editorjs/quote";
+import Marker from "@editorjs/marker";
+import CheckList from "@editorjs/checklist";
+import Delimiter from "@editorjs/delimiter";
+import InlineCode from "@editorjs/inline-code";
+import SimpleImage from "@editorjs/simple-image";
 
 const PostItemPage = () => {
   const dispatch = useDispatch();
@@ -46,9 +46,6 @@ const PostItemPage = () => {
   const { data, error, loading } = useFetch(
     `http://127.0.0.1:8000/api/v1/articles/${postId}`
   );
-
-  console.log(data)
-    
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -132,7 +129,7 @@ const PostItemPage = () => {
 
   let [editor, setEditor] = useState(null);
   let language = localStorage.getItem("i18nextLng");
-  let editorBlocks
+  let editorBlocks;
 
   if (language === "en") {
     editorBlocks = data?.en_content;
@@ -149,72 +146,75 @@ const PostItemPage = () => {
         tools: {
           header: {
             class: Header,
-            inlineToolbar: ['link'],
+            inlineToolbar: ["link"],
             config: {
-                placeholder: 'Enter a header',
-                levels: [2, 3, 4],
-                defaultLevel: 3
+              placeholder: "Enter a header",
+              levels: [2, 3, 4],
+              defaultLevel: 3,
             },
-        },
-        embed: {
+          },
+          embed: {
             class: Embed,
             inlineToolbar: true,
             config: {
-                services: {
-                    youtube: true,
-                    coub: true
-                }
-            }
-        },
-        list: {
+              services: {
+                youtube: true,
+                coub: true,
+              },
+            },
+          },
+          list: {
             class: List,
             inlineToolbar: true,
-        },
-        warning: Warning,
-        code: Code,
-        linkTool: LinkTool,
-        image: {
+          },
+          warning: Warning,
+          code: Code,
+          linkTool: LinkTool,
+          image: {
             class: Image,
             config: {
-                endpoints: {
-                    byFile: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your backend file uploader endpoint
-                    byUrl: 'http://127.0.0.1:8000/api/v1/articles/image/upload', // Your endpoint that provides uploading by Url
-                },
-                additionalRequestHeaders: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQxMTgxLCJpYXQiOjE3MTM1Mzc1ODEsImp0aSI6ImQwYWY5NmMxMmZmYzQ4NjRiOWQ5YTdlYzA2MzRmMzE5IiwidXNlcl9pZCI6MSwiaXNfYWRtaW4iOnRydWV9.nr3pX6OnUP8An1KJNhfGDV2pqWQkuUxgpoovazhi8RQ"},
-            }
-        },
-        raw: Raw,
-        paragraph: {
+              endpoints: {
+                byFile: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your backend file uploader endpoint
+                byUrl: "http://127.0.0.1:8000/api/v1/articles/image/upload", // Your endpoint that provides uploading by Url
+              },
+              additionalRequestHeaders: {
+                Authorization:
+                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQxMTgxLCJpYXQiOjE3MTM1Mzc1ODEsImp0aSI6ImQwYWY5NmMxMmZmYzQ4NjRiOWQ5YTdlYzA2MzRmMzE5IiwidXNlcl9pZCI6MSwiaXNfYWRtaW4iOnRydWV9.nr3pX6OnUP8An1KJNhfGDV2pqWQkuUxgpoovazhi8RQ",
+              },
+            },
+          },
+          raw: Raw,
+          paragraph: {
             class: Paragraph,
             inlineToolbar: true,
-        },
-        table: {
+          },
+          table: {
             class: Table,
             inlineToolbar: true,
-        },
-        quote: {
+          },
+          quote: {
             class: Quote,
             inlineToolbar: true,
             config: {
-                quotePlaceholder: 'Enter a quote',
-                captionPlaceholder: 'Quote\'s author',
+              quotePlaceholder: "Enter a quote",
+              captionPlaceholder: "Quote's author",
             },
-        },
-        marker: Marker,
-        checklist: {
+          },
+          marker: Marker,
+          checklist: {
             class: CheckList,
             inlineToolbar: true,
-        },
-        delimiter: Delimiter,
-        inlineCode: {
+          },
+          delimiter: Delimiter,
+          inlineCode: {
             class: InlineCode,
             inlineToolbar: true,
+          },
+          simpleImage: SimpleImage,
         },
-        simpleImage: SimpleImage,
-      }
       });
       setEditor(editor);
-      console.log(editor)
+      console.log(editor);
     }
   }, [editor, data]);
 
@@ -272,12 +272,16 @@ const PostItemPage = () => {
                 </li>
               ))}
             </ul>
-            { admin && 
+            {admin && (
               <div className="itemPage__admin">
-                <Link className="admin__button" to={`/edit/${postId}`}>{t("Edit")}</Link>
-                <Link className="admin__button" to={`/delete/${postId}`}>{t("Delete")}</Link>
+                <Link className="admin__button" to={`/edit/${postId}`}>
+                  {t("Edit")}
+                </Link>
+                <Link className="admin__button" to={`/delete/${postId}`}>
+                  {t("Delete")}
+                </Link>
               </div>
-            }
+            )}
             <div className="link__to__product">
               <p>
                 {t("Link to the product: ")}
