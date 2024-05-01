@@ -254,7 +254,7 @@ const PostItemPage = () => {
                     }
                   >
                     <img
-                      src={`https://api.solyver.com${url}`}
+                      src={`https://api.solyver.com${imageObj}`}
                       className="slide__image"
                     />
                   </div>

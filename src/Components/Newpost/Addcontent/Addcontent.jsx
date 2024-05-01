@@ -160,7 +160,7 @@ const AddContent = ({
       editor.render({ blocks: blocks.blocks });
       setRendered(true);
     }
-  });
+  }, [blocks, rendered, editor]);
 
   return (
     <div className="addcontent">

@@ -79,7 +79,7 @@ const EditPostPage = () => {
     try {
       dispatch(editPost(postData));
       alert("Post edited successfully");
-      window.location.href = `/`;
+      // window.location.href = `/`;
     } catch (error) {
       alert("Error:", error);
     }

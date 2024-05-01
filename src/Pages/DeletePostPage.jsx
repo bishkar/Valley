@@ -5,11 +5,14 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch.js";
 import { Link } from "react-router-dom";
+import { isAdminUser } from "../redux/auth.slice/token.slice.js";
 
 import DeletePost from "../components/DeletePost/DeletePost.jsx";
 
 const DeletePostPage = () => {
-  const dispatch = useDispatch();
+  if (!isAdminUser()) {
+    window.location.href = "/";
+  }
 
   const { postId } = useParams();
 

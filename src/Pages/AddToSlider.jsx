@@ -2,11 +2,16 @@ import useFetch from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { isAdminUser } from "../redux/auth.slice/token.slice.js";
 
 import AddPostSlider from "../components/Sliders/AddPostSlider/AddPostSlider";
 import { addSlide } from "../redux/posts.slice/addtoslider.slice";
 
 const AddToSlider = () => {
+  if (!isAdminUser()) {
+    window.location.href = "/";
+  }
+
   const { postId } = useParams();
   const dispatch = useDispatch();
 
