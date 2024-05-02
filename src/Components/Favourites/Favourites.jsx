@@ -11,23 +11,27 @@ import {
 import FavouriteItem from "./FavouriteItem";
 import "./Favourite.scss";
 import { useTranslation } from "react-i18next";
-
+import useAuth from "../../hooks/useAuth";
 export default function Favourites() {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
   const tags = useSelector(selectTags);
   const postPerRow = 9;
+  let loggedIn = useAuth();
+
   const [next, setNext] = useState(postPerRow);
   const [keyword, setKeyword] = useState("");
   const filteredFavorites = keyword === "" ? favorites : tags;
   const { t } = useTranslation();
 
   useEffect(() => {
-    dispatch(fetchFavorites());
-    if (keyword !== "") {
-      dispatch(fetchTagsByKeyword(keyword));
+    if (loggedIn) {
+      dispatch(fetchFavorites());
+      if (keyword !== "") {
+        dispatch(fetchTagsByKeyword(keyword));
+      }
     }
-  }, [dispatch, keyword]);
+  }, [dispatch, keyword, loggedIn]);
 
   const handleRemoveFromFavorites = (article) => {
     dispatch(removeFromFavorites(article)).then(() => {

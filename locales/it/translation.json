@@ -48,7 +48,6 @@
   "Favourites": "Preferiti",
   "Log Out": "Esci",
   "Log In": "Accedi",
-
   "parameters": {
     "postNameTitle": "{{data.it_title}}",
     "categoryName": "{{category.it_category}}",

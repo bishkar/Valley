@@ -18,7 +18,6 @@ import i18n from "../../../i18n";
 import useAuth from "../../hooks/useAuth";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
 import { useTranslation } from "react-i18next";
-
 const Navbar = () => {
   const dispatch = useDispatch();
   const { category } = useSelector(selectCategory);
@@ -28,7 +27,6 @@ const Navbar = () => {
 
   let loggedIn = useAuth();
   let currentLanguage = localStorage.getItem("i18nextLng");
-
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {

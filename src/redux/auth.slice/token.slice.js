@@ -6,7 +6,7 @@ import { logout } from "./login.slice";
 const initialState = {
   accessToken: null,
   status: "idle",
-  loggedIn: false,
+  loggedIn: null,
   error: null,
   admin: false,
 };
