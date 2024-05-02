@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import i18n from "../../../i18n";
 import useAuth from "../../hooks/useAuth";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
-
+import { useTranslation } from "react-i18next";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { category } = useSelector(selectCategory);
@@ -26,7 +26,7 @@ const Navbar = () => {
 
   let loggedIn = useAuth();
   let currentLanguage = localStorage.getItem("i18nextLng");
-
+  const { t } = useTranslation();
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const Navbar = () => {
                   <path className="line" d="M7 16 27 16"></path>
                 </svg>
               </label>
-              <p className="nav__title">Enjoy yourself with Solyver</p>
+              <p className="nav__title">{t("Enjoy yourself with Solyver")}</p>
               <input
                 type="text"
                 className="nav-input"

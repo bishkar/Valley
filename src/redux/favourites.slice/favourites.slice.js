@@ -1,20 +1,22 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const token = localStorage.getItem("accessToken")
+export function getAccessToken() {
+  return localStorage.getItem("accessToken");
+}
 
 export const addToFavorites = createAsyncThunk(
-  'favorites/addToFavorites',
+  "favorites/addToFavorites",
   async (payload) => {
-    const response = await fetch('https://api.solyver.com/api/v1/favourites/', {
-      method: 'POST',
+    const response = await fetch("https://api.solyver.com/api/v1/favourites/", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getAccessToken()}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ article_id: payload.pk })
+      body: JSON.stringify({ article_id: payload.pk }),
     });
     if (!response.ok) {
-      throw new Error('Failed to add to favorites');
+      throw new Error("Failed to add to favorites");
     }
     const data = await response.json();
     return data;
@@ -22,18 +24,21 @@ export const addToFavorites = createAsyncThunk(
 );
 
 export const removeFromFavorites = createAsyncThunk(
-  'favorites/removeFromFavorites',
+  "favorites/removeFromFavorites",
   async (payload) => {
-    const response = await fetch('https://api.solyver.com/api/v1/favourites/1/', {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: payload.pk })
-    });
+    const response = await fetch(
+      "https://api.solyver.com/api/v1/favourites/1/",
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: payload.pk }),
+      }
+    );
     if (!response.ok) {
-      throw new Error('Failed to remove from favorites');
+      throw new Error("Failed to remove from favorites");
     }
     const data = await response.json();
     return data;
@@ -41,17 +46,20 @@ export const removeFromFavorites = createAsyncThunk(
 );
 
 export const fetchFavorites = createAsyncThunk(
-  'favorites/fetchFavorites',
+  "favorites/fetchFavorites",
   async () => {
-    const response = await fetch('https://api.solyver.com/api/v1/favourites/1/', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(
+      "https://api.solyver.com/api/v1/favourites/1/",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (!response.ok) {
-      throw new Error('Failed to get favorites');
+      throw new Error("Failed to get favorites");
     }
     const data = await response.json();
     return data;
@@ -59,25 +67,25 @@ export const fetchFavorites = createAsyncThunk(
 );
 
 const favoritesSlice = createSlice({
-  name: 'favorites',
+  name: "favorites",
   initialState: [],
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(addToFavorites.fulfilled, (state, action) => {
-        console.log('Added to favorites:', action.payload);
+        console.log("Added to favorites:", action.payload);
         state.push(action.payload);
       })
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
-        console.log('Removed from favorites:', action.payload);
+        console.log("Removed from favorites:", action.payload);
         return state.filter((product) => {
-          return product.pk !== action.payload.pk
+          return product.pk !== action.payload.pk;
         });
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
-        console.log('Fetched favorites:', action.payload);
+        console.log("Fetched favorites:", action.payload);
         return action.payload;
-      })
+      });
   },
 });
 
