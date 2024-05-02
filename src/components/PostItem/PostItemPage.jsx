@@ -258,7 +258,8 @@ const PostItemPage = () => {
               })}
             </Slider>
           </div>
-          <div className={`itemPage__body ${scrollDirection}`}>
+          <div className={`itemPage__line ${scrollDirection}`}></div>
+          <div className={`itemPage__body`}>
             <h2 className="itemPage__title">
               {t("parameters.postTitle", { data })}
               {admin && <span>({clicks})</span>}
