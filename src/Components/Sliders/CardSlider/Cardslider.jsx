@@ -39,7 +39,7 @@ export default function CardSlider() {
       </div>
     );
   };
-
+  console.log(data?.length === 1);
   const settings = {
     dots: true,
     infinite: true,
@@ -49,7 +49,7 @@ export default function CardSlider() {
     autoplay: true,
     autoplaySpeed: 3000,
     speed: 500,
-    slidesToShow: isMobile ? 1 : 2,
+    slidesToShow: isMobile || data?.length === 1 ? 1 : 2,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,

@@ -69,6 +69,8 @@ const AddContentIT = ({ setPostData, blocks }) => {
               additionalRequestHeaders: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
               },
+              
+
             },
           },
           raw: Raw,

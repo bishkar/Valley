@@ -31,6 +31,7 @@ import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
+import { current } from "@reduxjs/toolkit";
 
 const PostItemPage = () => {
   const dispatch = useDispatch();
@@ -228,9 +229,7 @@ const PostItemPage = () => {
             {isMobile && (
               <>
                 <img
-                  src={`https://api.solyver.com${Object.values(
-                    data?.image_urls[0]
-                  )}`}
+                  src={Object.values(data?.image_urls[0])}
                   className="slide__image"
                 />
                 {/* <button onClick={() => navigate(-1)}> */}
@@ -255,10 +254,7 @@ const PostItemPage = () => {
                         : "slide deactiveSlide"
                     }
                   >
-                    <img
-                      src={`https://api.solyver.com${url}`}
-                      className="slide__image"
-                    />
+                    <img src={url} className="slide__image" />
                   </div>
                 );
               })}

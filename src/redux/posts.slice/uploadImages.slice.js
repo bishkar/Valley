@@ -17,7 +17,7 @@ export const uploadImages = createAsyncThunk('images/uploadImages', async (image
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
-        console.log(response)
+        console.log("upload respone", response)
         updatedImages.push({
             // [response.data.file.pk]: response.data.file.url // Fixing the object creation
             [response.data.file.id]: response.data.file.url // Fixing the object creation

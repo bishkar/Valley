@@ -129,7 +129,7 @@ const Navbar = () => {
               {isAdminUser() && (
                 <Link to="/edit-slider">
                   <div className="header-element plus-element">
-                    <p>Edit slider</p>
+                    <p>Slider</p>
                   </div>
                 </Link>
               )}

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import addImg from "../../../assets/Icons/Add/add.svg";
 import deleteImg from "../../../assets/Icons/Delete/delete.svg";
 import { uploadImages } from "../../../redux/posts.slice/uploadImages.slice";
-import s from "@editorjs/marker";
+// import s from "@editorjs/marker";
 import { isObject } from "formik";
 
 const AddImage = ({ setPostData, oldImages }) => {
@@ -13,6 +13,7 @@ const AddImage = ({ setPostData, oldImages }) => {
 
   useEffect(() => {
     if (oldImages) {
+      console.log(oldImages);
       setImages(oldImages);
     }
   }, [oldImages]);
@@ -23,17 +24,20 @@ const AddImage = ({ setPostData, oldImages }) => {
       const formData = new FormData();
       formData.append("image", files);
       const uploadedImages = await dispatch(uploadImages(files));
-      console.log(uploadedImages);
+      console.log("uploaded img", uploadedImages);
       if (images.length > 0) {
         setImages((prevImages) => [...prevImages, ...uploadedImages.payload]);
       } else {
         setImages(uploadedImages.payload);
       }
 
+      console.log("uploaded images payload", uploadedImages);
+
       setPostData((prevData) => ({
         ...prevData,
         images: [...prevData.images, ...uploadedImages.payload],
       }));
+      console.log("uploaded images", images);
     } catch (error) {
       console.log(error);
     }
@@ -70,9 +74,9 @@ const AddImage = ({ setPostData, oldImages }) => {
       <div className="added__images">
         {images.map((image, index) => (
           <div key={index} className="image">
-            {console.log(image, index)}
+            {/* {console.log(image, index)} */}
             <img
-              src={"https://api.solyver.com" + Object.values(image)[0]}
+              src={isObject(image) ? Object.values(image)[0] : image}
               alt=""
             />
             <button

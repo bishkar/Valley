@@ -4,8 +4,10 @@ import useFetch from "../../../hooks/useFetch";
 import { useDispatch } from "react-redux";
 
 import { deleteSlide } from "../../../redux/posts.slice/deletefromslider.slice";
+import { useTranslation } from "react-i18next";
 
 const DeletePostSlide = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const { data, error, loading } = useFetch(
@@ -13,13 +15,14 @@ const DeletePostSlide = () => {
   );
 
   const handleDelete = (id) => {
-    dispatch(deleteSlide(id));
-    window.location.reload();
+    dispatch(deleteSlide(id)).then(() => {
+      window.location.reload();
+    })
   };
 
   return (
     <div>
-      <h1>Delete Post Slide</h1>
+      <h1>{t("Delete Post Slide")}</h1>
       {error ? <h1 style={{ color: "red" }}>An error!!!</h1> : null}
       {loading ? <h1>loading</h1> : null}
 

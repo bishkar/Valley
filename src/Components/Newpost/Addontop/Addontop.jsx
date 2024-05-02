@@ -10,7 +10,7 @@ const AddOnTop = ({ setPostData, onTop }) => {
         setTop(newTop);
         setPostData((prevData) => ({
             ...prevData,
-            top: newTop,
+            on_top: newTop,
         }));
     }
 
