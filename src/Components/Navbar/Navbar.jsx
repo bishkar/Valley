@@ -142,7 +142,7 @@ const Navbar = () => {
                 </>
               )}
               <Link to="/">
-                <div className="header-element">
+                <div className="header-element home-element">
                   <LiaHomeSolid className="react__img" />
                   <span>Home</span>
                 </div>
