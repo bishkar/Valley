@@ -1,6 +1,7 @@
 import "./Navbar.css";
 import logoImage from "./../../assets/Logo/logo.svg";
 // import profileImage from "./../../assets/Icons/Profile/Profile.svg";
+import { LiaHomeSolid } from "react-icons/lia";
 import savedImage from "./../../assets/Icons/Saved/Saved.svg";
 import loginImage from "./../../assets/Icons/Profile/Login.svg";
 import logoutImage from "./../../assets/Icons/Profile/Logout.svg";
@@ -118,27 +119,34 @@ const Navbar = () => {
             <div
               className={`right-header ${showRightHeader ? "show" : "hide"}`}
             >
-              {isAdminUser() && (
-                <Link to="/new-post">
-                  <div className="header-element plus-element">
-                    <img src={addImage} alt="" />
-                    <span>Add Post</span>
-                  </div>
-                </Link>
-              )}
-              {isAdminUser() && (
-                <Link to="/edit-slider">
-                  <div className="header-element plus-element">
-                    <p>Slider</p>
-                  </div>
-                </Link>
-              )}
               <a
                 className="header-element language"
                 onClick={getCurrentLanguage}
               >
                 {language == "it" ? "Italian" : "English"}
               </a>
+              {isAdminUser() && (
+                <>
+                  <Link to="/edit-slider">
+                    <div className="header-element plus-element">
+                      <p>Slider</p>
+                    </div>
+                  </Link>
+
+                  <Link to="/new-post">
+                    <div className="header-element plus-element">
+                      <img src={addImage} alt="" />
+                      <span>Add Post</span>
+                    </div>
+                  </Link>
+                </>
+              )}
+              <Link to="/">
+                <div className="header-element">
+                  <LiaHomeSolid className="react__img" />
+                  <span>Home</span>
+                </div>
+              </Link>
               {loggedIn ? (
                 <>
                   <Link to="/favourites">
