@@ -17,12 +17,14 @@ import { Link } from "react-router-dom";
 import i18n from "../../../i18n";
 import useAuth from "../../hooks/useAuth";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { category } = useSelector(selectCategory);
   const [searchTerm, setSearchTerm] = useState("");
   const [showRightHeader, setShowRightHeader] = useState(false);
+  const { t } = useTranslation();
 
   let loggedIn = useAuth();
   let currentLanguage = localStorage.getItem("i18nextLng");
@@ -90,7 +92,7 @@ const Navbar = () => {
                   <path className="line" d="M7 16 27 16"></path>
                 </svg>
               </label>
-              <p className="nav__title">Enjoy yourself with Solyver</p>
+              <p className="nav__title">{t("Enjoy yourself with Solyver")}</p>
               <input
                 type="text"
                 className="nav-input"
@@ -144,7 +146,7 @@ const Navbar = () => {
               <Link to="/">
                 <div className="header-element home-element">
                   <LiaHomeSolid className="react__img" />
-                  <span>Home</span>
+                  <span>{t("Home")}</span>
                 </div>
               </Link>
               {loggedIn ? (
@@ -152,13 +154,13 @@ const Navbar = () => {
                   <Link to="/favourites">
                     <div className="header-element">
                       <img src={savedImage} alt="" />
-                      <span>Favourites</span>
+                      <span>{t("Favourites")}</span>
                     </div>
                   </Link>
                   <Link to="/logout">
                     <div className="header-element">
                       <img src={logoutImage} alt="" />
-                      <span>Log Out</span>
+                      <span>{t("Log Out")}</span>
                     </div>
                   </Link>
                 </>
@@ -166,7 +168,7 @@ const Navbar = () => {
                 <Link to="/login">
                   <div className="header-element">
                     <img src={loginImage} alt="" />
-                    <span>Log In</span>
+                    <span>{t("Log In")}</span>
                   </div>
                 </Link>
               )}

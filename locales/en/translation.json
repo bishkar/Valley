@@ -42,6 +42,12 @@
   "Your favourite page is empty": "Your favourite page is empty",
   "Write here new category": "Write here new category",
   "Link to the product: ": "Link to the product: ",
+  "Enjoy yourself with Solyver": "Enjoy yourself with Solyver",
+  "Home": "Home",
+  "Favourites": "Favourites",
+  "Log Out": "Log Out",
+  "Log In": "Log In",
+
   "parameters": {
     "postNameTitle": "{{data.en_title}}",
     "categoryName": "{{category.en_category}}",
