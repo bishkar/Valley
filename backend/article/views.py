@@ -100,6 +100,20 @@ class ArticleViewSet(viewsets.ModelViewSet):
         serializer.validated_data['tags'] = new_tags
         serializer.save(author=self.request.user)
 
+    def perform_update(self, serializer):
+        new_tags = []
+        tags = self.request.data.get('article_tags')
+        
+        for tag in tags:
+            if not Tag.objects.filter(name=tag).exists():
+                new_tag = Tag.objects.create(name=tag)
+                new_tags.append(new_tag)
+            else:
+                new_tags.append(Tag.objects.get(name=tag))
+
+        serializer.validated_data['tags'] = new_tags
+        serializer.save(author=self.request.user)
+    
 
     def retrieve(self, request, *args, **kwargs):
         if request.user.is_authenticated:
