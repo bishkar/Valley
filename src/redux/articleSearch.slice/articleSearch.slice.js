@@ -8,7 +8,6 @@ export const searchArticles = createAsyncThunk(
     const response = await fetch(searchTerm, {
       headers,
     });
-    console.log(token ? "YEa" : "no")
     const data = await response.json();
     return data;
   }

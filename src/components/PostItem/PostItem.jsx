@@ -28,7 +28,6 @@ export default function PostItem({ post, isFavourite }) {
     if (isFav) {
       dispatch(removeFromFavorites(post));
       setIsFav(false);
-      console.log("Delete", isFav);
     } else {
       dispatch(addToFavorites(post));
       setIsFav(true);

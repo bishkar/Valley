@@ -39,7 +39,6 @@ export default function CardSlider() {
       </div>
     );
   };
-  console.log(data?.length === 1);
   const settings = {
     dots: true,
     infinite: true,

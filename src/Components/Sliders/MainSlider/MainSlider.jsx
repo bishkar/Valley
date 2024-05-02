@@ -10,8 +10,6 @@ export default function Mainslider() {
     `https://api.solyver.com/api/v1/slider/`
   );
 
-  console.log(data);
-
   const NextArrow = ({ onClick }) => {
     return (
       <div className="arrow next" onClick={onClick}>

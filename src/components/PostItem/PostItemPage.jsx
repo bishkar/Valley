@@ -12,7 +12,6 @@ import { useRef } from "react";
 import { TiArrowBack } from "react-icons/ti";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
 import { useNavigate } from "react-router-dom";
-// import { use } from "i18next";
 
 import EditorJS from "@editorjs/editorjs";
 import Embed from "@editorjs/embed";
@@ -217,7 +216,6 @@ const PostItemPage = () => {
         },
       });
       setEditor(editor);
-      console.log(editor);
     }
   }, [editor, data]);
 
@@ -235,19 +233,16 @@ const PostItemPage = () => {
                   src={Object.values(data?.image_urls[0])}
                   className="slide__image"
                 />
-                {/* <button onClick={() => navigate(-1)}> */}
                 <TiArrowBack
                   className="arrowBackPage"
                   onClick={() => navigate(-1)}
                 />
-                {/* </button> */}
               </>
             )}
             <Slider {...settings}>
               {data?.image_urls.map((imageObj, idx) => {
                 const key = Object.keys(imageObj)[0]; // Отримуємо ключ об'єкта
                 const url = imageObj[key]; // Отримуємо URL за ключем
-                console.log("image_urls", imageObj, "url", url);
                 return (
                   <div
                     key={idx}
@@ -303,7 +298,7 @@ const PostItemPage = () => {
               </p>
             </div>
             <div className="itemPage__editor">
-              <div id="editorjs"></div>
+              <div style={{ border: "none" }} id="editorjs"></div>
             </div>
           </div>
         </>
