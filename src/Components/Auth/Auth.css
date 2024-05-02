@@ -220,12 +220,22 @@
 }
 
 @media only screen and (max-width: 600px) {
+    .form-container {
+        width: auto;
+        max-width: 500px;
+        margin-bottom: 200px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
     .auth-form {
         padding: 20px;
         border-radius: 30px;
-        width: calc(100% - 40px); /* Adjusting width to fit screen */
+        width: calc(100% - 40px);
+        /* Adjusting width to fit screen */
         max-width: none;
-        overflow-x: hidden; /* Hiding horizontal overflow */
+        overflow-x: hidden;
+        /* Hiding horizontal overflow */
         border-top: 1px solid #000000;
         border-bottom: 1px solid #000000;
         border-radius: 0;
@@ -305,9 +315,11 @@
     .auth-form {
         padding: 20px;
         border-radius: 30px;
-        width: 80%; /* Adjusting width to fit screen */
+        width: 80%;
+        /* Adjusting width to fit screen */
         max-width: none;
-        overflow-x: hidden; /* Hiding horizontal overflow */
+        overflow-x: hidden;
+        /* Hiding horizontal overflow */
     }
 
     .logout-form-container {
