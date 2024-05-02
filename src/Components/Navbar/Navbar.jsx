@@ -23,10 +23,10 @@ const Navbar = () => {
   const { category } = useSelector(selectCategory);
   const [searchTerm, setSearchTerm] = useState("");
   const [showRightHeader, setShowRightHeader] = useState(false);
+  const { t } = useTranslation();
 
   let loggedIn = useAuth();
   let currentLanguage = localStorage.getItem("i18nextLng");
-  const { t } = useTranslation();
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
@@ -144,7 +144,7 @@ const Navbar = () => {
               <Link to="/">
                 <div className="header-element home-element">
                   <LiaHomeSolid className="react__img" />
-                  <span>Home</span>
+                  <span>{t("Home")}</span>
                 </div>
               </Link>
               {loggedIn ? (
@@ -152,13 +152,13 @@ const Navbar = () => {
                   <Link to="/favourites">
                     <div className="header-element">
                       <img src={savedImage} alt="" />
-                      <span>Favourites</span>
+                      <span>{t("Favourites")}</span>
                     </div>
                   </Link>
                   <Link to="/logout">
                     <div className="header-element">
                       <img src={logoutImage} alt="" />
-                      <span>Log Out</span>
+                      <span>{t("Log Out")}</span>
                     </div>
                   </Link>
                 </>
@@ -166,7 +166,7 @@ const Navbar = () => {
                 <Link to="/login">
                   <div className="header-element">
                     <img src={loginImage} alt="" />
-                    <span>Log In</span>
+                    <span>{t("Log In")}</span>
                   </div>
                 </Link>
               )}

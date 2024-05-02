@@ -8,15 +8,12 @@ const initialState = {
 }
 
 export const translate = createAsyncThunk('translate/translate', async (translateData) => {
-    try {
-        const response = await axios.post('https://api.solyver.com/api/v1/translate/', translateData,
-            {
-                headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
-            })
-        return response.data; // Return the response data
-    } catch (error) {
-        throw error; // Throw error for rejection
-    }
+    const response = await axios.post('https://api.solyver.com/api/v1/translate/', translateData,
+        {
+            headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
+        })
+    return response.data; // Return the response data
+
 })
 
 const translateSlice = createSlice({

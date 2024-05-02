@@ -44,6 +44,10 @@
   "Link to the product: ": "Link al prodotto: ",
   "Favourite Page": "Pagina preferita",
   "Enjoy yourself with Solyver": "Divertitevi con Solyver",
+  "Home": "Casa",
+  "Favourites": "Preferiti",
+  "Log Out": "Esci",
+  "Log In": "Accedi",
   "parameters": {
     "postNameTitle": "{{data.it_title}}",
     "categoryName": "{{category.it_category}}",
