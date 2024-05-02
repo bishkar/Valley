@@ -56,7 +56,10 @@ const NewPostPage = () => {
     }
 
     try {
-      dispatch(pushPost(postData));
+      dispatch(pushPost(postData)).then((res) => {
+        alert("Post added successfully");
+        window.location.href = `/articles/${res.payload.pk}/`;
+      })
     } catch (error) {
       alert("Error:", error);
     }

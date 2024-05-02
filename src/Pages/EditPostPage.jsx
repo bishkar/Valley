@@ -81,9 +81,10 @@ const EditPostPage = () => {
     console.log("Post data", postData)
 
     try {
-      dispatch(editPost(postData));
-      alert("Post edited successfully");
-      // window.location.href = `/`;
+      dispatch(editPost(postData)).then(() => {
+        alert("Post edited successfully");
+        window.location.href = `/`;
+      })
     } catch (error) {
       alert("Error:", error);
     }
