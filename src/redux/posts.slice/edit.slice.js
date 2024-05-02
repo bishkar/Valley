@@ -21,6 +21,7 @@ export const editPost = createAsyncThunk('edit/editPost', async (postData) => {
     });
     postData.images = imageIds;
 
+    console.log("editPost postData", postData)
     try {
         const response = await axios.put(`https://api.solyver.com/api/v1/articles/${postData.id}/`, postData, {
             headers: {

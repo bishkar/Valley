@@ -20,6 +20,7 @@ export const pushPost = createAsyncThunk('newpost/pushPost', async (postData) =>
                 }
             });
         });
+        console.log("imageIds", imageIds)
         postData.images = imageIds;
 
         const response = await axios.post('https://api.solyver.com/api/v1/articles/', postData, {
@@ -27,6 +28,7 @@ export const pushPost = createAsyncThunk('newpost/pushPost', async (postData) =>
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
+        console.log("pushPost response", response)
         return response.data;
     } catch (error) {
         throw error;

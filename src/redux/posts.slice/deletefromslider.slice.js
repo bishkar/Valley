@@ -15,6 +15,7 @@ export const deleteSlide = createAsyncThunk('delete/deleteSlide', async (slideId
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
             }
         });
+        console.log("deleteSlide response", response)
         return response.data;
     } catch (error) {
         throw error;

@@ -44,6 +44,8 @@ const EditPostPage = () => {
     `https://api.solyver.com/api/v1/articles/${postId}/`
   );
 
+  console.log("Data", data);
+
   useEffect(() => {
     if (data) {
       setPostData({
@@ -75,6 +77,8 @@ const EditPostPage = () => {
       alert("Please fill all the required fields");
       return;
     }
+
+    console.log("Post data", postData)
 
     try {
       dispatch(editPost(postData));
