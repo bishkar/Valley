@@ -266,13 +266,34 @@
     .header-element {
         margin: 15px 0;
         display: flex;
-        width: 90px;
+        /* width: 90px; */
+        width: auto;
+        gap: 15px;
         align-items: center;
         justify-content: space-between;
+
+        & p {
+            margin: 0;
+            background: rgb(191, 128, 251, 0.2);
+            border-radius: 25px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        & img {
+            width: 30px;
+            height: 30px;
+        }
 
         & span {
             display: block;
         }
+    }
+
+    .react__img {
+        width: 30px;
+        height: 30px;
     }
 
     .nav-under {

@@ -31,7 +31,7 @@ import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
-import { current } from "@reduxjs/toolkit";
+// import { current } from "@reduxjs/toolkit";
 
 const PostItemPage = () => {
   const dispatch = useDispatch();
@@ -114,6 +114,9 @@ const PostItemPage = () => {
     infinite: true,
     slidesToShow: 1,
     autoplay: true,
+    swipeToSlide: false,
+    draggable: false,
+    swipe: false,
     focusOnSelect: true,
     autoplaySpeed: 3000,
     speed: 600,
