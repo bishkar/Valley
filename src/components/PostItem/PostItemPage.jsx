@@ -262,7 +262,7 @@ const PostItemPage = () => {
           <div className={`itemPage__body`}>
             <h2 className="itemPage__title">
               {t("parameters.postTitle", { data })}
-              {admin && <span>({clicks})</span>}
+              {admin && <span> ({clicks})</span>}
             </h2>
             <ul className="itemPage__tagList">
               {data?.tags_name.map((tag, index) => (

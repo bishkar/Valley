@@ -79,6 +79,7 @@ const PasswordOtpForm = () => {
             {t("Code:")}
           </label>
           <input
+            name="code"
             className="form-input"
             type="text"
             value={otp}
