@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import i18n from "../../../i18n";
 import useAuth from "../../hooks/useAuth";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
+import { color } from "framer-motion";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -137,7 +138,12 @@ const Navbar = () => {
                 className="header-element language"
                 onClick={getCurrentLanguage}
               >
-                {language == "it" ? "Italian" : "English"}
+                <b className="language-selected">{language === "en" ? "EN" : null}</b>
+                {language === "en" ? "/" : null}
+                {language === "en" ? "IT" : null}
+                {language === "it" ? "EN" : null }
+                {language === "it" ? "/" : null}
+                <b className="language-selected">{language === "it" ? "IT" : null}</b>
               </a>
               {loggedIn ? (
                 <>
