@@ -88,7 +88,7 @@ const LoginForm = () => {
 
         <div className="content-container">
           <p>
-            {t("Don`t have an account?")}
+            {t("Don`t have an account? ")}
             <Link to="/register" className="form-link">
               {t("Create account")}
             </Link>

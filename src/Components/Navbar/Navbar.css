@@ -133,15 +133,15 @@
 }
 
 .language {
-    background: rgb(191, 128, 251, 0.2);
     border-radius: 25px;
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 16px;
+    font-weight: 300;
 }
 
-.language:hover {
-    background-color: #51cdfd;
+.language-selected {
+    color: #FF1088
 }
 
 .add-post {
