@@ -58,7 +58,7 @@ const ChangePasswordForm = () => {
       <form onSubmit={handleSubmit} className="auth-form">
         <h1>{t("Change Password")}</h1>
         <label className="form-label" htmlFor="email">
-          Password:
+          {t("New password")}
         </label>
         <input
           className="form-input"
@@ -67,7 +67,7 @@ const ChangePasswordForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <label className="form-label" htmlFor="password">
-          Password:
+          {t("Confirm new password")}
         </label>
         <input
           className="form-input"
