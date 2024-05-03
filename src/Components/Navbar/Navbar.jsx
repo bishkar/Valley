@@ -58,9 +58,11 @@ const Navbar = () => {
   } else {
     loggedIn = true;
   }
+
   if (currentLanguage === null || currentLanguage === false) {
     currentLanguage = "it";
   }
+
   const [language, setLanguage] = useState(currentLanguage);
 
   function getCurrentLanguage() {
@@ -95,21 +97,22 @@ const Navbar = () => {
                 type="text"
                 className="nav-input"
                 value={searchTerm}
+                placeholder="Search"
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              {searchTerm === "" ? (
-                ""
-              ) : (
-                <Link to={`/search/result/${searchTerm}`}>
-                  <svg
-                    className="search__icon"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1.007 1.007 0 00-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z" />
-                  </svg>
-                </Link>
-              )}
+              <Link
+                to={`/search/result/${searchTerm}`}
+                onClick={(event) => searchTerm === "" && event.preventDefault()}
+              >
+                <svg
+                  className={`search__icon `}
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1.007 1.007 0 00-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z" />
+                </svg>
+              </Link>
+              {/* )} */}
             </div>
             <div className="logo">
               <Link to="/">

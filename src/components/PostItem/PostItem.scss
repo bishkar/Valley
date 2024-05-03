@@ -9,7 +9,8 @@
 
   & img{
     border-radius: 40px 40px 0 0;
-    width: -webkit-fill-available;
+    width: 100%;
+    object-fit: cover;
     height: 280px;
   }
 }

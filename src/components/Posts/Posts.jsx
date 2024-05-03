@@ -58,7 +58,6 @@ export default function Posts() {
       <h1 className="posts__title">{t("Posts")}</h1>
       <div className="posts__body">
         <div className="post__container">
-          <div className="vl"></div>
           {allArticles?.slice(0, next)?.map((post, index) => {
             return (
               <PostItem

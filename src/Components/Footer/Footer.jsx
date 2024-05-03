@@ -29,8 +29,8 @@ const Footer = () => {
         </div>
         <div className="footer-divider">
           <p>{t("We are waiting for feedback:")}</p>
-          <a href="" className="footer-link">
-            navejo7441@mnsaf.com
+          <a href="mailto: solyver@outlook.it" className="footer-link">
+            solyver@outlook.it
           </a>
         </div>
       </div>

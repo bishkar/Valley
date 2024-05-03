@@ -12,18 +12,19 @@ import FavouriteItem from "./FavouriteItem";
 import "./Favourite.scss";
 import { useTranslation } from "react-i18next";
 import useAuth from "../../hooks/useAuth";
+
 export default function Favourites() {
   const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favorites);
+  const { favorites, loading } = useSelector((state) => state.favorites);
   const tags = useSelector(selectTags);
   const postPerRow = 9;
-  let loggedIn = useAuth();
+  const loggedIn = useAuth();
 
   const [next, setNext] = useState(postPerRow);
   const [keyword, setKeyword] = useState("");
   const filteredFavorites = keyword === "" ? favorites : tags;
   const { t } = useTranslation();
-
+  console.log(favorites);
   useEffect(() => {
     if (loggedIn) {
       dispatch(fetchFavorites());
@@ -43,6 +44,8 @@ export default function Favourites() {
     setNext(next + postPerRow);
   };
 
+  if (loading) return <h1>loading</h1>;
+
   return (
     <div className="favourite__container">
       <h1>{t("Favourite Page")}</h1>
@@ -54,7 +57,7 @@ export default function Favourites() {
         onChange={(e) => setKeyword(e.target.value)}
       />
       <div className="favourite__cards">
-        {favorites.length === 0 ? (
+        {favorites?.length === 0 ? (
           <div>
             <h2>{t("Your favourite page is empty")}</h2>
           </div>
@@ -70,7 +73,7 @@ export default function Favourites() {
           </>
         )}
       </div>
-      {next < filteredFavorites.length && (
+      {next < filteredFavorites?.length && (
         <button className="loadMoreBtn" onClick={handleMorePosts}>
           {t("more...")}
         </button>

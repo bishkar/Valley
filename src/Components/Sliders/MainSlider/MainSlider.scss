@@ -148,13 +148,18 @@
     max-width: 500px;
 
     .slide img {
-      width: 300px;
+      max-width: 500px;
+      width: 100%;
       height: 175px;
       margin-top: 20px;
     }
 
     .slick-track {
       height: 250px;
+    }
+
+    .activeSlide {
+      transform: scale(1);
     }
 
     .next {

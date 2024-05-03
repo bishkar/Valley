@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-const token = localStorage.getItem("accessToken")
 
+export function getAccessToken() {
+  return localStorage.getItem("accessToken");
+}
 export const searchArticles = createAsyncThunk(
   'articles/search',
   async (searchTerm) => {
-    const headers = token ? { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
+    const headers = getAccessToken() ? { 'Authorization': `Bearer ${getAccessToken()}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
     const response = await fetch(searchTerm, {
       headers,
     });

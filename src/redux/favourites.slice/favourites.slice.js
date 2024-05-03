@@ -68,23 +68,32 @@ export const fetchFavorites = createAsyncThunk(
 
 const favoritesSlice = createSlice({
   name: "favorites",
-  initialState: [],
+  initialState: {
+    favorites: [],
+    loading: false,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchFavorites.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(addToFavorites.fulfilled, (state, action) => {
         console.log("Added to favorites:", action.payload);
-        state.push(action.payload);
+        state.loading = false;
+        state.favorites.push(action.payload);
       })
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
         console.log("Removed from favorites:", action.payload);
-        return state.filter((product) => {
+        state.loading = false;
+        state.favorites.filter((product) => {
           return product.pk !== action.payload.pk;
         });
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         console.log("Fetched favorites:", action.payload);
-        return action.payload;
+        state.loading = false;
+        state.favorites = action.payload;
       });
   },
 });
