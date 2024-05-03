@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PostItemPage from "./components/PostItem/PostItemPage";
 import Mainpage from "./pages/Mainpage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
@@ -19,6 +19,8 @@ import AddToSlider from "./pages/AddToSlider.jsx";
 import EditSliderPage from "./pages/EditSliderPage.jsx";
 
 function App() {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
   return (
     <>
       <Navbar />
@@ -27,23 +29,46 @@ function App() {
         <Route path="/" element={<Mainpage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/articles/:postId" element={<PostItemPage />} />
-        <Route path="/edit/:postId" element={<EditPostPage />} />
-        <Route path="/delete/:postId" element={<DeletePostPage />} />
-        <Route path="/add-to-slider/:postId" element={<AddToSlider />} />
-        <Route path="/edit-slider" element={<EditSliderPage />} />
-        <Route path="/favourites" element={<FavouritePage />} />
         <Route path="/category/:categoryId" element={<CategoryResult />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/post/:postId" element={<PostItemPage />} />
+        <Route path="/search/result/:searchTerm" element={<SearchResults />} />
         <Route path="/recover" element={<RecoverPasswordPage />} />
         <Route
           path="/recover/change-password"
           element={<ChangePasswordPage />}
         />
-        <Route path="/post/:postId" element={<PostItemPage />} />
-        <Route path="/search/result/:searchTerm" element={<SearchResults />} />
-        <Route path="/search/tags/:searchTags" element={<TagsSearch />} />
-        <Route path="/new-post" element={<NewPostPage />} />
+        {isLoggedIn === "true" ? (
+          <>
+            <Route path="/favourites" element={<FavouritePage />} />
+            <Route path="/edit/:postId" element={<EditPostPage />} />
+            <Route path="/delete/:postId" element={<DeletePostPage />} />
+            <Route path="/add-to-slider/:postId" element={<AddToSlider />} />
+            <Route path="/edit-slider" element={<EditSliderPage />} />
+
+            <Route path="/search/tags/:searchTags" element={<TagsSearch />} />
+            <Route path="/logout" element={<LogoutPage />} />
+            <Route path="/new-post" element={<NewPostPage />} />
+          </>
+        ) : (
+          <>
+            <Route path="/favourites" element={<Navigate to="/login" />} />
+            <Route path="/edit/:postId" element={<Navigate to="/login" />} />
+            <Route path="/delete/:postId" element={<Navigate to="/login" />} />
+            <Route
+              path="/add-to-slider/:postId"
+              element={<Navigate to="/login" />}
+            />
+            <Route path="/edit-slider" element={<Navigate to="/login" />} />
+
+            <Route
+              path="/search/tags/:searchTags"
+              element={<Navigate to="/login" />}
+            />
+            <Route path="/logout" element={<Navigate to="/login" />} />
+            <Route path="/new-post" element={<Navigate to="/login" />} />
+          </>
+        )}
       </Routes>
 
       <Footer />

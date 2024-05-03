@@ -1,13 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const token = localStorage.getItem("accessToken")
+export function getAccessToken() {
+  return localStorage.getItem("accessToken");
+}
 
 export const fetchTagsByKeyword = createAsyncThunk(
   'tags/fetchByKeyword',
   async (keyword) => {
     const response = await fetch(`https://api.solyver.com/api/v1/favourites/tag/${keyword}`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${getAccessToken()}`,
         'Content-Type': 'application/json',
       },
     });

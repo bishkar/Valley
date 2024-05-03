@@ -88,12 +88,12 @@
     cursor: pointer;
     margin: 0;
     text-transform: uppercase;
-    border-radius: 25px;
-    padding: 5px;
+    border-radius: 20px;
+    padding: 5px 15px;
 }
 
 .nav-link:hover {
-    background-color: rgb(191, 128, 251, 0.2);
+    background-color: #faa3cf;
 }
 
 .nav__title {
@@ -119,6 +119,10 @@
     transform: translate(-175%, -50%);
 }
 
+.disabled {
+    cursor: not-allowed;
+}
+
 .logo {
     display: flex;
     flex-direction: row;
@@ -141,7 +145,7 @@
 }
 
 .language:hover {
-    background-color: #51cdfd;
+    background-color: #faa3cf;
 }
 
 .add-post {
@@ -155,7 +159,7 @@
     cursor: pointer;
     position: absolute;
     top: -5px;
-    left: 15px;
+    left: -5px;
 }
 
 .hamburger input {
@@ -204,7 +208,7 @@
 
 @media only screen and (max-width: 600px) {
     .navbar {
-        margin: 32px 15px 0;
+        margin: 32px 25px 0;
         gap: 20px;
         max-width: 500px;
         width: auto;
@@ -239,7 +243,7 @@
     }
 
     .search__icon {
-        top: 55%;
+        top: 57%;
         right: 30px;
         transform: none;
     }
@@ -326,10 +330,6 @@
         cursor: pointer;
         margin: 0;
         padding: 0;
-    }
-
-    .nav-link:hover {
-        background-color: transparent;
     }
 
 }

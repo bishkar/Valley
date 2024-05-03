@@ -34,7 +34,7 @@ import SimpleImage from "@editorjs/simple-image";
 
 const PostItemPage = () => {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { postId } = useParams();
   const { t } = useTranslation();
   const admin = isAdminUser();

@@ -63,10 +63,10 @@ export default function Mainslider() {
               idx === imageIndex ? "slide activeSlide" : "slide deactiveSlide"
             }
           >
-            <Link to={idx === imageIndex ? `/post/${post.id}` : "#"}>
+            <Link to={idx === imageIndex ? `/post/${post.article}` : "#"}>
               <img
                 src={post.big_image}
-                alt={post.id}
+                alt={post.article}
                 className="slide__image"
               />
             </Link>
