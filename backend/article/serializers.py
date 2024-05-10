@@ -75,7 +75,7 @@ class UrlViewCountSerializer(serializers.ModelSerializer):
 class SliderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slider
-        fields = "__all__"
+        fields = ['id', 'big_image', 'article', 'created_at']
 
 
 class ErrorResponseSerializer(serializers.Serializer):

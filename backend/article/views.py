@@ -1,4 +1,7 @@
+from django.core.cache import cache
 from django.db.models import OuterRef, Exists
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets, status
@@ -11,7 +14,7 @@ from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.utils.translation import gettext as _
-
+from django.db.models import Q
 
 from article.models import Article, Slider, Category, Tag, UserUrlViewer
 from article.permissions import IsAccountAdminOrReadOnly, IsUserPostAdminGet
@@ -59,7 +62,7 @@ from .utils import get_client_ip
 class ArticleViewSet(viewsets.ModelViewSet):
     pagination_class = ArticlesResultsSetPagination
     permission_classes = [IsAccountAdminOrReadOnly]
-    search_fields = ['en_title', 'it_title', 'en_content', 'it_content']
+    search_fields = ['en_title', 'it_title']
 
     filter_backends = [SearchFilter, DjangoFilterBackend]
     filterset_class = ArticleFilter
@@ -100,7 +103,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
         serializer.validated_data['tags'] = new_tags
         serializer.save(author=self.request.user)
 
-
     def retrieve(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             article = Article.objects.get(pk=kwargs.get('pk'))
@@ -110,15 +112,28 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         instance.visible = False
         instance.save()
+
+        # delete slider
+        slider = Slider.objects.filter(article=instance)
+        if slider.exists():
+            slider.delete()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # @method_decorator(cache_page(60 * 15 ))
+    def update(self, request, *args, **kwargs):
+        cache.clear()
+        return super().update(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60 * 15, key_prefix='articles'))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
     @action(detail=False, methods=['get'], permission_classes=[AllowAny], url_path='on_top')
+    @method_decorator(cache_page(60 * 15, key_prefix='articles'))
     def get_on_top(self, request):
-        articles = Article.objects.filter(on_top=True)
+        visible_article = Q(visible=True)
+        on_top_article = Q(on_top=True)
+        articles = Article.objects.filter(visible_article & on_top_article).order_by('created_at')
         serializer = ShortArticleSerializer(articles, many=True)
         return Response(serializer.data)
 
@@ -157,8 +172,14 @@ class SliderViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
     permission_classes = [IsAccountAdminOrReadOnly]
 
+    def get_queryset(self):
+        return Slider.objects.filter(article__visible=True).order_by('created_at')
+
     # def perform_create(self, serializer):
     #     serializer.save()
+    @method_decorator(cache_page(60 * 15, key_prefix='sliders'))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
@@ -209,7 +230,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
         serializer.save()
 
-
+    @method_decorator(cache_page(60 * 15, key_prefix='categories'))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

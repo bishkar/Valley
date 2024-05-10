@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from django.core.cache import cache
+
 
 
 class ArticleImage(models.Model):
@@ -44,7 +46,12 @@ class Article(models.Model):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
+        cache.clear()
         super().save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None, keep_parents=False):
+        cache.clear()
+        super().delete(using, keep_parents)
 
     @property
     def image_urls(self):
@@ -65,11 +72,30 @@ class Slider(models.Model):
     def big_image_url(self):
         return self.big_image.url
     
-    
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        cache.clear()
+        super().save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None, keep_parents=False):
+        cache.clear()
+        super().delete(using, keep_parents)
+
+
 class Category(models.Model):
     en_category = models.CharField(max_length=100)
     it_category = models.CharField(max_length=100, default='None')
 
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        cache.clear()
+        super().save(force_insert, force_update, using, update_fields)
+
+    def delete(self, using=None, keep_parents=False):
+        cache.clear()
+        super().delete(using, keep_parents)
 
 class UserUrlViewer(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True, blank=True)

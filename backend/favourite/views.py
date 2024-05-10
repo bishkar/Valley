@@ -1,3 +1,4 @@
+from django.db.models import Q
 from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
@@ -44,11 +45,14 @@ class FavouriteViewSet(mixins.CreateModelMixin,
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
             return Favourite.objects.none()
-        return Favourite.objects.filter(user=self.request.user)
+
+        visible_article = Q(article__visible=True)
+        user_article = Q(user=self.request.user)
+        return Favourite.objects.filter(visible_article & user_article)
 
     def retrieve(self, request, *args, **kwargs):
         user = request.user
-        favourites = Favourite.objects.filter(user=user)
+        favourites = Favourite.objects.filter(user=user, article__visible=True)
         serializer = FavouriteSerializer(favourites, many=True)
         return Response(serializer.data)
 
@@ -70,7 +74,7 @@ class FavouriteViewSet(mixins.CreateModelMixin,
     def get_favourites_by_tag(self, request, tag_name):
         user = request.user
 
-        favourites = Favourite.objects.filter(user=user, article__tags__name__icontains=tag_name)
+        favourites = Favourite.objects.filter(user=user, article__tags__name__icontains=tag_name, article__visible=True)
 
         serializer = FavouriteSerializer(favourites, many=True)
 
