@@ -32,7 +32,7 @@ i18n
         translation: translationIT,
       },
     },
-    lng: "en",
+    lng: localStorage.getItem("i18nextLng") || "en",
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
