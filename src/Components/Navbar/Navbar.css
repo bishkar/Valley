@@ -86,12 +86,14 @@
   cursor: pointer;
   margin: 0;
   text-transform: uppercase;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   padding: 5px 15px;
+  border-bottom: 1px solid transparent
 }
 
 .nav-link:hover {
-  background-color: #faa3cf;
+  /* background-color: #faa3cf; */
+  border-bottom: 1px solid #faa3cf;
 }
 
 .nav__title {
@@ -186,11 +188,11 @@
   stroke-dasharray: 12 63;
 }
 
-.hamburger input:checked + svg {
+.hamburger input:checked+svg {
   transform: rotate(-45deg);
 }
 
-.hamburger input:checked + svg .line-top-bottom {
+.hamburger input:checked+svg .line-top-bottom {
   stroke-dasharray: 20 300;
   stroke-dashoffset: -32.42;
 }
