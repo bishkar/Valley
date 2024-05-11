@@ -106,6 +106,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             article = Article.objects.get(pk=kwargs.get('pk'))
+
         return super().retrieve(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
@@ -229,6 +230,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError({'detail': _('Category already exists')})
 
         serializer.save()
+
+    def retrieve(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        try:
+            instance = Category.objects.filter(en_category=pk).first() or \
+                       Category.objects.filter(pk=pk).first()
+        except:
+            return Response({'detail': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response(CategorySerializer(instance).data)
 
     @method_decorator(cache_page(60 * 15, key_prefix='categories'))
     def list(self, request, *args, **kwargs):
