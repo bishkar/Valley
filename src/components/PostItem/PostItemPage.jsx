@@ -30,7 +30,7 @@ import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
-// import { current } from "@reduxjs/toolkit";
+import { use } from "i18next";
 
 const PostItemPage = () => {
   const dispatch = useDispatch();
