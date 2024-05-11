@@ -10,4 +10,4 @@ class ArticleFilter(django_filters.FilterSet):
 
     class Meta:
         model = Article
-        fields = ['tag', 'en_category', 'it_category']
+        fields = ['it_title', 'en_title', 'tag', 'en_category', 'it_category']

@@ -67,18 +67,20 @@ class PasswordResetRequestView(generics.RetrieveAPIView):
         summary="Request password reset")
     def get(self, request, *args, **kwargs):
         email = self.kwargs.get('email')
-        user = User.objects.get(email=email)
+        user = User.objects.filter(email=email)
 
-        if user and not user.provider == 'email':
-            otp = generate_otp()
+        if user.exists():
+            user = user.first()
+            if user.provider == 'email':
+                otp = generate_otp()
 
-            user.otp = otp
-            user.otp_expiry = timezone.now() + timezone.timedelta(minutes=10)
+                user.otp = otp
+                user.otp_expiry = timezone.now() + timezone.timedelta(minutes=10)
 
-            user.save()
-            send_otp_mail(email, otp)
+                user.save()
+                send_otp_mail(email, otp)
 
-            return Response({'status': 'success', 'message': _('OTP sent to your email')}, status=status.HTTP_200_OK)
+                return Response({'status': 'success', 'message': _('OTP sent to your email')}, status=status.HTTP_200_OK)
 
         return Response({'status': 'failed', 'message': _('User not found')}, status=status.HTTP_404_NOT_FOUND)
 
