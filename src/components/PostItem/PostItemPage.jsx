@@ -31,6 +31,7 @@ import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
+import { use } from "i18next";
 
 const PostItemPage = () => {
   const dispatch = useDispatch();
@@ -216,6 +217,8 @@ const PostItemPage = () => {
       console.log(editor);
     }
   }, [editor, data]);
+
+
 
   if (error) return <h1 style={{ color: "red" }}>An error!!!</h1>;
   return (

@@ -67,6 +67,9 @@ const Navbar = () => {
     const nextLanguage = language === "it" ? "en" : "it";
     i18n.changeLanguage(nextLanguage);
     setLanguage(() => nextLanguage);
+    if (window.location.pathname.includes("/post/") || window.location.pathname.includes("/articles/")) {
+      window.location.reload();
+    }
   }
 
   return (
