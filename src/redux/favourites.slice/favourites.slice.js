@@ -40,8 +40,8 @@ export const removeFromFavorites = createAsyncThunk(
     if (!response.ok) {
       throw new Error("Failed to remove from favorites");
     }
-    const data = await response.json();
-    return data;
+    // const data = await response.json();
+    return payload;
   }
 );
 
@@ -85,11 +85,13 @@ const favoritesSlice = createSlice({
       })
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
         console.log("Removed from favorites:", action.payload);
+        state.favorites = state.favorites.filter(
+          (product) => product.article.pk !== action.payload.pk
+        );
+
         state.loading = false;
-        state.favorites.filter((product) => {
-          return product.pk !== action.payload.pk;
-        });
       })
+
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         console.log("Fetched favorites:", action.payload);
         state.loading = false;

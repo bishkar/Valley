@@ -4,7 +4,7 @@ import "./Favourite.scss";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-export default function FavouriteCard({ postId, handleRemoveFromFavorites }) {
+function FavouriteCard({ postId, handleRemoveFromFavorites }) {
   const { pk, image_urls, tags_name } = postId;
   const { t } = useTranslation();
   const [isFav, setIsFav] = useState(true);
@@ -50,3 +50,5 @@ FavouriteCard.propTypes = {
   postId: PropTypes.object.isRequired,
   handleRemoveFromFavorites: PropTypes.func.isRequired,
 };
+
+export default FavouriteCard;

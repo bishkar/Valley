@@ -34,10 +34,8 @@ export default function Favourites() {
     }
   }, [dispatch, keyword, loggedIn]);
 
-  const handleRemoveFromFavorites = (article) => {
-    dispatch(removeFromFavorites(article)).then(() => {
-      dispatch(fetchFavorites());
-    });
+  const handleRemoveFromFavorites = function (article) {
+    dispatch(removeFromFavorites(article));
   };
 
   const handleMorePosts = () => {
@@ -63,9 +61,9 @@ export default function Favourites() {
           </div>
         ) : (
           <>
-            {filteredFavorites?.slice(0, next)?.map((favPost, index) => (
+            {filteredFavorites?.slice(0, next)?.map((favPost) => (
               <FavouriteItem
-                key={index}
+                key={favPost.article.pk}
                 postId={favPost.article}
                 handleRemoveFromFavorites={handleRemoveFromFavorites}
               />

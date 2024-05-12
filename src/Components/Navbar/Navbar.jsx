@@ -13,7 +13,7 @@ import {
   selectCategory,
 } from "../../redux/category.slice/category.slice";
 import CategoryItem from "../Category/CategoryItem";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import i18n from "../../../i18n";
 import useAuth from "../../hooks/useAuth";
 import { isAdminUser } from "../../redux/auth.slice/token.slice";
@@ -71,7 +71,10 @@ const Navbar = () => {
     const nextLanguage = language === "it" ? "en" : "it";
     i18n.changeLanguage(nextLanguage);
     setLanguage(() => nextLanguage);
-    if (window.location.pathname.includes("/post/") || window.location.pathname.includes("/articles/")) {
+    if (
+      window.location.pathname.includes("/post/") ||
+      window.location.pathname.includes("/articles/")
+    ) {
       window.location.reload();
     }
   }
@@ -105,7 +108,7 @@ const Navbar = () => {
                 placeholder="Search"
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Link
+              <NavLink
                 to={`/search/result/${searchTerm}`}
                 onClick={(event) => searchTerm === "" && event.preventDefault()}
               >
@@ -116,13 +119,13 @@ const Navbar = () => {
                 >
                   <path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1.007 1.007 0 00-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z" />
                 </svg>
-              </Link>
+              </NavLink>
               {/* )} */}
             </div>
             <div className="logo">
-              <Link to="/">
+              <NavLink to="/">
                 <img src={logoImage} className="logo-image" alt="" />
-              </Link>
+              </NavLink>
             </div>
             <div
               className={`right-header ${showRightHeader ? "show" : "hide"}`}
@@ -144,48 +147,48 @@ const Navbar = () => {
               </a>
               {isAdminUser() && (
                 <>
-                  <Link to="/edit-slider">
+                  <NavLink to="/edit-slider">
                     <div className="header-element plus-element">
                       <p>Slider</p>
                     </div>
-                  </Link>
+                  </NavLink>
 
-                  <Link to="/new-post">
+                  <NavLink to="/new-post">
                     <div className="header-element plus-element">
                       <img src={addImage} alt="" />
                       <span>Add Post</span>
                     </div>
-                  </Link>
+                  </NavLink>
                 </>
               )}
-              <Link to="/">
+              <NavLink to="/">
                 <div className="header-element home-element">
                   <LiaHomeSolid className="react__img" />
                   <span>{t("Home")}</span>
                 </div>
-              </Link>
+              </NavLink>
               {loggedIn ? (
                 <>
-                  <Link to="/favourites">
+                  <NavLink to="/favourites">
                     <div className="header-element">
                       <img src={savedImage} alt="" />
                       <span>{t("Favourites")}</span>
                     </div>
-                  </Link>
-                  <Link to="/logout">
+                  </NavLink>
+                  <NavLink to="/logout">
                     <div className="header-element">
                       <img src={logoutImage} alt="" />
                       <span>{t("Log Out")}</span>
                     </div>
-                  </Link>
+                  </NavLink>
                 </>
               ) : (
-                <Link to="/login">
+                <NavLink to="/login">
                   <div className="header-element">
                     <img src={loginImage} alt="" />
                     <span>{t("Log In")}</span>
                   </div>
-                </Link>
+                </NavLink>
               )}
             </div>
           </div>
