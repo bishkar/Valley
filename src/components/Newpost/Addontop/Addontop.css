@@ -1,0 +1,25 @@
+.add-on-top-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    gap: 10px;
+}
+
+.add-on-top {
+    width: 990px;
+    display: flex;
+    align-items: center;
+}
+
+.add-on-top label {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.add-on-top input {
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+}

@@ -1,0 +1,288 @@
+.post__cart{
+  width: 450px;
+  margin: 0 35px 36px;
+  background-color: #BF80FB33;
+  text-align: center;
+  box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.35);
+  border-radius: 40px;
+  position: relative;
+
+  & img{
+    border-radius: 40px 40px 0 0;
+    width: 100%;
+    object-fit: cover;
+    height: 280px;
+  }
+}
+
+.post__body{
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+
+  & h4{
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 25px;
+  }
+}
+
+.itemPage__editor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+}
+
+.postItem__tagList{
+  display: flex;
+  width: auto;
+  margin: 0 auto;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 10px;
+  & p{
+    color: #FF1088;
+    font-size: 15px;
+    margin: 0;
+  }
+}
+
+
+.heart__img{
+  display: block;
+  width: 51px;
+  height: 50px;
+  background: none;
+  background-image: url("../../img/fav-btn.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 15px;
+  right: 35px;
+}
+
+.button__container{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+// .btn__favourite {
+//   border: none;
+//   background: none;
+//   font-size: 50px;
+//   cursor: pointer;
+//   color: #ffffff;
+//   padding: 0;
+//   position: absolute;
+//   top: 15px;
+//   right: 35px;
+// }
+
+.active__favourite {
+  background-image: url("../../img/Vector.svg");
+}
+
+
+// Item Page
+.itemPage__container{
+  width: 1300px;
+  margin: 0 auto;
+}
+
+
+.itemPage__title{
+  color: #FF1088;
+  font-size: 52px;
+  margin: 15px 0 0;
+  line-height: normal;
+}
+
+.itemPage__tagList{
+  display: flex;
+  width: auto;
+  margin: 0 auto;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 20px;
+  & p{
+    color: #FF1088;
+    font-size: 20px;
+    margin: 0;
+  }
+}
+
+.itemPage__admin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.admin__button {
+  color: #FF1088;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #BF80FB33;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.admin__button:hover {
+  background-color: #FF1088;
+  color: #ffffff;
+}
+
+
+.link__to__product{
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+  padding: 30px 0;
+  width: 100%;
+
+  & p{
+    color: #FF1088;
+    font-size: 20px;
+  }
+}
+
+.itemPage__content{
+  font-size: 18px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+
+  .post__cart{
+    max-width: 330px;
+    width: 100%;
+    margin: 0 auto 25px;
+
+  
+    & img{
+      width: 100%;
+      height: 180px;
+      object-fit: cover;  
+    }
+  }
+
+  .post__body{
+  
+    & h4{
+      margin: 0;
+      text-transform: capitalize;
+      font-size: 18px;
+    }
+  }
+
+  .arrowBackPage{
+    position: absolute;
+    z-index: 5;
+    top: 7px;
+    left: 0;
+    font-size: 70px;
+  }
+
+  .itemPage__body{
+    position: relative;
+    z-index: 5;
+    width: auto;
+    padding: 0 15px;
+    background-color: #F5F2F2;
+    border-radius: 0;
+    transition: border-radius 0.3s ease;
+  }
+
+  .itemPage__line{
+    width: 100%;
+    height: 70px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 340px;
+    margin-top: 250px;
+    z-index: 15;
+    background-color: #F5F2F2;
+  }
+
+  .itemPage__line.down {
+    border-top-left-radius: 50px; 
+    border-top-right-radius: 50px; 
+  }
+  .itemPage__line.up {
+    border-top-left-radius: 50px; 
+    border-top-right-radius: 50px; 
+  }
+
+  .itemPage__container{
+    width: auto;
+    max-width: 500px;
+  }
+
+  .itemPage__title{
+    margin: 0 0 15px;
+    font-size: 46px;
+  }
+
+  .link__to__product{
+   
+   & p{ 
+    font-size: 16px;
+  }
+
+    & a{
+      word-wrap: break-word;
+    }
+  }
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+
+
+  .post__cart{
+    max-width: 450px;
+    width: auto;
+    margin: 0 auto 25px;
+
+  
+    & img{
+      width: 320px;
+      height: 180px;
+      object-fit: cover;  
+    }
+  }
+
+  .itemPage__container{
+    max-width: 1100px;
+    width: auto;
+    margin: 0 auto 15px;
+  }
+
+  .post__body{
+  
+    & h4{
+      margin: 0;
+      text-transform: capitalize;
+      font-size: 18px;
+    }
+  }
+
+  .itemPage__body{
+    width: auto;
+    margin: 0 15px;
+    // margin-top: 270px;
+  }
+
+}
