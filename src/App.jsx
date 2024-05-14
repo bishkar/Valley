@@ -31,7 +31,7 @@ function App() {
         <Route path="/articles/:postId" element={<PostItemPage />} />
         <Route path="/category/:categoryId" element={<CategoryResult />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/post/:postId" element={<PostItemPage />} />
+        {/* <Route path="/articles/:postId" element={<PostItemPage />} /> */}
         <Route path="/search/result/:searchTerm" element={<SearchResults />} />
         <Route path="/recover" element={<RecoverPasswordPage />} />
         <Route
