@@ -24,6 +24,10 @@
     margin: 0;
     text-transform: capitalize;
     font-size: 25px;
+    max-width: 100%;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -210,19 +214,19 @@
     height: 70px;
     position: -webkit-sticky;
     position: sticky;
-    top: 340px;
-    margin-top: 250px;
+    top: 285px;
+    margin-top: 210px;
     z-index: 15;
     background-color: #F5F2F2;
   }
 
   .itemPage__line.down {
-    border-top-left-radius: 50px; 
-    border-top-right-radius: 50px; 
+    border-top-left-radius: 250px; 
+    border-top-right-radius: 250px; 
   }
   .itemPage__line.up {
-    border-top-left-radius: 50px; 
-    border-top-right-radius: 50px; 
+    border-top-left-radius: 250px; 
+    border-top-right-radius: 250px; 
   }
 
   .itemPage__container{
