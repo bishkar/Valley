@@ -17,9 +17,12 @@ import EditPostPage from "./pages/EditPostPage.jsx";
 import DeletePostPage from "./pages/DeletePostPage.jsx";
 import AddToSlider from "./pages/AddToSlider.jsx";
 import EditSliderPage from "./pages/EditSliderPage.jsx";
+import { isAdminUser } from "./redux/auth.slice/token.slice.js";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
-  const isLoggedIn = localStorage.getItem("loggedIn");
+  const admin = isAdminUser();
+  const access = localStorage.getItem("accessToken");
 
   return (
     <>
@@ -31,44 +34,74 @@ function App() {
         <Route path="/articles/:postId" element={<PostItemPage />} />
         <Route path="/category/:categoryId" element={<CategoryResult />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* <Route path="/articles/:postId" element={<PostItemPage />} /> */}
         <Route path="/search/result/:searchTerm" element={<SearchResults />} />
         <Route path="/recover" element={<RecoverPasswordPage />} />
         <Route
           path="/recover/change-password"
           element={<ChangePasswordPage />}
         />
-        {isLoggedIn === "true" ? (
-          <>
-            <Route path="/favourites" element={<FavouritePage />} />
-            <Route path="/edit/:postId" element={<EditPostPage />} />
-            <Route path="/delete/:postId" element={<DeletePostPage />} />
-            <Route path="/add-to-slider/:postId" element={<AddToSlider />} />
-            <Route path="/edit-slider" element={<EditSliderPage />} />
+        <Route path="/search/tags/:searchTags" element={<TagsSearch />} />
 
-            <Route path="/search/tags/:searchTags" element={<TagsSearch />} />
-            <Route path="/logout" element={<LogoutPage />} />
-            <Route path="/new-post" element={<NewPostPage />} />
-          </>
-        ) : (
-          <>
-            <Route path="/favourites" element={<Navigate to="/login" />} />
-            <Route path="/edit/:postId" element={<Navigate to="/login" />} />
-            <Route path="/delete/:postId" element={<Navigate to="/login" />} />
-            <Route
-              path="/add-to-slider/:postId"
-              element={<Navigate to="/login" />}
-            />
-            <Route path="/edit-slider" element={<Navigate to="/login" />} />
+        <Route
+          path="/favourites"
+          element={
+            <ProtectedRoute element={<FavouritePage />} isAllowed={access} />
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <ProtectedRoute element={<LogoutPage />} isAllowed={access} />
+          }
+        />
 
-            <Route
-              path="/search/tags/:searchTags"
-              element={<Navigate to="/login" />}
+        <Route
+          path="/edit/:postId"
+          element={
+            <ProtectedRoute
+              element={<EditPostPage />}
+              isAllowed={access && admin}
             />
-            <Route path="/logout" element={<Navigate to="/login" />} />
-            <Route path="/new-post" element={<Navigate to="/login" />} />
-          </>
-        )}
+          }
+        />
+        <Route
+          path="/delete/:postId"
+          element={
+            <ProtectedRoute
+              element={<DeletePostPage />}
+              isAllowed={access && admin}
+            />
+          }
+        />
+        <Route
+          path="/add-to-slider/:postId"
+          element={
+            <ProtectedRoute
+              element={<AddToSlider />}
+              isAllowed={access && admin}
+            />
+          }
+        />
+        <Route
+          path="/edit-slider"
+          element={
+            <ProtectedRoute
+              element={<EditSliderPage />}
+              isAllowed={access && admin}
+            />
+          }
+        />
+        <Route
+          path="/new-post"
+          element={
+            <ProtectedRoute
+              element={<NewPostPage />}
+              isAllowed={access && admin}
+            />
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
 
       <Footer />

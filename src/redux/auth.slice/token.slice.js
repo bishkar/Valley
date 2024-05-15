@@ -37,7 +37,6 @@ export const refreshToken = createAsyncThunk(
 export const isAccessTokenExpired = (accessToken) => {
   try {
     const decodedToken = jwtDecode(accessToken);
-
     return decodedToken.exp < Date.now() / 1000;
   } catch (err) {
     return true;
@@ -48,7 +47,6 @@ export const isAdminUser = () => {
   try {
     const accessToken = localStorage.getItem("accessToken");
     const decodedToken = jwtDecode(accessToken);
-
     return decodedToken.is_admin;
   } catch (err) {
     return false;

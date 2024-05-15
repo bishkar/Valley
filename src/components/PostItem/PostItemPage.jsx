@@ -139,6 +139,14 @@ const PostItemPage = () => {
     editorBlocks = data?.it_content;
   }
 
+  const handleBackClick = () => {
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  };
+
   useEffect(() => {
     if (!editor && data) {
       editor = new EditorJS({
@@ -234,7 +242,7 @@ const PostItemPage = () => {
                 />
                 <TiArrowBack
                   className="arrowBackPage"
-                  onClick={() => navigate(-1) || navigate("/")}
+                  onClick={handleBackClick}
                 />
               </>
             )}
