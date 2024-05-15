@@ -11,6 +11,8 @@ const AddTag = ({setTags, tags}) => {
     };
 
     const handleTagAdd = () => {
+        if (tags.includes(tag) || tag === '' || tags.length >= 5) return;
+
         setTags([...tags, tag]);
         setTag('');
     };

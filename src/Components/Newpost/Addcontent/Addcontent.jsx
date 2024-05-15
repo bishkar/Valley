@@ -78,11 +78,6 @@ const AddContent = ({
               },
             },
           },
-          raw: Raw,
-          paragraph: {
-            class: Paragraph,
-            inlineToolbar: true,
-          },
           table: {
             class: Table,
             inlineToolbar: true,
@@ -96,15 +91,7 @@ const AddContent = ({
             },
           },
           marker: Marker,
-          checklist: {
-            class: CheckList,
-            inlineToolbar: true,
-          },
           delimiter: Delimiter,
-          inlineCode: {
-            class: InlineCode,
-            inlineToolbar: true,
-          },
           simpleImage: SimpleImage,
         },
         data: {

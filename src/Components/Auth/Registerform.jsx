@@ -16,7 +16,7 @@ const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({}); // Створюємо об'єкт для зберігання помилок
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,16 +31,14 @@ const RegisterForm = () => {
       newErrors.password = t("Password must be between 6 and 20 characters");
     }
 
-    // Перевірка на велику літеру, цифри та символи в паролі
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$#!%*?&]+$/;
     if (!passwordRegex.test(password)) {
       newErrors.password = t(
         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
       );
     }
 
-    // Перевірки для інших полів
     if (first_name.length < 3 || first_name.length > 20) {
       newErrors.first_name = t(
         "First name must be between 3 and 20 characters"
@@ -51,19 +49,16 @@ const RegisterForm = () => {
       newErrors.last_name = t("Last name must be between 3 and 20 characters");
     }
 
-    if (email.length < 3 || email.length > 20) {
+    if (email.length < 5 || email.length > 20) {
       newErrors.email = t("Invalid Email");
     }
 
-    // Оновлюємо стан помилок
     setErrors(newErrors);
 
-    // Якщо є хоча б одна помилка, не відправляємо дані на сервер
     if (Object.keys(newErrors).length !== 0) {
       return;
     }
 
-    // Відправляємо дані на сервер
     const data = {
       first_name,
       last_name,
