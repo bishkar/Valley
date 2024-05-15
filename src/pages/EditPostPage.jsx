@@ -16,12 +16,16 @@ import { useState } from "react";
 import { editPost } from "../redux/posts.slice/edit.slice.js";
 import { translate } from "../redux/posts.slice/translate.slice.js";
 import { useDispatch } from "react-redux";
-import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch.js";
 import { useEffect } from "react";
+import { isAdminUser } from "../redux/auth.slice/token.slice.js";
 
 const EditPostPage = () => {
+  if (!isAdminUser()) {
+    window.location.href = "/";
+  }
+
   const dispatch = useDispatch();
 
   const [translatedBlocks, setTranslatedBlocks] = useState([]);

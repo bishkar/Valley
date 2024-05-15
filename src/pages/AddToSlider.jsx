@@ -30,9 +30,14 @@ const AddToSlider = () => {
   };
 
   const handleSave = () => {
-    dispatch(addSlide(postData));
-    alert("Post added to slider");
-    window.location.href = "/";
+    dispatch(addSlide(postData)).then((res) => {
+      if (res.payload) {
+        alert("Post added to slider");
+        window.location.href = "/";
+      } else {
+        alert("This post already exists in the slider");
+      }
+    })
   };
 
   return (

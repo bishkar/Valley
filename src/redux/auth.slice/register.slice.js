@@ -16,7 +16,8 @@ export const registerUser = createAsyncThunk('registration/registerUser', async 
     localStorage.setItem('refreshToken', refresh);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    alert("This email is already in use")
+    throw rejectWithValue(error);
   }
 });
 

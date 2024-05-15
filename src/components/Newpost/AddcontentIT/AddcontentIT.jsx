@@ -69,14 +69,7 @@ const AddContentIT = ({ setPostData, blocks }) => {
               additionalRequestHeaders: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken"),
               },
-              
-
             },
-          },
-          raw: Raw,
-          paragraph: {
-            class: Paragraph,
-            inlineToolbar: true,
           },
           table: {
             class: Table,
@@ -91,15 +84,7 @@ const AddContentIT = ({ setPostData, blocks }) => {
             },
           },
           marker: Marker,
-          checklist: {
-            class: CheckList,
-            inlineToolbar: true,
-          },
           delimiter: Delimiter,
-          inlineCode: {
-            class: InlineCode,
-            inlineToolbar: true,
-          },
           simpleImage: SimpleImage,
         },
         data: {
