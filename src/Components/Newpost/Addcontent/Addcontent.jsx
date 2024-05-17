@@ -1,4 +1,4 @@
-import "./Addcontent.css";
+import "./Addcontent.scss";
 
 import EditorJS from "@editorjs/editorjs";
 import Embed from "@editorjs/embed";
@@ -152,7 +152,7 @@ const AddContent = ({
   return (
     <div className="addcontent">
       <div className="addcontent-container">
-        <div id="editorjs"></div>
+        <div id="editorjs" className="editor-js"></div>
       </div>
     </div>
   );
